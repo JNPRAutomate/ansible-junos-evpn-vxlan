@@ -1,0 +1,35 @@
+
+interfaces {
+{% for key, conf in access.interfaces.items() %}
+    {{ key }} {
+{% if conf.esi is defined %}
+        esi {
+            {{ conf.esi }};
+            all-active;
+        }
+{% endif %}
+{% if conf.mode == 'aggregate' %}
+        ether-options {
+            802.3ad {{ conf.parent }};
+        }
+{% elif conf.mode == 'trunk' %}
+        unit 0 {
+            family ethernet-switching {
+                interface-mode {{ conf.mode }};
+                vlan {
+                    members [{% for vlan in  conf.vlans %} {{ vlan }}{% endfor %}];
+                }
+            }
+        }
+{% endif %}
+{% if conf.lacp_mode is defined %}
+        aggregated-ether-options {
+            lacp {
+                {{ conf.lacp_mode }};
+                system-id {{ conf.lacp_system_id }};
+            }
+        }
+{% endif %}
+    }
+{% endfor %}
+}

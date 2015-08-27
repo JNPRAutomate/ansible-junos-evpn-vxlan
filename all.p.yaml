@@ -1,0 +1,10 @@
+---
+# This playbook will generate and apply configuration to all of the devices
+# The name of the playbooks are based on the platform group names used in the
+# hosts file, but that is not manditory.
+
+- include: make_clean.p.yaml
+- include: leaves.qfx.l2.p.yaml
+- include: leaves.qfx.l3.p.yaml
+- include: spines.qfx.p.yaml
+- include: spines.mx.p.yaml

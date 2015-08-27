@@ -1,0 +1,45 @@
+[all:children]
+spine
+leaf
+
+##
+## Groups for Spines devices
+##
+[spine:children]
+spine-mx
+spine-qfx
+
+[spine-mx]
+mx480-01
+mx480-02
+
+[spine-qfx]
+# nothing Yet :)
+
+##
+## Groups for Leaf devices
+##
+[leaf:children]
+leaf-qfx-l2
+leaf-qfx-l3
+
+[leaf-qfx-l2]
+qfx5100-10
+qfx5100-11
+
+[leaf-qfx-l3]
+# nothing Yet :)
+
+##
+## Group by type
+##
+
+[qfx10000]
+
+[qfx5100]
+qfx5100-10
+qfx5100-11
+
+[mx]
+mx480-01
+mx480-02

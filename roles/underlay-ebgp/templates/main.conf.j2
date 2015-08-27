@@ -1,0 +1,93 @@
+
+protocols {
+    bgp {
+        log-updown;
+        graceful-restart;
+        group underlay {
+            import bgp-clos-in;
+            export  bgp-clos-out;
+            type external;
+            mtu-discovery;
+            local-as {{ underlay.local.asn }};
+            bfd-liveness-detection {
+                minimum-interval 350;
+                multiplier 3;
+                session-mode single-hop;
+            }
+            multipath multiple-as;
+{% for neighbor in underlay.neighbors %}
+            neighbor {{ neighbor.peer_ip }} {
+                peer-as {{ neighbor.asn }};
+            }
+{% endfor %}
+        }
+    }
+}
+
+routing-options {
+    router-id {{ host.loopback.ip }};
+    forwarding-table {
+        export PFE-LB;
+    }
+}
+
+policy-options {
+    policy-statement PFE-LB {
+        then {
+            load-balance per-packet;
+        }
+    }
+    policy-statement bgp-clos-in {
+        term loopbacks {
+            from {
+                route-filter {{ underlay.networks.loopbacks }} orlonger;
+            }
+            then accept;
+        }
+        term server-L3-gw {
+            from {
+                route-filter {{ underlay.networks.irb }} orlonger;
+            }
+            then accept;
+        }
+        term reject {
+            then reject;
+        }
+    }
+    policy-statement bgp-clos-out {
+        term loopback {
+            from {
+                protocol direct;
+                route-filter {{ host.loopback.ip }}/32 orlonger;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term server-L3-gw {
+            from {
+                protocol direct;
+                route-filter {{ underlay.networks.irb }} orlonger;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+    }
+}
+interfaces {
+{% for neighbor in underlay.neighbors %}
+    {{ neighbor.interface }} {
+        mtu 9192
+        unit 0 {
+            description "to {{ neighbor.name }}";
+            family inet {
+                mtu 9000;
+                address {{ neighbor.local_ip }}/31;
+            }
+        }
+    }
+{% endfor %}
+}

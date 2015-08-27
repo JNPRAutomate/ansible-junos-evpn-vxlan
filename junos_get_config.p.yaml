@@ -1,0 +1,16 @@
+# This task gets all Junos configuration from all devices
+- name: Get configuration
+  hosts: all
+  connection: local
+  gather_facts: no
+  roles:
+    - Juniper.junos
+  tasks:
+    - name: Getting config ... please wait
+      junos_get_config: 
+        host={{ inventory_hostname }}
+        port={{ PLATFORM.netconf_port }}
+        user=root
+        passwd=Embe1mpls
+        dest=/tmp/{{ inventory_hostname }}.xml 
+        logfile=/tmp/build/changes.log

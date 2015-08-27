@@ -1,0 +1,83 @@
+
+{# This config is common to all Junos device types. For it to be generated the 'common' role must be included in the platform specific play file. #}
+groups {
+    common {
+        system {
+            host-name {{ inventory_hostname }};
+{# the location is based on whether this is site 1 or site 2. Using the variables in this way you apply site specific values without having to use conditional checks. #}
+            time-zone {{ global.time_zone }};
+            root-authentication {
+                encrypted-password "{{ global.root_hash }}";
+            }
+            name-server {
+{% for name_server in global.name_servers %}
+                {{ name_server }};
+{% endfor %}
+            }
+            services {
+                netconf {
+                    ssh;
+                }
+                ssh;
+            }
+            login {
+                message "{{ global.login_message }} ";
+            }
+            syslog  {
+                user * {
+                    any emergency;
+                }
+                file messages {
+                    any notice;
+                }
+                file cli-commands {
+                    interactive-commands any;
+                    explicit-priority;
+                }
+                time-format millisecond;
+            }
+            ntp {
+{% for ntp_server in global.ntp_servers %}
+                server {{ ntp_server }};
+{% endfor %}
+            }
+        }
+        interfaces {
+            {{ PLATFORM.mgmt_interface }} {
+                unit 0 {
+                    family inet {
+                      address {{ host.management.ip }}/{{ host.management.mask }};
+                    }
+                }
+            }
+            lo0 {
+                unit 0 {
+                    family inet {
+                        address {{ host.loopback.ip }}/32
+                    }
+                }
+            }
+        }
+        snmp {
+            location "{{ global.snmp.location }}";
+            contact "{{ global.snmp.contact }}";
+{% for snmp in global.snmp.polling %}
+            community {{ snmp.community }} {
+                authorization read-only;
+            }
+{% endfor %}
+        }
+        routing-options {
+            static {
+                route 0.0.0.0/0 next-hop {{ host.management.gw }};
+            }
+        }
+    }
+}
+apply-groups [ common ];
+
+protocols {
+    lldp {
+        interface all;
+    }
+}
