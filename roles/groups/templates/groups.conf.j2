@@ -1,0 +1,6 @@
+groups {
+    ansible-junos-evpn-vxlan {
+    {% include junos_conf %}
+    }
+}
+apply-groups [ ansible-junos-evpn-vxlan ]
