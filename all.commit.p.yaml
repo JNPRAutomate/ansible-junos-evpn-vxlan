@@ -1,7 +1,5 @@
 ---
 # This playbook will generate and apply configuration to all of the devices
-# The name of the playbooks are based on the platform group names used in the
-# hosts file, but that is not manditory.
 
 - include: all.p.yaml
 - include: assemble_and_commit.p.yaml

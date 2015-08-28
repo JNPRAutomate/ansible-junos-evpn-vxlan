@@ -1,5 +1,4 @@
 ---
-
 - name: Create and apply configuration for Leaves QFX / L3
   hosts: leaf-qfx-l3
   connection: local

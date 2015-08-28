@@ -1,6 +1,4 @@
 # This task merges all the configuration fragments into one file
-# In this example it merges the common.conf.part and main.conf.part
-# into the junos.conf file.
 # If merging the files results in a new file being created then a handler
 # is triggered to push the config onto the device. See ./handler/main.yaml
 # for more information
@@ -13,7 +11,6 @@
   tasks:
     - name: Assembling configurations
       assemble: src={{ build_dir }} dest={{ junos_conf }}
-      # This notify triggers the handler. It looks for a handler with this name
       notify:
         - Pushing config ... please wait
 
@@ -28,4 +25,5 @@
         passwd=Embe1mpls
         file={{ junos_conf }}
         overwrite=yes
+        replace=no
         logfile=/tmp/build/changes.log
