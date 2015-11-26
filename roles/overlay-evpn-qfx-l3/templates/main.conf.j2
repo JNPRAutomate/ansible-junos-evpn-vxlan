@@ -1,5 +1,106 @@
-##
 
-# To be define
+routing-options {
+    router-id {{ host.loopback.ip }};
+{#}    autonomous-system {{ overlay.local.asn }}; #}
+    forwarding-table {
+        ecmp-fast-reroute;
+    }
+}
 
-##
+routing-instances {
+    VRF_1 {
+        instance-type vrf;
+{% for bd in overlay.bridge_domains %}
+{% if bd.ip is defined %}
+        interface irb.{{ bd.vlan_id }};
+{% endif %}
+{% endfor %}
+        route-distinguisher {{ host.loopback.ip }}:1001;
+        vrf-target target:10:1;
+    }
+}
+
+interfaces {
+    irb {
+{% for bd in overlay.bridge_domains %}
+{% if bd.ip is defined %}
+        unit {{ bd.vlan_id }} {
+            family inet {
+                address {{ bd.ip }}/{{ bd.mask }} {
+                    virtual-gateway-address {{ bd.vip }};
+                }
+            }
+        }
+{% endif %}
+{% endfor %}
+    }
+}
+
+protocols {
+    bgp {
+        group overlay {
+            type internal;
+{% if overlay.local.cluster is defined %}
+			cluster {{ overlay.local.cluster }}
+{% endif %}
+            family evpn {
+                signaling;
+            }
+            local-address {{ host.loopback.ip }};
+            local-as {{ overlay.local.asn }};
+            multipath;
+{% for neighbor in overlay.neighbors %}
+            neighbor {{ neighbor }};
+{% endfor %}
+        }
+    }
+    evpn {
+        encapsulation vxlan;
+        extended-vni-list [ {% for bd in overlay.bridge_domains %} {{ bd.vni_id }} {% endfor %} ];
+        multicast-mode ingress-replication;
+        vni-options {
+{% for bd in overlay.bridge_domains %}
+            vni {{ bd.vni_id }} {
+                vrf-target export target:1:{{ bd.vni_id }};
+            }
+{% endfor %}
+        }
+    }
+}
+
+switch-options {
+    vtep-source-interface lo0.0;
+    vrf-import LEAF-IN;
+    vrf-target target:9999:9999;
+    route-distinguisher {{ host.loopback.ip }}:1;
+}
+
+policy-options {
+     policy-statement LEAF-IN {
+{% for bd in overlay.bridge_domains %}
+        term a{{ bd.vni_id }} {
+            from community com{{ bd.vni_id }};
+            then accept;
+        }
+{% endfor %}
+        term zzz {
+            then reject;
+        }
+    }
+{% for bd in overlay.bridge_domains %}
+    community com{{ bd.vni_id }} members target:1:{{ bd.vni_id }};
+{% endfor %}
+}
+
+
+vlans {
+{% for bd in overlay.bridge_domains %}
+    bd{{ bd.vni_id }} {
+        vlan-id {{ bd.vlan_id }};
+        vxlan {
+            vni {{ bd.vni_id }};
+            ingress-node-replication;
+        }
+    }
+{% endfor %}
+}

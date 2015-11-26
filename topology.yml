@@ -1,0 +1,23 @@
+---
+devices: [s3bu-tme-qfx10k-1.englab.juniper.net, 
+          s3bu-tme-qfx5100-5.englab.juniper.net,
+          s3bu-tme-qfx5100-6.englab.juniper.net]
+          
+roles:
+    s3bu-tme-qfx10k-1.englab.juniper.net: spine-qfx
+    s3bu-tme-qfx5100-5.englab.juniper.net: leaf-qfx-l2
+    s3bu-tme-qfx5100-6.englab.juniper.net: leaf-qfx-l2
+
+core-links:
+    - p1: s3bu-tme-qfx10k-1.englab.juniper.net
+      p2: s3bu-tme-qfx5100-5.englab.juniper.net
+      if1: et-0/0/0
+      if2: et-0/0/0
+    - p1: s3bu-tme-qfx10k-1.englab.juniper.net
+      p2: s3bu-tme-qfx5100-6.englab.juniper.net
+      if1: et-0/0/1
+      if2: et-0/0/1
+      
+UnderlayStartBgpAs: 60001      
+
+p2pStartIp: 171.0.0.0

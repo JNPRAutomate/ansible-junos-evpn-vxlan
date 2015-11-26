@@ -1,4 +1,17 @@
-
+interfaces {
+{% for neighbor in underlay.neighbors %}
+    {{ neighbor.interface }} {
+        mtu 9192
+        unit 0 {
+            description "to {{ neighbor.name }}";
+            family inet {
+                mtu 9000;
+                address {{ neighbor.local_ip }}/31;
+            }
+        }
+    }
+{% endfor %}
+}
 protocols {
     bgp {
         log-updown;
@@ -77,17 +90,4 @@ policy-options {
         }
     }
 }
-interfaces {
-{% for neighbor in underlay.neighbors %}
-    {{ neighbor.interface }} {
-        mtu 9192
-        unit 0 {
-            description "to {{ neighbor.name }}";
-            family inet {
-                mtu 9000;
-                address {{ neighbor.local_ip }}/31;
-            }
-        }
-    }
-{% endfor %}
-}
+
