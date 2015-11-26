@@ -1,0 +1,8 @@
+underlay:
+    local:
+        asn:60002
+        - interface: et-0/0/0
+          name: s3bu-tme-qfx10k-1.englab.juniper.net
+          asn: 60001
+          peer_ip: 171.0.0.0
+          local_ip: 171.0.0.1
