@@ -1,19 +1,4 @@
 
-protocols {
-    bgp {
-        group overlay {
-            type internal;
-            family evpn signaling;
-            local-as {{ overlay.local.asn }};
-            local-address {{ host.loopback.ip }};
-            multipath;
-{% for neighbor in overlay.neighbors %}
-            neighbor {{neighbor}};
-{% endfor %}
-        }
-    }
-}
-
 routing-options {
     router-id {{ host.loopback.ip }};
 {#}    autonomous-system {{ overlay.local.asn }}; #}
@@ -51,12 +36,44 @@ interfaces {
     }
 }
 
-policy-options {
-    policy-statement VRF_1_VS_IN {
-        term aaESI {
-            from community comm-leaf_esi;
-            then accept;
+protocols {
+    bgp {
+        group overlay {
+            type internal;
+            family evpn {
+                signaling;
+            }
+            local-address {{ host.loopback.ip }};
+            local-as {{ overlay.local.asn }};
+            multipath;
+{% for neighbor in overlay.neighbors %}
+            neighbor {{ neighbor }};
+{% endfor %}
         }
+    }
+    evpn {
+        encapsulation vxlan;
+        extended-vni-list [ {% for bd in overlay.bridge_domains %} {{ bd.vni_id }} {% endfor %} ];
+        multicast-mode ingress-replication;
+        vni-options {
+{% for bd in overlay.bridge_domains %}
+            vni {{ bd.vni_id }} {
+                vrf-target export target:1:{{ bd.vni_id }};
+            }
+{% endfor %}
+        }
+    }
+}
+
+switch-options {
+    vtep-source-interface lo0.0;
+    vrf-import LEAF-IN;
+    vrf-target target:9999:9999;
+    route-distinguisher {{ host.loopback.ip }}:1;
+}
+
+policy-options {
+     policy-statement LEAF-IN {
 {% for bd in overlay.bridge_domains %}
         term a{{ bd.vni_id }} {
             from community com{{ bd.vni_id }};
@@ -70,5 +87,17 @@ policy-options {
 {% for bd in overlay.bridge_domains %}
     community com{{ bd.vni_id }} members target:1:{{ bd.vni_id }};
 {% endfor %}
-    community comm-leaf_esi members target:9999:9999;
+}
+
+
+vlans {
+{% for bd in overlay.bridge_domains %}
+    bd{{ bd.vni_id }} {
+        vlan-id {{ bd.vlan_id }};
+        vxlan {
+            vni {{ bd.vni_id }};
+            ingress-node-replication;
+        }
+    }
+{% endfor %}
 }
