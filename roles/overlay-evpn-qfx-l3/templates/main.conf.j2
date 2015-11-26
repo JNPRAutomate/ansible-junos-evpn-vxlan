@@ -40,6 +40,9 @@ protocols {
     bgp {
         group overlay {
             type internal;
+{% if overlay.local.cluster is defined %}
+			cluster {{ overlay.local.cluster }}
+{% endif %}
             family evpn {
                 signaling;
             }
