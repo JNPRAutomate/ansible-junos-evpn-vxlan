@@ -97,6 +97,7 @@ vlans {
 {% for bd in overlay.bridge_domains %}
     bd{{ bd.vni_id }} {
         vlan-id {{ bd.vlan_id }};
+        l3-interface irb.{{ bd.vlan_id }};
         vxlan {
             vni {{ bd.vni_id }};
             ingress-node-replication;

@@ -6,7 +6,7 @@ underlay:
     neighbors:
       - interface: et-0/0/52
         name: s3bu-tme-qfx10k-1
-        asn: 
+        asn: 60001
         peer_ip: 171.0.0.0
         local_ip: 171.0.0.1
 
