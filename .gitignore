@@ -55,3 +55,17 @@ docs/_build/
 
 # PyBuilder
 target/
+
+.project
+
+.pydevproject
+
+createInitialTopology.py
+
+topology.yml
+
+temp/s3bu-tme-qfx10k-1.englab.juniper.net/underlay.conf.yaml
+
+temp/s3bu-tme-qfx5100-5.englab.juniper.net/underlay.conf.yaml
+
+temp/s3bu-tme-qfx5100-6.englab.juniper.net/underlay.conf.yaml
