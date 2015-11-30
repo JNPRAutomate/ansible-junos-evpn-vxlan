@@ -10,11 +10,9 @@ spine-mx
 spine-qfx
 
 [spine-mx]
-mx480-01
-mx480-02
 
 [spine-qfx]
-# nothing Yet :)
+s3bu-tme-qfx10k-1.englab.juniper.net
 
 ##
 ## Groups for Leaf devices
@@ -24,8 +22,10 @@ leaf-qfx-l2
 leaf-qfx-l3
 
 [leaf-qfx-l2]
-qfx5100-10
-qfx5100-11
+s3bu-tme-qfx5100-5.englab.juniper.net
+s3bu-tme-qfx5100-6.englab.juniper.net
+s3bu-tme-qfx5100-7.englab.juniper.net
+s3bu-tme-qfx51-96s-01.englab.juniper.net
 
 [leaf-qfx-l3]
 # nothing Yet :)
@@ -35,8 +35,13 @@ qfx5100-11
 ##
 
 [qfx10000]
+s3bu-tme-qfx10k-1.englab.juniper.net
 
 [qfx5100]
+s3bu-tme-qfx5100-5.englab.juniper.net
+s3bu-tme-qfx5100-6.englab.juniper.net
+s3bu-tme-qfx5100-7.englab.juniper.net
+s3bu-tme-qfx51-96s-01.englab.juniper.net
 qfx5100-10
 qfx5100-11
 

@@ -1,4 +1,10 @@
-
+chassis {
+    aggregated-devices {
+        ethernet {
+            device-count 4;
+        }
+    }
+}
 interfaces {
 {% for key, conf in access.interfaces.items() %}
     {{ key }} {

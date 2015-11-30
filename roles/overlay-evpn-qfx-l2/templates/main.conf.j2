@@ -43,10 +43,15 @@ policy-options {
             then accept;
         }
 {% endfor %}
+   	    term switch_options {
+            from community switch_options_comm;
+            then accept;
+        }
         term zzz {
             then reject;
         }
     }
+    community switch_options_comm members target:9999:9999;
 {% for bd in overlay.bridge_domains %}
     community com{{ bd.vni_id }} members target:1:{{ bd.vni_id }};
 {% endfor %}
