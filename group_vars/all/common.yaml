@@ -21,5 +21,3 @@ global:
         contact: John Doe
         polling:
         - community: public
-    routes:
-        default: 10.94.194.254

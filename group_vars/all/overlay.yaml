@@ -1,0 +1,41 @@
+
+
+overlay:
+    vip_ip: 1
+    bridge_domains:
+    - vlan_id: 100
+      vni_id: 1000
+      network: 10.1.100.
+      mask: 24
+    - vlan_id: 101
+      vni_id: 1001
+      network: 10.1.101.
+      mask: 24
+    - vlan_id: 102
+      vni_id: 1002
+      network: 10.1.102.
+      mask: 24
+    - vlan_id: 103
+      vni_id: 1003
+      network: 10.1.103.
+      mask: 24
+    - vlan_id: 104
+      vni_id: 1004
+      network: 10.1.104.
+      mask: 24
+    - vlan_id: 105
+      vni_id: 1005
+      network: 10.1.105.
+      mask: 24
+    - vlan_id: 106
+      vni_id: 1006
+      network: 10.1.106.
+      mask: 24
+    - vlan_id: 107
+      vni_id: 1007
+      network: 10.1.107.
+      mask: 24
+    - vlan_id: 108
+      vni_id: 1008
+      network: 10.1.108.
+      mask: 24

@@ -1,0 +1,26 @@
+
+
+underlay:
+    local:
+        asn: 60001
+    neighbors:
+      - interface: et-0/0/3
+        name: qfx5100-01-48s
+        asn: 60010
+        peer_ip: 171.0.0.1
+        local_ip: 171.0.0.0
+      - interface: et-0/0/5
+        name: qfx5100-02-48s
+        asn: 60011
+        peer_ip: 171.0.0.3
+        local_ip: 171.0.0.2
+      - interface: et-0/0/16
+        name: qfx5100-03-48s
+        asn: 60012
+        peer_ip: 171.0.0.5
+        local_ip: 171.0.0.4
+      - interface: et-0/0/18
+        name: qfx5100-04-96s
+        asn: 60013
+        peer_ip: 171.0.0.7
+        local_ip: 171.0.0.6
