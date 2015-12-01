@@ -34,7 +34,7 @@ system {
         }
         time-format millisecond;
     }
-    ntp  {
+    ntp {
 {% for ntp_server in global.ntp_servers %}
         server {{ ntp_server }};
 {% endfor %}
