@@ -1,7 +1,0 @@
-host:
-    management:
-        ip: 10.92.71.88 
-        mask: 23
-        gw: 10.92.71.254
-    loopback:
-        ip: 1.1.10.3
