@@ -1,3 +1,0 @@
-PLATFORM:
-    netconf_port: 830
-    mgmt_interface: fxp0
