@@ -23,10 +23,10 @@
   handlers:
     - name: Pushing config ... please wait
       junos_install_config: >
-        host={{ inventory_hostname }}
-        port={{ PLATFORM.netconf_port }}
-        user=root
-        passwd=Embe1mpls
+        host={{ junos_host }}
+        port={{ netconf_port }}
+        user={{ ansible_ssh_user }}
+        passwd={{ ansible_ssh_pass }}
         file={{ junos_conf }}
         overwrite=no
         replace=yes

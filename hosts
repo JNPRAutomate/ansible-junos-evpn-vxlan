@@ -2,9 +2,9 @@
 spine
 leaf
 
-##
-## Groups for Spines devices
-##
+#######################
+## Spines devices    ##
+#######################
 [spine:children]
 spine-mx
 spine-qfx
@@ -12,39 +12,58 @@ spine-qfx
 [spine-mx]
 
 [spine-qfx]
-s3bu-tme-qfx10k-1.englab.juniper.net
+qfx10000-01  junos_host=<ip address>
+qfx10000-02  junos_host=<ip address>
 
-##
-## Groups for Leaf devices
-##
+#######################
+## leaf devices      ##
+#######################
 [leaf:children]
 leaf-qfx-l2
 leaf-qfx-l3
 
 [leaf-qfx-l2]
-s3bu-tme-qfx5100-5.englab.juniper.net
-s3bu-tme-qfx5100-6.englab.juniper.net
-s3bu-tme-qfx5100-7.englab.juniper.net
-s3bu-tme-qfx51-96s-01.englab.juniper.net
+qfx5100-01-48s  junos_host=<ip address>
+qfx5100-02-48s  junos_host=<ip address>
+qfx5100-03-48s  junos_host=<ip address>
+qfx5100-04-96s  junos_host=<ip address>
 
 [leaf-qfx-l3]
-# nothing Yet :)
+# nothing
 
-##
-## Group by type
-##
+#######################
+## Group by type     ##
+#######################
 
 [qfx10000]
-s3bu-tme-qfx10k-1.englab.juniper.net
+qfx10000-01
+qfx10000-02
 
-[qfx5100]
-s3bu-tme-qfx5100-5.englab.juniper.net
-s3bu-tme-qfx5100-6.englab.juniper.net
-s3bu-tme-qfx5100-7.englab.juniper.net
-s3bu-tme-qfx51-96s-01.englab.juniper.net
-qfx5100-10
-qfx5100-11
+[qfx5000]
+qfx5100-01-48s
+qfx5100-02-48s
+qfx5100-03-48s
+qfx5100-04-96s
 
 [mx]
-mx480-01
-mx480-02
+# mx480-01
+# mx480-02
+
+###################################
+### Define variables per groups ###
+###################################
+[all:vars]
+ansible_ssh_user=root
+ansible_ssh_pass=<device password>
+mgmt_sub_mask=<subnet mask>
+mgmt_sub_gw=<default gw address>
+netconf_port=830
+
+[qfx10000:vars]
+mgmt_port=em0
+
+[qfx5000:vars]
+mgmt_port=em0
+
+[mx:vars]
+mgmt_port=fxp0
