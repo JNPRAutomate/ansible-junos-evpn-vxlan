@@ -34,17 +34,17 @@ system {
         }
         time-format millisecond;
     }
-    ntp {
+    ntp  {
 {% for ntp_server in global.ntp_servers %}
         server {{ ntp_server }};
 {% endfor %}
     }
 }
 interfaces {
-    {{ PLATFORM.mgmt_interface }} {
+    {{ mgmt_port }} {
         unit 0 {
             family inet {
-              address {{ host.management.ip }}/{{ host.management.mask }};
+              address {{ junos_host }}/{{ mgmt_sub_mask }};
             }
         }
     }
@@ -67,7 +67,7 @@ snmp {
 }
 routing-options {
     static {
-        route 0.0.0.0/0 next-hop {{ host.management.gw }};
+        route 0.0.0.0/0 next-hop {{ mgmt_sub_gw }};
     }
 }
 
