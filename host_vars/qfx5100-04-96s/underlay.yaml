@@ -1,0 +1,16 @@
+
+
+underlay:
+    local:
+        asn: 60013
+    neighbors:
+      - interface: et-0/0/101
+        name: qfx10000-01
+        asn: 60001
+        peer_ip: 171.0.0.6
+        local_ip: 171.0.0.7
+      - interface: et-0/0/100
+        name: qfx10000-02
+        asn: 60002
+        peer_ip: 171.0.0.14
+        local_ip: 171.0.0.15
