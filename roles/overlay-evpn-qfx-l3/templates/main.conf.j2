@@ -11,7 +11,7 @@ routing-instances {
     VRF_1 {
         instance-type vrf;
 {% for bd in overlay.bridge_domains %}
-{% if bd.ip is defined %}
+{% if bd.network is defined %}
         interface irb.{{ bd.vlan_id }};
 {% endif %}
 {% endfor %}
@@ -23,11 +23,11 @@ routing-instances {
 interfaces {
     irb {
 {% for bd in overlay.bridge_domains %}
-{% if bd.ip is defined %}
+{% if bd.network is defined %}
         unit {{ bd.vlan_id }} {
             family inet {
-                address {{ bd.ip }}/{{ bd.mask }} {
-                    virtual-gateway-address {{ bd.vip }};
+                address {{ bd.network }}{{ overlay.local_ip }}/{{ bd.mask }} {
+                    virtual-gateway-address {{ bd.network }}{{ overlay.vip_ip }};
                 }
             }
         }
