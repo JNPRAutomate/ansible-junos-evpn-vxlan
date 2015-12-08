@@ -4,13 +4,13 @@ underlay:
     local:
         asn: 60011
     neighbors:
-      - interface: et-0/0/52
-        name: qfx10000-01
+      - interface: "{{ topo[inventory_hostname].port1.name }}"
+        name:"{{ topo[inventory_hostname].port1.peer }}"
         asn: 60001
         peer_ip: 171.0.0.2
         local_ip: 171.0.0.3
-      - interface: et-0/0/53
-        name: qfx10000-02
+      - interface: "{{ topo[inventory_hostname].port2.name }}"
+        name: "{{ topo[inventory_hostname].port2.peer }}"
         asn: 60002
         peer_ip: 171.0.0.10
         local_ip: 171.0.0.11

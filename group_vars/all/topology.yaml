@@ -1,0 +1,35 @@
+####################################
+###   Physical interfaces name   ###
+####################################
+topology:
+    qfx10000-01:
+        port1: { name: et-0/0/3,     peer: qfx5100-01-48s,    pport: port1 }
+        port2: { name: et-0/0/5,     peer: qfx5100-02-48s,    pport: port1 }
+        port3: { name: et-0/0/16,    peer: qfx5100-03-48s,    pport: port1 }
+        port4: { name: et-0/0/18,    peer: qfx5100-04-96s,    pport: port1 }
+
+    qfx10000-02:
+        port1: { name: et-0/0/3,     peer: qfx5100-01-48s,    pport: port2 }
+        port2: { name: et-0/0/5,     peer: qfx5100-02-48s,    pport: port2 }
+        port3: { name: et-0/0/16,    peer: qfx5100-03-48s,    pport: port2 }
+        port4: { name: et-0/0/17,    peer: qfx5100-04-96s,    pport: port2 }
+
+    qfx5100-01-48s:
+        port1: { name: et-0/0/52,    peer: qfx10000-01,       pport: port1 }
+        port2: { name: et-0/0/53,    peer: qfx10000-02,       pport: port1 }
+        port3: { name: xe-0/0/10,    peer: access02,          pport: port1 }
+
+    qfx5100-02-48s:
+        port1: { name: et-0/0/52,    peer: qfx10000-01,       pport: port2 }
+        port2: { name: et-0/0/53,    peer: qfx10000-02,       pport: port2 }
+        port3: { name: xe-0/0/10,    peer: access02,          pport: port2 }
+
+    qfx5100-03-48s:
+        port1: { name: et-0/0/52,    peer: qfx10000-01,       pport: port3 }
+        port2: { name: et-0/0/53,    peer: qfx10000-02,       pport: port3 }
+        port3: { name: xe-0/0/10,    peer: access01,          pport: port1 }
+
+    qfx5100-04-48s:
+        port1: { name: et-0/0/101,   peer: qfx10000-01,       pport: port4 }
+        port2: { name: et-0/0/100,   peer: qfx10000-02,       pport: port4 }
+        port3: { name: xe-0/0/10,    peer: access01,          pport: port2 }

@@ -6,36 +6,58 @@ chassis {
     }
 }
 interfaces {
-{% for key, conf in access.interfaces.items() %}
-    {{ key }} {
-{% if conf.esi is defined %}
+{% for interface in access.interfaces %}
+    {{ interface.name }} {
+{% if interface.description is defined %}
+        description "to {{ interface.description }}";
+{% endif %}
+{% if interface.esi is defined %}
         esi {
             {{ conf.esi }};
             all-active;
         }
 {% endif %}
-{% if conf.mode == 'aggregate' %}
+{% if interface.mode == 'aggregate' %}
         ether-options {
             802.3ad {{ conf.parent }};
         }
-{% elif conf.mode == 'trunk' %}
+{% elif interface.mode == 'trunk' %}
         unit 0 {
             family ethernet-switching {
-                interface-mode {{ conf.mode }};
+                interface-mode {{ interface.mode }};
                 vlan {
-                    members [{% for vlan in  conf.vlans %} {{ vlan }}{% endfor %}];
+                    members [{% for vlan in  interface.vlans %} {{ vlan }}{% endfor %}];
                 }
             }
         }
+{% elif interface.mode == 'normalize' %}
+{% for vlan in  interface.vlans %}
+        flexible-vlan-tagging;
+        unit {{ vlan.vid }} {
+            vlan-id {{ vlan.vid }};
+        }
+{% endfor %}
 {% endif %}
-{% if conf.lacp_mode is defined %}
+{% if interface.lacp_mode is defined %}
         aggregated-ether-options {
             lacp {
-                {{ conf.lacp_mode }};
-                system-id {{ conf.lacp_system_id }};
+                {{ interface.lacp_mode }};
+                system-id {{ interface.lacp_system_id }};
             }
         }
 {% endif %}
     }
 {% endfor %}
 }
+
+{% for interface in access.interfaces %}
+{% if interface.mode == 'normalize' %}
+{% for vlan in  interface.vlans %}
+vlans {
+    bd{{ vlan.vnid }} {
+        interface {{ interface.name }}.{{ vlan.vid }}
+    }
+}
+{% endfor %}
+{% endif %}
+{% endfor %}

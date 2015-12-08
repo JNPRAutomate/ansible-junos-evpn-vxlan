@@ -1,15 +1,16 @@
 
 access:
     interfaces:
-        et-0/0/5:
+        -   name: "{{ topology[inventory_hostname].port3.name }}"
+            deescription: "{{ topology[inventory_hostname].port3.peer }}"
             mode: trunk
             vlans: [ 100, 101, 102, 103, 104 ]
-        ae0:
-            mode: trunk
-            esi: 00:01:01:01:01:01:01:01:01:02
-            vlans: [ 100, 101, 102, 103, 104 ]
-            lacp_system_id: 00:00:00:01:01:02
-            lacp_mode: active
-        et-0/0/97:
-            mode: aggregate
-            parent: ae0
+        # -   name: ae0
+        #     mode: trunk
+        #     esi: 00:01:01:01:01:01:01:01:01:02
+        #     vlans: [ 100, 101, 102, 103, 104 ]
+        #     lacp_system_id: 00:00:00:01:01:01
+        #     lacp_mode: active
+        # -   name: et-0/0/48
+        #     mode: aggregate
+        #     parent: ae0
