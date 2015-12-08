@@ -1,5 +1,5 @@
 # Ansible Junos Configuration for EVPN/VXLAN
-Sample project using Ansible and Jinja2 tempalte to automatically generate configurations for Juniper devices deploy in EVPN/VXLAN fabric mode
+Sample project using Ansible and Jinja2 template to automatically generate configurations for Juniper devices deploy in EVPN/VXLAN fabric mode
 
 ** Still work in progress // Configurations are not 100% valid yet **
 
