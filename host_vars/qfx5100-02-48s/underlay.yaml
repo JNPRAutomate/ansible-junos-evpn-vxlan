@@ -5,7 +5,7 @@ underlay:
         asn: 60011
     neighbors:
       - interface: "{{ topo[inventory_hostname].port1.name }}"
-        name:"{{ topo[inventory_hostname].port1.peer }}"
+        name: "{{ topo[inventory_hostname].port1.peer }}"
         asn: 60001
         peer_ip: 171.0.0.2
         local_ip: 171.0.0.3

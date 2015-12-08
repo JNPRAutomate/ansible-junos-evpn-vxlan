@@ -19,7 +19,7 @@ interfaces {
 {% endif %}
 {% if interface.mode == 'aggregate' %}
         ether-options {
-            802.3ad {{ conf.parent }};
+            802.3ad {{ interface.parent }};
         }
 {% elif interface.mode == 'trunk' %}
         unit 0 {

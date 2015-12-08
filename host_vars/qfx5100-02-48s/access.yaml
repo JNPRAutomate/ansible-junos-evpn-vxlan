@@ -1,8 +1,8 @@
 
 access:
     interfaces:
-        -   name: "{{ topology[inventory_hostname].port3.name }}"
-            deescription: "{{ topology[inventory_hostname].port3.peer }}"
+        -   name: "{{ topo[inventory_hostname].port3.name }}"
+            deescription: "{{ topo[inventory_hostname].port3.peer }}"
             mode: trunk
             vlans: [ 100, 101, 102, 103, 104 ]
         # -   name: ae0

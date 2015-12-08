@@ -61,7 +61,9 @@ policy-options {
 vlans {
 {% for bd in overlay.bridge_domains %}
     bd{{ bd.vni_id }} {
+{% if not overlay.vlan_normalized %}
         vlan-id {{ bd.vlan_id }};
+{% endif %}
         vxlan {
             vni {{ bd.vni_id }};
             ingress-node-replication;
