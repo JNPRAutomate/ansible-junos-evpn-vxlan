@@ -16,13 +16,15 @@ protocols {
     }
     evpn {
         encapsulation vxlan;
-        extended-vni-list [ {% for bd in overlay.bridge_domains %} {{ bd.vni_id }} {% endfor %} ];
+        extended-vni-list [ {% for vrf in overlay.vrfs %}{% for bd in vrf.bridge_domains %} {{ bd.vni_id }} {% endfor %}{% endfor %} ];
         multicast-mode ingress-replication;
         vni-options {
-{% for bd in overlay.bridge_domains %}
+{% for vrf in overlay.vrfs %}
+{% for bd in vrf.bridge_domains %}
             vni {{ bd.vni_id }} {
                 vrf-target export target:1:{{ bd.vni_id }};
             }
+{% endfor %}
 {% endfor %}
         }
     }
@@ -37,11 +39,13 @@ switch-options {
 
 policy-options {
      policy-statement LEAF-IN {
-{% for bd in overlay.bridge_domains %}
+{% for vrf in overlay.vrfs %}
+{% for bd in vrf.bridge_domains %}
         term a{{ bd.vni_id }} {
             from community com{{ bd.vni_id }};
             then accept;
         }
+{% endfor %}
 {% endfor %}
    	    term switch_options {
             from community switch_options_comm;
@@ -52,14 +56,17 @@ policy-options {
         }
     }
     community switch_options_comm members target:9999:9999;
-{% for bd in overlay.bridge_domains %}
+{% for vrf in overlay.vrfs %}
+{% for bd in vrf.bridge_domains %}
     community com{{ bd.vni_id }} members target:1:{{ bd.vni_id }};
+{% endfor %}
 {% endfor %}
 }
 
 
 vlans {
-{% for bd in overlay.bridge_domains %}
+{% for vrf in overlay.vrfs %}
+{% for bd in vrf.bridge_domains %}
     bd{{ bd.vni_id }} {
 {% if not overlay.vlan_normalized %}
         vlan-id {{ bd.vlan_id }};
@@ -69,5 +76,6 @@ vlans {
             ingress-node-replication;
         }
     }
+{% endfor %}
 {% endfor %}
 }

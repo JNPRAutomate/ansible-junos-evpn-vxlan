@@ -1,28 +1,45 @@
 
 routing-options {
     router-id {{ host.loopback.ip }};
-{#}    autonomous-system {{ overlay.local.asn }}; #}
     forwarding-table {
         ecmp-fast-reroute;
     }
 }
 
+{% set vrf_id = 1 %}
 routing-instances {
-    VRF_1 {
+{% for vrf in overlay.vrfs %}
+    VRF_{{ vrf.name }} {
         instance-type vrf;
-{% for bd in overlay.bridge_domains %}
+        interface lo0.{{ vrf_id }};
+{% for bd in vrf.bridge_domains %}
 {% if bd.network is defined %}
         interface irb.{{ bd.vlan_id }};
 {% endif %}
 {% endfor %}
-        route-distinguisher {{ host.loopback.ip }}:1001;
+        route-distinguisher {{ host.loopback.ip }}:100{{vrf_id}};
         vrf-target target:10:1;
     }
+{% set vrf_id = vrf_id + 1 %}
+{% endfor %}
 }
 
+
 interfaces {
+{% set vrf_id = 1 %}
+{% for vrf in overlay.vrfs %}
+    lo0 {
+        unit {{ vrf_id }} {
+            family inet {
+                address {{ overlay.vrf_lo0[vrf.name] }}/32;
+            }
+        }
+    }
+{% set vrf_id = vrf_id + 1 %}
+{% endfor %}
     irb {
-{% for bd in overlay.bridge_domains %}
+{% for vrf in overlay.vrfs %}
+{% for bd in vrf.bridge_domains %}
 {% if bd.network is defined %}
         unit {{ bd.vlan_id }} {
             family inet {
@@ -32,6 +49,7 @@ interfaces {
             }
         }
 {% endif %}
+{% endfor %}
 {% endfor %}
     }
 }
@@ -56,13 +74,15 @@ protocols {
     }
     evpn {
         encapsulation vxlan;
-        extended-vni-list [ {% for bd in overlay.bridge_domains %} {{ bd.vni_id }} {% endfor %} ];
+        extended-vni-list [ {% for vrf in overlay.vrfs %}{% for bd in vrf.bridge_domains %} {{ bd.vni_id }} {% endfor %}{% endfor %} ];
         multicast-mode ingress-replication;
         vni-options {
-{% for bd in overlay.bridge_domains %}
+{% for vrf in overlay.vrfs %}
+{% for bd in vrf.bridge_domains %}
             vni {{ bd.vni_id }} {
                 vrf-target export target:1:{{ bd.vni_id }};
             }
+{% endfor %}
 {% endfor %}
         }
     }
@@ -77,11 +97,13 @@ switch-options {
 
 policy-options {
      policy-statement LEAF-IN {
-{% for bd in overlay.bridge_domains %}
+{% for vrf in overlay.vrfs %}
+{% for bd in vrf.bridge_domains %}
         term a{{ bd.vni_id }} {
             from community com{{ bd.vni_id }};
             then accept;
         }
+{% endfor %}
 {% endfor %}
    	    term switch_options {
             from community switch_options_comm;
@@ -92,14 +114,17 @@ policy-options {
         }
     }
     community switch_options_comm members target:9999:9999;
-{% for bd in overlay.bridge_domains %}
+{% for vrf in overlay.vrfs %}
+{% for bd in vrf.bridge_domains %}
     community com{{ bd.vni_id }} members target:1:{{ bd.vni_id }};
+{% endfor %}
 {% endfor %}
 }
 
 
 vlans {
-{% for bd in overlay.bridge_domains %}
+{% for vrf in overlay.vrfs %}
+{% for bd in vrf.bridge_domains %}
     bd{{ bd.vni_id }} {
         vlan-id {{ bd.vlan_id }};
         l3-interface irb.{{ bd.vlan_id }};
@@ -108,5 +133,6 @@ vlans {
             ingress-node-replication;
         }
     }
+{% endfor %}
 {% endfor %}
 }
