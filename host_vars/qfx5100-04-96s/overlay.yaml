@@ -1,6 +1,7 @@
 
 
 overlay:
+    vlan_normalized: false
     local:
         asn: 62000
     neighbors: [ 1.1.2.2, 1.1.1.1, 1.1.1.2 ]
