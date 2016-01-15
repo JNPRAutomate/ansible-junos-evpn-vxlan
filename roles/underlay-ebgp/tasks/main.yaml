@@ -1,5 +1,5 @@
 ---
-- name: Building underlay configuraiton
+- name: Building underlay configuration with EBGP
   template: >
     src=main.conf.j2
-    dest={{ build_dir }}/underlay.conf.part
+    dest={{ build_dir }}/underlay-ebgp.conf.part

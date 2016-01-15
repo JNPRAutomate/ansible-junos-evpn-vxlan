@@ -1,0 +1,42 @@
+interfaces {
+{% for neighbor in underlay.neighbors %}
+    {{ neighbor.interface }} {
+        mtu 9192
+        unit 0 {
+            description "to {{ neighbor.name }}";
+            family inet {
+                mtu 9000;
+                unnumbered-address lo0.0;
+            }
+        }
+    }
+{% endfor %}
+}
+
+protocols {
+    ospf {
+        area 0.0.0.0 {
+{% for neighbor in underlay.neighbors %}
+            interface {{ neighbor.interface }} {
+                interface-type p2p;
+            }
+{% endfor %}
+            interface lo0 passive;
+        }
+    }
+}
+
+routing-options {
+    router-id {{ host.loopback.ip }};
+    forwarding-table {
+        export PFE-LB;
+    }
+}
+
+policy-options {
+    policy-statement PFE-LB {
+        then {
+            load-balance per-packet;
+        }
+    }
+}

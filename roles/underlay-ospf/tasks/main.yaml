@@ -1,0 +1,5 @@
+---
+- name: Building underlay configuration with OSPF
+  template: >
+    src=main.conf.j2
+    dest={{ build_dir }}/underlay-ospf.conf.part

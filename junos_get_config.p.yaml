@@ -7,10 +7,10 @@
     - Juniper.junos
   tasks:
     - name: Getting config ... please wait
-      junos_get_config: 
-        host={{ inventory_hostname }}
-        port={{ PLATFORM.netconf_port }}
-        user=root
-        passwd=Embe1mpls
-        dest=/tmp/{{ inventory_hostname }}.xml 
-        logfile=/tmp/build/changes.log
+      junos_get_config:
+        host={{ junos_host }}
+        port={{ netconf_port }}
+        user={{ ansible_ssh_user }}
+        passwd={{ ansible_ssh_pass }}
+        dest=/tmp/{{ inventory_hostname }}.xml
+        logfile=/tmp/ansible.changes.log
