@@ -1,0 +1,5 @@
+---
+# This playbook will generate and apply configuration to all of the devices
+
+- include: all.p.yaml
+- include: assemble.p.yaml

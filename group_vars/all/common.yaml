@@ -23,3 +23,4 @@ global:
         - community: public
     routes:
         default: 10.94.194.254
+    mtu: 9192

@@ -1,7 +1,7 @@
 
 protocols {
     bgp {
-        group overlay {
+        group overlay-evpn {
             type internal;
             family evpn {
                 signaling;
@@ -12,6 +12,11 @@ protocols {
 {% for neighbor in overlay.neighbors %}
             neighbor {{ neighbor }};
 {% endfor %}
+            bfd-liveness-detection {
+                minimum-interval 350;
+                multiplier 3;
+                session-mode automatic;
+            }
         }
     }
     evpn {
@@ -37,19 +42,24 @@ switch-options {
 
 policy-options {
      policy-statement LEAF-IN {
+        term import_leaf_esi {
+            from community comm-leaf_esi;
+            then accept;
+        }
 {% for bd in overlay.bridge_domains %}
-        term a{{ bd.vni_id }} {
+        term import_vni{{ bd.vni_id }} {
             from community com{{ bd.vni_id }};
             then accept;
         }
 {% endfor %}
-        term zzz {
+        term default {
             then reject;
         }
     }
 {% for bd in overlay.bridge_domains %}
     community com{{ bd.vni_id }} members target:1:{{ bd.vni_id }};
 {% endfor %}
+    community comm-leaf_esi members target:9999:9999;
 }
 
 

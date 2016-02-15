@@ -5,11 +5,13 @@ underlay:
     neighbors:
       - interface: xe-5/2/2
         name: qfx5100-10
+        remote_interface: xe-0/0/0
         asn: 60010
         peer_ip: 171.0.0.5
         local_ip: 171.0.0.4
       - interface: xe-5/2/3
         name: qfx5100-11
+        remote_interface: xe-0/0/0
         asn: 60011
         peer_ip: 171.0.0.7
         local_ip: 171.0.0.6

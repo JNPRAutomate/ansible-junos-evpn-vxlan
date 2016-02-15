@@ -1,13 +1,14 @@
 [all:children]
 spine
 leaf
+ipfabric
 
 ##
 ## Groups for Spines devices
 ##
 [spine:children]
 spine-mx
-spine-qfx
+##spine-qfx
 
 [spine-mx]
 mx480-01
@@ -21,7 +22,6 @@ mx480-02
 ##
 [leaf:children]
 leaf-qfx-l2
-leaf-qfx-l3
 
 [leaf-qfx-l2]
 qfx5100-10
@@ -31,10 +31,17 @@ qfx5100-11
 # nothing Yet :)
 
 ##
+## Group for IP devices (Only in charge of routing between Leaves and Spines)
+## 
+[ipfabric]
+qfx10002-01
+
+##
 ## Group by type
 ##
 
 [qfx10000]
+qfx10002-01
 
 [qfx5100]
 qfx5100-10

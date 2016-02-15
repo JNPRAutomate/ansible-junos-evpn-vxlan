@@ -5,3 +5,4 @@
 - include: leaves.qfx.l3.p.yaml
 - include: spines.qfx.p.yaml
 - include: spines.mx.p.yaml
+- include: ipfabric.all.p.yaml

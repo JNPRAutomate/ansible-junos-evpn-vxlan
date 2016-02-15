@@ -1,15 +1,38 @@
 
 protocols {
     bgp {
-        group overlay {
+        group overlay-evpn {
+            type internal;
+            family evpn signaling;
+            local-as {{ overlay.local.asn }};
+            local-address {{ host.loopback.ip }};
+            cluster {{ host.loopback.ip }};
+            multipath;
+{% for neighbor in overlay.neighbors %}
+            neighbor {{neighbor}};
+{% endfor %}
+        }
+        bfd-liveness-detection {
+            minimum-interval 350;
+            multiplier 3;
+            session-mode automatic;
+        }
+    }
+    bgp {
+        group overlay-evpn-rr {
             type internal;
             family evpn signaling;
             local-as {{ overlay.local.asn }};
             local-address {{ host.loopback.ip }};
             multipath;
-{% for neighbor in overlay.neighbors %}
+{% for neighbor in overlay.rr_bgp %}
             neighbor {{neighbor}};
 {% endfor %}
+        }
+        bfd-liveness-detection {
+            minimum-interval 350;
+            multiplier 3;
+            session-mode automatic;
         }
     }
 }
@@ -23,31 +46,33 @@ routing-options {
 }
 
 routing-instances {
-    VRF_1 {
+{% for tenant in overlay.tenants %}
+    VRF_TENANT_{{tenant.id}} {
         instance-type vrf;
-{% for bd in overlay.bridge_domains %}
+{% for bd in tenant.bridge_domains %}
 {% if bd.ip is defined %}
         interface irb.{{ bd.vlan_id }};
 {% endif %}
 {% endfor %}
-        route-distinguisher {{ host.loopback.ip }}:1001;
-        vrf-target target:10:1;
+        route-distinguisher {{ host.loopback.ip }}:{{tenant.id}};
+        vrf-target target:10:{{tenant.id}};
     }
-    VRF_1_VS {
+
+    VS_TENANT_{{tenant.id}} {
         instance-type virtual-switch;
         vtep-source-interface lo0.0;
-        route-distinguisher {{ host.loopback.ip }}:1;
-        vrf-import VRF_1_VS_IN;
-        vrf-target target:11:1;
+        route-distinguisher {{ host.loopback.ip }}:{{tenant.id}};
+        vrf-import VRF_TENANT_{{tenant.id}}_VS_IN;
+        vrf-target target:11:{{tenant.id}};
         protocols {
             evpn {
                 encapsulation vxlan;
-                extended-vni-list [ {% for bd in overlay.bridge_domains %} {{ bd.vni_id }} {% endfor %} ];;
+                extended-vni-list [ {% for bd in tenant.bridge_domains %} {{ bd.vni_id }} {% endfor %} ];
                 multicast-mode ingress-replication;
             }
         }
         bridge-domains {
-{% for bd in overlay.bridge_domains %}
+{% for bd in tenant.bridge_domains %}
             bd{{ bd.vni_id }} {
 {% if bd.ip is defined %}
                 routing-interface irb.{{ bd.vlan_id }};
@@ -61,13 +86,15 @@ routing-instances {
 {% endfor %}
         }
     }
+{% endfor %}
 }
-
 interfaces {
     irb {
-{% for bd in overlay.bridge_domains %}
+{% for tenant in overlay.tenants %}
+{% for bd in tenant.bridge_domains %}
 {% if bd.ip is defined %}
         unit {{ bd.vlan_id }} {
+            description " * TENANT {{tenant.id}} - vlan {{bd.vlan_id}} - vni {{bd.vni_id}} "
             family inet {
                 address {{ bd.ip }}/{{ bd.mask }} {
                     virtual-gateway-address {{ bd.vip }};
@@ -76,27 +103,31 @@ interfaces {
         }
 {% endif %}
 {% endfor %}
+{% endfor %}
     }
 }
-
 policy-options {
-    policy-statement VRF_1_VS_IN {
-        term aaESI {
+{% for tenant in overlay.tenants %}
+    policy-statement VRF_TENANT_{{tenant.id}}_VS_IN {
+        term import_leaf_esi {
             from community comm-leaf_esi;
             then accept;
         }
-{% for bd in overlay.bridge_domains %}
-        term a{{ bd.vni_id }} {
+{% for bd in tenant.bridge_domains %}
+        term import_vni{{ bd.vni_id }} {
             from community com{{ bd.vni_id }};
             then accept;
         }
 {% endfor %}
-        term zzz {
+        term default {
             then reject;
         }
     }
-{% for bd in overlay.bridge_domains %}
+{% endfor %}
+{% for tenant in overlay.tenants %}
+{% for bd in tenant.bridge_domains %}
     community com{{ bd.vni_id }} members target:1:{{ bd.vni_id }};
+{% endfor %}
 {% endfor %}
     community comm-leaf_esi members target:9999:9999;
 }

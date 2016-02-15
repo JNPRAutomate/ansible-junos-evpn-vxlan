@@ -3,9 +3,9 @@ protocols {
     bgp {
         log-updown;
         graceful-restart;
-        group underlay {
-            import bgp-clos-in;
-            export  bgp-clos-out;
+        group underlay-ipfabric {
+            import bgp-ipclos-in;
+            export  bgp-ipclos-out;
             type external;
             mtu-discovery;
             local-as {{ underlay.local.asn }};
@@ -27,17 +27,17 @@ protocols {
 routing-options {
     router-id {{ host.loopback.ip }};
     forwarding-table {
-        export PFE-LB;
+        export pfe-ecmp;
     }
 }
 
 policy-options {
-    policy-statement PFE-LB {
+    policy-statement pfe-ecmp {
         then {
             load-balance per-packet;
         }
     }
-    policy-statement bgp-clos-in {
+    policy-statement bgp-ipclos-in {
         term loopbacks {
             from {
                 route-filter {{ underlay.networks.loopbacks }} orlonger;
@@ -54,7 +54,7 @@ policy-options {
             then reject;
         }
     }
-    policy-statement bgp-clos-out {
+    policy-statement bgp-ipclos-out {
         term loopback {
             from {
                 protocol direct;
@@ -80,9 +80,10 @@ policy-options {
 interfaces {
 {% for neighbor in underlay.neighbors %}
     {{ neighbor.interface }} {
-        mtu 9192
+        description "to {{ neighbor.name }}";
+        mtu {{ global.mtu }}
         unit 0 {
-            description "to {{ neighbor.name }}";
+            description " * to {{ neighbor.name }} -- {{ neighbor.remote_interface }}";
             family inet {
                 mtu 9000;
                 address {{ neighbor.local_ip }}/31;
