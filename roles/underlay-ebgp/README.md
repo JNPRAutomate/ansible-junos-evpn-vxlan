@@ -10,12 +10,13 @@ Generate the base configuration to build an IP Fabric with EBGP:
 
 Template can be found in [roles/underlay-ebgp/templates/main.conf.j2 ](templates/main.conf.j2)
 
+## Variables Needed by this role
+
 Using variable files from :
  - [group_vars/all/underlay.yaml]()
  - `host_vars/*hostname*/main.yaml`
  - `host_vars/*hostname*/underlay.yaml`
 
-Structure of the `underlay.yaml` file is based on the following structure:
 ```yaml
 underlay:
 ## Default parameters

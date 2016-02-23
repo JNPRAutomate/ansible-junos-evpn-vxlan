@@ -14,24 +14,23 @@ Using variable files from :
 Structure of the `overlay.yaml` file is based on the following structure:
 
 ```yaml
-  overlay:
+overlay:
     local:
         asn: 				# Local AS to build control plane of EVPN
     neighbors: 				# List of IP address to configure BGP sessions. Must be RR if you are on leaves and must be leaves if you are on MXs. In any case, it must be loopback of devices
     rr_bgp: 				# List of all route reflector -- ONLY for MXs / not supported for leaves
     tenants:
-      tenantname:
+      <tenant_A_name>:
         id: 				      # ID of the tenant
         bridge_domains:		# List all Bridge domains / vlan / vni
-        - vlan_id: 100		# Vlan ID of the first bridge domain
-          vni_id: 1000		# VNI associated to this vlan
-          vip: 10.1.100.1 	# Virtual Gateway -- ONLY for L3 devices
-          ip: 10.1.100.2 	# Physical IP address of the IRB -- ONLY for L3 devices
+        - vlan_id: 		    # Vlan ID of the first bridge domain
+          vni_id: 		    # VNI associated to this vlan
+          network:  	    # Physical IP address of the IRB -- ONLY for L3 devices
           mask: 24 			  # Netmask of the IRB -- ONLY for L3 devices
 
-  overlay:
+# Default parameters
     bfd:
-      min_interval: 350
-      multiplier: 3
-      mode: automatic
+      min_interval:
+      multiplier:
+      mode:
 ```

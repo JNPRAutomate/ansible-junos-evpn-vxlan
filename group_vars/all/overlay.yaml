@@ -1,9 +1,9 @@
 
-
 overlay:
     vip_ip: 1
-    vrfs:
-      - name: RED
+    tenants:
+      tenant10:
+        id: 10
         bridge_domains:
         - vlan_id: 100
           vni_id: 1000
@@ -25,7 +25,8 @@ overlay:
           vni_id: 1004
           network: 10.1.104.
           mask: 24
-      - name: BLUE
+      tenant20:
+        id: 20
         bridge_domains:
         - vlan_id: 105
           vni_id: 1005

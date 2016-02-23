@@ -6,7 +6,7 @@ protocols {
             family evpn {
                 signaling;
             }
-            local-address {{ host.loopback.ip }};
+            local-address {{ loopback_ip }};
             local-as {{ overlay.local.asn }};
             multipath;
 {% for neighbor in overlay.neighbors %}
@@ -42,7 +42,7 @@ switch-options {
     vtep-source-interface lo0.0;
     vrf-import LEAF-IN;
     vrf-target target:9999:9999;
-    route-distinguisher {{ host.loopback.ip }}:1;
+    route-distinguisher {{ loopback_ip }}:1;
 }
 
 policy-options {
