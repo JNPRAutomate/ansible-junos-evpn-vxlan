@@ -4,6 +4,7 @@
   connection: local
   gather_facts: no
   roles:
-    - common
+    - junos-system
     - underlay-ebgp
     - overlay-evpn-qfx-l3
+    - build-config

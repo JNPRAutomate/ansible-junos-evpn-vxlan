@@ -1,0 +1,9 @@
+---
+- name: Create and apply configuration for Fabric / QFX
+  hosts: fabric
+  connection: local
+  gather_facts: no
+  roles:
+    - junos-system
+    - underlay-ebgp
+    - build-config
