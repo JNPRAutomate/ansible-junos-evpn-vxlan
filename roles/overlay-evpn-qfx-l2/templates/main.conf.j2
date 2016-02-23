@@ -1,7 +1,7 @@
 
 protocols {
     bgp {
-        group overlay {
+        group overlay-evpn {
             type internal;
             family evpn {
                 signaling;
@@ -12,15 +12,23 @@ protocols {
 {% for neighbor in overlay.neighbors %}
             neighbor {{ neighbor }};
 {% endfor %}
+{% if overlay.remote_gw is defined %}
+            import OVERLAY-IN;
+{% endif %}
+            bfd-liveness-detection {
+                minimum-interval {{ overlay.bfd.min_interval }};
+                multiplier {{ overlay.bfd.multiplier }};
+                session-mode {{ overlay.bfd.mode }};
+            }
         }
     }
     evpn {
         encapsulation vxlan;
-        extended-vni-list [ {% for vrf in overlay.vrfs %}{% for bd in vrf.bridge_domains %} {{ bd.vni_id }} {% endfor %}{% endfor %} ];
+        extended-vni-list [ {% for name, tenant in overlay.tenants.iteritems() %}{% for bd in tenant.bridge_domains %} {{ bd.vni_id }} {% endfor %}{% endfor %} ];
         multicast-mode ingress-replication;
         vni-options {
-{% for vrf in overlay.vrfs %}
-{% for bd in vrf.bridge_domains %}
+{% for name, tenant in overlay.tenants.iteritems() %}
+{% for bd in tenant.bridge_domains %}
             vni {{ bd.vni_id }} {
                 vrf-target export target:1:{{ bd.vni_id }};
             }
@@ -39,34 +47,51 @@ switch-options {
 
 policy-options {
      policy-statement LEAF-IN {
-{% for vrf in overlay.vrfs %}
-{% for bd in vrf.bridge_domains %}
-        term a{{ bd.vni_id }} {
+        term import_leaf_esi {
+            from community comm-leaf_esi;
+            then accept;
+          }
+{% for name, tenant in overlay.tenants.iteritems() %}
+{% for bd in tenant.bridge_domains %}
+        term import_vni{{ bd.vni_id }} {
             from community com{{ bd.vni_id }};
             then accept;
         }
 {% endfor %}
 {% endfor %}
-   	    term switch_options {
-            from community switch_options_comm;
-            then accept;
-        }
-        term zzz {
+        term default {
             then reject;
         }
     }
-    community switch_options_comm members target:9999:9999;
-{% for vrf in overlay.vrfs %}
-{% for bd in vrf.bridge_domains %}
+{# Policy to reject Anycast GW from other pods #}
+{% if overlay.remote_gw is defined %}
+    policy-statement OVERLAY-IN {
+      term reject-remote-gw {
+          from {
+              family evpn;
+              next-hop [ {% for gw in overlay.remote_gw %}{{ gw }} {% endfor %} ];
+              nlri-route-type [ 1 2 ];
+          }
+          then reject;
+      }
+      term accept-all {
+          then accept;
+      }
+    }
+{% endif %}
+
+{% for name, tenant in overlay.tenants.iteritems() %}
+{% for bd in tenant.bridge_domains %}
     community com{{ bd.vni_id }} members target:1:{{ bd.vni_id }};
 {% endfor %}
 {% endfor %}
+    community comm-leaf_esi members target:9999:9999;
 }
 
 
 vlans {
-{% for vrf in overlay.vrfs %}
-{% for bd in vrf.bridge_domains %}
+{% for name, tenant in overlay.tenants.iteritems() %}
+{% for bd in tenant.bridge_domains %}
     bd{{ bd.vni_id }} {
 {% if not overlay.vlan_normalized %}
         vlan-id {{ bd.vlan_id }};

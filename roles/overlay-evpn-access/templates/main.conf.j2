@@ -13,7 +13,7 @@ interfaces {
 {% endif %}
 {% if interface.esi is defined %}
         esi {
-            {{ conf.esi }};
+            {{ interface.esi }};
             all-active;
         }
 {% endif %}

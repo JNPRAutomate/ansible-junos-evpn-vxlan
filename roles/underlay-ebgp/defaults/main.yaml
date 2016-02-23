@@ -1,0 +1,37 @@
+
+
+
+underlay:
+  mtu_phy_int: 9192
+  mtu_logical_int: 9000
+  network_size: 31
+  bfd:
+    min_interval: 350
+    multiplier: 3
+    mode: automatic
+  networks:
+    loopbacks: 1.1.0.0/16
+    underlay: 172.16.0.0/16
+
+#underlay:
+    # advertize_local_only: true
+    # community: xxx
+
+###########################
+## Per Devices           ##
+###########################
+
+# underlay:
+#     local:
+#         asn: 60010
+#     neighbors:
+#       - interface: "{{ topo[inventory_hostname].port1.name }}"
+#         name: "{{ topo[inventory_hostname].port1.peer }}"
+#         asn: 60001
+#         peer_ip: 171.0.0.0
+#         local_ip: 171.0.0.1
+#       - interface: "{{ topo[inventory_hostname].port2.name }}"
+#         name: "{{ topo[inventory_hostname].port2.peer }}"
+#         asn: 60002
+#         peer_ip: 171.0.0.8
+#         local_ip: 171.0.0.9
