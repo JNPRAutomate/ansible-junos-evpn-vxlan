@@ -12,5 +12,5 @@
         port={{ netconf_port }}
         user={{ ansible_ssh_user }}
         passwd={{ ansible_ssh_pass }}
-        dest=/tmp/{{ inventory_hostname }}.xml
+        dest=config_save/{{ inventory_hostname }}.save.conf
         logfile=/tmp/ansible.changes.log
