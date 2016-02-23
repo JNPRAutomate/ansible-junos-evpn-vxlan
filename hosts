@@ -1,6 +1,15 @@
 [all:children]
+fabric
 spine
 leaf
+
+########################
+## Fabric devices     ##
+########################
+
+[fabric]
+fabric-01       junos_host=0.0.0.0    loopback_ip=100.0.0.1
+fabric-02       junos_host=0.0.0.0    loopback_ip=100.0.0.2
 
 #######################
 ## Spines devices    ##
@@ -9,11 +18,13 @@ leaf
 spine-mx
 spine-qfx
 
-[spine-mx]
-
 [spine-qfx]
-qfx10000-01  junos_host=<ip address>
-qfx10000-02  junos_host=<ip address>
+qfx10002-01   junos_host=0.0.0.0    loopback_ip=100.0.0.11
+qfx10002-02   junos_host=0.0.0.0    loopback_ip=100.0.0.12
+
+[spine-mx]
+mx480-01      junos_host=0.0.0.0    loopback_ip=100.0.0.13
+mx480-02      junos_host=0.0.0.0    loopback_ip=100.0.0.14
 
 #######################
 ## leaf devices      ##
@@ -23,13 +34,29 @@ leaf-qfx-l2
 leaf-qfx-l3
 
 [leaf-qfx-l2]
-qfx5100-01-48s  junos_host=<ip address>
-qfx5100-02-48s  junos_host=<ip address>
-qfx5100-03-48s  junos_host=<ip address>
-qfx5100-04-96s  junos_host=<ip address>
+qfx5100-01    junos_host=0.0.0.0    loopback_ip=100.0.0.21
+qfx5100-02    junos_host=0.0.0.0    loopback_ip=100.0.0.22
+qfx5100-03    junos_host=0.0.0.0    loopback_ip=100.0.0.23
+qfx5100-04    junos_host=0.0.0.0    loopback_ip=100.0.0.24
 
 [leaf-qfx-l3]
 # nothing
+
+###########################
+## Group by Location     ##
+###########################
+
+[pod1]
+qfx10000-01
+qfx10000-02
+qfx5100-01
+qfx5100-02
+
+[pod2]
+mx480-01
+mx480-02
+qfx5100-03
+qfx5100-04
 
 #######################
 ## Group by type     ##
@@ -40,14 +67,14 @@ qfx10000-01
 qfx10000-02
 
 [qfx5000]
-qfx5100-01-48s
-qfx5100-02-48s
-qfx5100-03-48s
-qfx5100-04-96s
+qfx5100-01
+qfx5100-02
+qfx5100-03
+qfx5100-04
 
 [mx]
-# mx480-01
-# mx480-02
+mx480-01
+mx480-02
 
 ###################################
 ### Define variables per groups ###
@@ -56,7 +83,7 @@ qfx5100-04-96s
 ansible_ssh_user=root
 ansible_ssh_pass=<device password>
 mgmt_sub_mask=<subnet mask>
-mgmt_sub_gw=<default gw address>
+# mgmt_sub_gw=<default gw address>
 netconf_port=830
 
 [qfx10000:vars]
