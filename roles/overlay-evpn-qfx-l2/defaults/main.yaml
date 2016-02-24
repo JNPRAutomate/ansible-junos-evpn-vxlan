@@ -1,5 +1,6 @@
 
 overlay:
+  vlan_normalized: false
   bfd:
     min_interval: 350
     multiplier: 3
