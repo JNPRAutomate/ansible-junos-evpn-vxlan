@@ -34,10 +34,10 @@ interfaces {
             }
         }
 {% elif interface.mode == 'normalize' %}
-{% for vlan in  interface.vlans %}
+{% for vni_id, vlan_id in  interface.vni_vlans_mapping.iteritems() %}
         flexible-vlan-tagging;
-        unit {{ vlan.vid }} {
-            vlan-id {{ vlan.vid }};
+        unit {{ vlan_id }} {
+            vlan-id {{ vlan_id }};
         }
 {% endfor %}
 {% endif %}
@@ -55,10 +55,10 @@ interfaces {
 
 {% for interface in access.interfaces %}
 {% if interface.mode == 'normalize' %}
-{% for vlan in  interface.vlans %}
+{% for vni_id, vlan_id in  interface.vni_vlans_mapping.iteritems() %}
 vlans {
-    bd{{ vlan.vnid }} {
-        interface {{ interface.name }}.{{ vlan.vid }}
+    bd{{ vni_id }} {
+        interface {{ interface.name }}.{{ vlan_id }}
     }
 }
 {% endfor %}
