@@ -43,7 +43,7 @@ protocols {
 }
 
 routing-options {
-    router-id {{ host.loopback.ip }};
+    router-id {{ loopback_ip }};
     forwarding-table {
         export pfe-ecmp;
     }
@@ -67,7 +67,7 @@ policy-options {
         term loopback {
             from {
                 protocol direct;
-                route-filter {{ host.loopback.ip }}/32 orlonger;
+                route-filter {{ loopback_ip }}/32 orlonger;
             }
             then {
 {% if underlay.community is defined %}
