@@ -6,7 +6,7 @@ protocols {
             type internal;
             family evpn signaling;
             local-as {{ overlay.local.asn }};
-            local-address {{ host.loopback.ip }};
+            local-address {{ loopback_ip }};
             multipath;
 {% for neighbor in overlay.neighbors %}
             neighbor {{neighbor}};
@@ -73,7 +73,7 @@ routing-instances {
             }
         }
         bridge-domains {
-{% for name, tenant in overlay.tenants.iteritems() %}
+{% for bd in tenant.bridge_domains %} 
             bd{{ bd.vni_id }} {
 {% if bd.network is defined %}
                 routing-interface irb.{{ bd.vlan_id }};
