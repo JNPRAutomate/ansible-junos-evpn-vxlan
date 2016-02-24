@@ -1,14 +1,14 @@
 
-{# Configure BGP Peers for EVPN using iBGP #}
 protocols {
     bgp {
+{# Configure BGP Peers for EVPN using iBGP #}
         group overlay-evpn {
             type internal;
             family evpn {
                 signaling;
             }
             local-as {{ overlay.local.asn }};
-            local-address {{ host.loopback.ip }};
+            local-address {{ loopback_ip }};
             multipath;
 {% for neighbor in overlay.neighbors %}
             neighbor {{neighbor}};
@@ -28,17 +28,16 @@ protocols {
             type internal;
             family evpn signaling;
             local-as {{ overlay.local.asn }};
-            local-address {{ host.loopback.ip }};
+            local-address {{ loopback_ip }};
             multipath;
 {% for neighbor in overlay.rr_bgp %}
-            neighbor {{neighbor}};
+            neighbor {{ neighbor }};
 {% endfor %}
         }
 {% endif %}
     }
 }
 
-{# Configure BGP Peers for EVPN using iBGP #}
 protocols {
     evpn {
         encapsulation vxlan;
@@ -56,15 +55,14 @@ protocols {
     }
 }
 
-
 routing-options {
-    router-id {{ host.loopback.ip }};
+    router-id {{ loopback_ip }};
     forwarding-table {
         ecmp-fast-reroute;
     }
 }
 
-{# Configure Anycast GW #}
+{# Configure L3 VRF per tenant #}
 routing-instances {
 {% for name, tenant in overlay.tenants.iteritems() %}
     VRF_TENANT_{{tenant.id}} {
@@ -75,24 +73,15 @@ routing-instances {
         interface irb.{{ bd.vlan_id }};
 {% endif %}
 {% endfor %}
-        route-distinguisher {{ host.loopback.ip }}:{{tenant.id}};
+        route-distinguisher {{ loopback_ip }}:{{tenant.id}};
         vrf-target target:10:{{tenant.id}};
     }
 {% endfor %}
 }
 
-{# Configuration for Anycast Gateway #}
-interfaces {
 
-{% for name, tenant in overlay.tenants.iteritems() %}
-    lo0 {
-        unit {{tenant.id}} {
-            family inet {
-                address {{ tenant.lo0_ip }}/32;
-            }
-        }
-    }
-{% endfor %}
+interfaces {
+{# Configuration for Anycast Gateway #}
     irb {
 {% for name, tenant in overlay.tenants.iteritems() %}
 {% for bd in tenant.bridge_domains %}
@@ -109,13 +98,23 @@ interfaces {
 {% endfor %}
 {% endfor %}
     }
+{# Configuration for Anycast Gateway #}
+{% for name, tenant in overlay.tenants.iteritems() %}
+    lo0 {
+        unit {{tenant.id}} {
+            family inet {
+                address {{ tenant.lo0_ip }}/32;
+            }
+        }
+    }
+{% endfor %}
 }
 
 switch-options {
     vtep-source-interface lo0.0;
     vrf-import LEAF-IN;
     vrf-target target:9999:9999;
-    route-distinguisher {{ host.loopback.ip }}:1;
+    route-distinguisher {{ loopback_ip }}:1;
 }
 
 policy-options {
@@ -149,7 +148,9 @@ vlans {
 {% for bd in tenant.bridge_domains %}
     bd{{ bd.vni_id }} {
         vlan-id {{ bd.vlan_id }};
+{% if bd.network is defined %}
         l3-interface irb.{{ bd.vlan_id }};
+{% endif %}
         vxlan {
             vni {{ bd.vni_id }};
             ingress-node-replication;
