@@ -4,8 +4,8 @@
   connection: local
   gather_facts: no
   roles:
-    - junos-system
-    # - underlay-ebgp
-    # - overlay-evpn-qfx-l3
-    # - overlay-evpn-access
+    - common
+    - underlay-ebgp
+    - overlay-evpn-qfx-l3
+    - overlay-evpn-access
     - build-config
