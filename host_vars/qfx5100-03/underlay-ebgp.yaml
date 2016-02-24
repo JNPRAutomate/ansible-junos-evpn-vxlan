@@ -1,0 +1,14 @@
+underlay:
+    local:
+        asn: 60023
+    neighbors:
+      - interface: "{{ topo[inventory_hostname].port1.name }}"
+        name: "{{ topo[inventory_hostname].port1.peer }}"
+        asn: 60013
+        peer_ip: 172.16.0.40
+        local_ip: 172.16.0.41
+      - interface: "{{ topo[inventory_hostname].port2.name }}"
+        name: "{{ topo[inventory_hostname].port2.peer }}"
+        asn: 60014
+        peer_ip: 172.16.0.44
+        local_ip: 172.16.0.45

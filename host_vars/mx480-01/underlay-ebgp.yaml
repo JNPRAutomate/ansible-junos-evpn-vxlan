@@ -1,0 +1,27 @@
+underlay:
+    local:
+        asn: 60013
+    neighbors:
+## Fabric
+      - interface: "{{ topo[inventory_hostname].port3.name }}"
+        name: "{{ topo[inventory_hostname].port3.peer }}"
+        asn: 60001
+        peer_ip: 172.16.0.4
+        local_ip: 172.16.0.5
+      - interface: "{{ topo[inventory_hostname].port4.name }}"
+        name: "{{ topo[inventory_hostname].port4.peer }}"
+        asn: 60002
+        peer_ip: 172.16.0.12
+        local_ip: 172.16.0.13
+
+## Leaf
+      - interface: "{{ topo[inventory_hostname].port2.name }}"
+        name: "{{ topo[inventory_hostname].port2.peer }}"
+        asn: 60023
+        peer_ip: 172.16.0.41
+        local_ip: 172.16.0.40
+      - interface: "{{ topo[inventory_hostname].port1.name }}"
+        name: "{{ topo[inventory_hostname].port1.peer }}"
+        asn: 60024
+        peer_ip: 172.16.0.43
+        local_ip: 172.16.0.42

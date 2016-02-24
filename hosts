@@ -47,8 +47,8 @@ qfx5100-04    junos_host=0.0.0.0    loopback_ip=100.0.0.24
 ###########################
 
 [pod1]
-qfx10000-01
-qfx10000-02
+qfx10002-01
+qfx10002-02
 qfx5100-01
 qfx5100-02
 
@@ -63,14 +63,16 @@ qfx5100-04
 #######################
 
 [qfx10000]
-qfx10000-01
-qfx10000-02
+qfx10002-01
+qfx10002-02
 
 [qfx5000]
 qfx5100-01
 qfx5100-02
 qfx5100-03
 qfx5100-04
+fabric-01
+fabric-02
 
 [mx]
 mx480-01
@@ -83,7 +85,6 @@ mx480-02
 ansible_ssh_user=root
 ansible_ssh_pass=<device password>
 mgmt_sub_mask=<subnet mask>
-# mgmt_sub_gw=<default gw address>
 netconf_port=830
 
 [qfx10000:vars]

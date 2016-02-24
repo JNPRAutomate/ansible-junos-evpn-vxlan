@@ -22,4 +22,4 @@ global:
         polling:
         - community: public
     routes:
-        default: 10.94.194.254
+        172.0.0.0/8: 10.94.194.254
