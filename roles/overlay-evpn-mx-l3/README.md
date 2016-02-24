@@ -2,8 +2,10 @@
 # 'overlay-evpn-mx-l3' role
 Generate configuration for EVPN/VXLAN for MX in L3 mode (w/ IRB)
  - Overlay iBGP configuration
+ - L2 and L3 VRF per tenant
  - VNI/VLAN creation with associated policy options
  - IRB per VLAN/VNI (Optional)
+ - Route reflector (Optional)
 
 Template can be found in [overlay-evpn-mx-l3/templates/main.conf.j2](templates/main.conf.j2)
 
