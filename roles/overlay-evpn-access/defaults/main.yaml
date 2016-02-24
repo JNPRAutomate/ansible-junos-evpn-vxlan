@@ -1,6 +1,2 @@
 
-overlay:
-  bfd:
-    min_interval: 350
-    multiplier: 3
-    mode: automatic
+# Nothing yet

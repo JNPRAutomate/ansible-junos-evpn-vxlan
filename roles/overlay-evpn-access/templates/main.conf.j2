@@ -1,10 +1,13 @@
+{% if access.nbr_ae is defined %}
 chassis {
     aggregated-devices {
         ethernet {
-            device-count 4;
+            device-count {{ access.nbr_ae }};
         }
     }
 }
+{% endif %}
+
 interfaces {
 {% for interface in access.interfaces %}
     {{ interface.name }} {
