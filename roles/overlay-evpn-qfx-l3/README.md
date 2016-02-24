@@ -35,6 +35,7 @@ overlay:
           mask: 			     # Netmask of the IRB -- ONLY for L3 devices
 
 # Default parameters
+## All default parameters are available [here](defaults/main.yaml)
     bfd:
       min_interval:
       multiplier:
