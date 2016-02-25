@@ -6,7 +6,11 @@
   roles:
     - Juniper.junos
   tasks:
-    - name: Getting config ... please wait
+    - name: Check if directory config_save/ is present
+      file: path=config_save/ state=directory
+      run_once: true
+
+    - name: Getting config from device ... please wait
       junos_get_config:
         host={{ junos_host }}
         port={{ netconf_port }}
