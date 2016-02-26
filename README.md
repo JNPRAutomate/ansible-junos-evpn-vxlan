@@ -3,35 +3,35 @@
 Sample project using Ansible and Jinja2 template to automatically generate configurations for Juniper devices deployed in EVPN/VXLAN Fabric mode.
 
 In this project you'll find:
-1. Sample project for ansible with Playbooks and variables to generate EVPN/VXLAN configuration for multi-pod EVPN/Fabric in a multi-tenants environment.
-2. [Examples of configuration](config) EVPN/VXLAN for QFX5k, QFX10k & MX, *please refer to the description of the sample project below to understand what is configure on which device.*
-3. Severals Jinja2 templates, packaged and documented into [Ansible roles](roles) that can be reuse in other Ansible project to easily generate Overlay & Underlay configuration.
-4. Design recommendations to build an EVPN/VXLAN Fabric today
+- (1) **Sample project for ansible** with Playbooks and variables to generate EVPN/VXLAN configuration for multi-pod EVPN/Fabric in a multi-tenants environment.
+- (2) **[Examples of configuration](config)** EVPN/VXLAN for QFX5k, QFX10k & MX.
+- (3) Severals **Jinja2 templates**, packaged and documented into [Ansible roles](roles) that can be **reuse in other Ansible projects** to easily generate Overlay & Underlay configuration.
+- (4) **Design recommendations** to build an EVPN/VXLAN Fabric today
 
 # Info on EVPN/VXLAN
 
 White Paper on EVPN/VXLAN available on Juniper.net
 http://www.juniper.net/assets/us/en/local/pdf/whitepapers/2000606-en.pdf
 
-# 1. Sample Ansible project to generate EVPN/VXLAN configuration for a multi-pod EVPN/Fabric
+# 1. Sample Ansible project to generate EVPN/VXLAN configuration for a multi-pod/multi-tenant EVPN Fabric
 
 This project is simulating the creation of a 2 pods EVPN/VXLAN Fabric, POD1 & POD2:
 - Each POD is composed of 2 spine and 2 leaf
-- PODs are interconnected with 2 qfx5100 acting as Fabric, these are not running EVPN
+- PODs are interconnected with 2 qfx5100 acting as Fabric, these are not running EVPN  
 **On POD1**
 - Spine are QFX10K and leaf are QFX5000
-- Leaf are configured with Vlan normalization on their access ports facing servers
+- Leaf are configured with Vlan normalization on their access ports facing servers  
 **On POD2**
 - Spine are MX480 and leaf are QFX5000
 - Leaf are configured with standard trunk interface facing servers,
 - 1 server is dual-attached to both leaf using EVPN/ESI and LACP
 
 All devices names, Ip addresses loopback addresses etc .. are defined in the [inventory file named hosts](hosts).  
-All physical connection are defined in the [topology file under group_vars/all](group_vars/all/topology.yaml).  
+All physical connections are defined in the [topology file under group_vars/all](group_vars/all/topology.yaml).  
 
-### Regenerate configuration
+## 1.1. Regenerate configuration
 
-Even without real devices, it's possible to regenerate configuration for all devices using ansible playbooks provided with the project
+Even without real devices, it's possible to regenerate configurations for all devices using ansible playbooks provided with the project
 
 To verify that Ansible & Ansible Junos module for Ansible are properly installed, you can try to regenerate all configs with this command:
 ```
@@ -91,14 +91,14 @@ All roles are located under the directory [roles](roles) and are organized as fo
 
 Below the list of roles available, classified per function, with a short description and a link to their respective documentation.
 
-## Roles to create the underlay configuration
+## 3.1. Roles to create the underlay configuration
 
 There are 3 different roles to create an underlay network, only one is needed and all devices must have the same.  
 - ['underlay-ebgp' role](roles/underlay-ebgp)(default)  # Create an Underlay with eBGP with p2p /31 network and 1 ASN per device
 - ['underlay-ospf' role](roles/underlay-ospf)  # Create an Underlay with OSPF with p2p /31 network and 1 Area
 - ['underlay-ospf-unnumbered' role](roles/underlay-ospf-unnumbered) # Create an Underlay with OSPF with p2p unnumbered interface and 1 Area
 
-## Roles to create the overlay configuration (EVPN)
+## 3.2. Roles to create the overlay configuration (EVPN)
 
 These roles are complementary and are designed to work together.
 Each one is specific to a role in the architecture and is specific to device capabilities:
@@ -107,23 +107,25 @@ Each one is specific to a role in the architecture and is specific to device cap
 - ['overlay-evpn-mx-l3' role](roles/overlay-evpn-mx-l3)    # Create iBGP & EVPN configuration for MX devices that only support L2 & L3 VTEP (MX)
 - ['overlay-evpn-access' role](roles/overlay-evpn-access)  # Create access ports configuration to maps existing resources into the overlay (Trunk/LAG/ESI/Vlan mapping)
 
-## Other Roles
+## 3.3. Other Roles
 
 - ['common' role](roles/common/)         # Generate base configuration
 - ['build-config'](roles/build-config)  # Assemble all configuration snippet from other roles
 
-# 4. Design recommendations to build an IP Fabric with eBGP
+# 4. Design recommendations to build an EVPN Fabric with eBGP as underlay
 
-### 1. No default gateway
+## 4.1. No default gateway
 When an IP fabric is used as an underlay, to support an overlay (for example EVPN/VXLAN)
 It's important that all loopback addresses present in the routing table are reachable.
 
 If the device is configured with a default GW, all loopback learned on the overlay will be installed on the routing table assuming that it can be reached using the default gateway.
 
-### 2. Multi-pod environment
+*As a solution, it's recommended to not use a default GW on the device*
 
-### 3. Leaf specific policy
+## 4.2. Multi-pod environment
 
+
+## 4.3. Leaf specific policy
 
 
 # Requirements
