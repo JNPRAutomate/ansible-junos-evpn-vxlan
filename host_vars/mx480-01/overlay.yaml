@@ -1,11 +1,5 @@
 overlay:
     local:
         cluster: 3.3.3.3
-    local_ip: 213
     rr_bgp: [ 100.0.0.11, 100.0.0.12, 100.0.0.14 ]
     neighbors: [ 100.0.0.23, 100.0.0.24 ]
-    tenants:
-      tenant10:
-        lo0_ip: 100.10.0.13
-      tenant20:
-        lo0_ip: 100.20.0.13

@@ -1,0 +1,25 @@
+
+overlay:
+    tenants:
+{% for i in range( 0, generate_tenant.nbr_tenant ) %}
+{% set tenant_id = generate_tenant.tenant_start_id + i %}
+      tenant{{ tenant_id }}:
+{# If dev_id is defined, generate a loopback address for each Tenant == VRF #}
+{% if dev_id is defined %}
+        lo0_ip: {{ generate_tenant.loopback_pool | ipsubnet(generate_tenant.loopback_size, tenant_id ) | ipaddr(dev_id) | ipaddr('address') }}
+{% endif %}
+        id: {{ tenant_id }}
+        bridge_domains:
+{% for y in range( 0, generate_tenant.nbr_vni_tenant ) %}
+{% set vlan_id = generate_tenant.vlan_start + generate_tenant.nbr_vni_tenant*i + y %}
+        - vlan_id: {{ vlan_id }}
+          vni_id: {{ generate_tenant.vni_prefix }}{{ vlan_id }}
+{# If dev_id is defined, generate a network address, VIP address and local address #}
+{% if dev_id is defined %}
+{% set network = generate_tenant.network_pool | ipsubnet(generate_tenant.network_size, i*generate_tenant.nbr_vni_tenant +y + 1 )%}
+          vip_ip: {{ network | ipaddr(generate_tenant.vip_id) | ipaddr('address') }}
+          local_ip: {{ network | ipaddr(dev_id) | ipaddr('address') }}
+          mask: {{ generate_tenant.network_size }}
+{% endif %}
+{% endfor %}
+{% endfor %}

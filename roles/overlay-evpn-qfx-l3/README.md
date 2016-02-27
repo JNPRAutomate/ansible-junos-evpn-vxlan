@@ -23,7 +23,6 @@ overlay:
         asn: 				  # Local AS to build control plane of EVPN
     neighbors: 				# List of IP address to configure BGP sessions. Must be RR if you are on leaves and must be leaves if you are on MXs. In any case, it must be loopback of devices
     rr_bgp: 				      # List of all route reflector -- ONLY for MXs / not supported for leaves
-    local_ip:             # Last digit of the IP address used to generate local IP in each VNI
     tenants:
       <tenant_A_name>:
         lo0_ip:           # Loopback IP per tenant's VRF
@@ -33,6 +32,8 @@ overlay:
           vni_id: 		    # VNI associated to this vlan
           network:  	    # Physical IP address of the IRB -- ONLY for L3 devices
           mask: 			     # Netmask of the IRB -- ONLY for L3 devices
+          vip_ip:         # IP address used to generate Virtual IP in each VNI -- ONLY for L3 devices
+          local_ip:       # IP address used to generate local IP in each VNI -- ONLY for L3 devices
 
 # Default parameters
 ## All default parameters are available [here](defaults/main.yaml)
@@ -42,6 +43,8 @@ overlay:
       mode:
 ```
 
+> **It's recommended to use the role 'generate-tenant-vni' to generate most variables automatically**
+
 ### Example
 
 This template have been designed to used a variable structure mainly composed of hash/dict.  
@@ -49,36 +52,6 @@ Leveraging Ansible option to *merge hash*, it become possible to have all requir
 
 - group_vars/*group_name*/overlay.yaml   > Information shared across devices
 - host_vars/*device_name*/overlay.yaml   > information specific to single device
-
-**For Group 'all'**
-```yaml
-# group_vars/all/overlay.yaml
-overlay:
-    vip_ip: 1
-    tenants:
-      tenant10:
-        id: 10
-        bridge_domains:
-        - vlan_id: 100
-          vni_id: 1000
-          network: 10.1.100.
-          mask: 24
-        - vlan_id: 101
-          vni_id: 1001
-          network: 10.1.101.
-          mask: 24
-      tenant20:
-        id: 20
-        bridge_domains:
-        - vlan_id: 105
-          vni_id: 1005
-          network: 10.1.105.
-          mask: 24
-        - vlan_id: 106
-          vni_id: 1006
-          network: 10.1.106.
-          mask: 24
-```
 
 **For Device 'qfx10002-01'**
 ```yaml
@@ -96,6 +69,44 @@ overlay:
         lo0_ip: 100.20.0.12
 ```
 
+
+```yaml
+# host_vars/mx480-01/generated_tenant_vni.yaml
+overlay:
+    tenants:
+      tenant10:
+        lo0_ip: 200.0.10.4
+        id: 10
+        bridge_domains:
+        - vlan_id: 100
+          vni_id: 9100
+          network: 100.0.1.0
+          vip: 100.0.1.1
+          local_ip: 100.0.1.4
+          mask: 24
+        - vlan_id: 101
+          vni_id: 9101
+          network: 100.0.2.0
+          vip: 100.0.2.1
+          local_ip: 100.0.2.4
+          mask: 24
+      tenant11:
+        lo0_ip: 200.0.11.4
+        id: 11
+        bridge_domains:
+        - vlan_id: 120
+          vni_id: 9120
+          network: 100.0.21.0
+          vip: 100.0.21.1
+          local_ip: 100.0.21.4
+          mask: 24
+        - vlan_id: 121
+          vni_id: 9121
+          network: 100.0.22.0
+          vip: 100.0.22.1
+          local_ip: 100.0.22.4
+          mask: 24
+```
 ## How to Enable Merge Hash in Ansible
 
 In the root directory of your project, create a file name ```ansible.cfg``` and add :

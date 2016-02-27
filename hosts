@@ -19,12 +19,12 @@ spine-mx
 spine-qfx
 
 [spine-qfx]
-qfx10002-01   junos_host=0.0.0.0    loopback_ip=100.0.0.11
-qfx10002-02   junos_host=0.0.0.0    loopback_ip=100.0.0.12
+qfx10002-01   junos_host=0.0.0.0    loopback_ip=100.0.0.11  dev_id=2
+qfx10002-02   junos_host=0.0.0.0    loopback_ip=100.0.0.12  dev_id=3
 
 [spine-mx]
-mx480-01      junos_host=0.0.0.0    loopback_ip=100.0.0.13
-mx480-02      junos_host=0.0.0.0    loopback_ip=100.0.0.14
+mx480-01      junos_host=0.0.0.0    loopback_ip=100.0.0.13  dev_id=4
+mx480-02      junos_host=0.0.0.0    loopback_ip=100.0.0.14  dev_id=5
 
 #######################
 ## leaf devices      ##

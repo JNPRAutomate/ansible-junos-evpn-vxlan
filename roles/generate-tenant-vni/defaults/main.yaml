@@ -1,0 +1,14 @@
+
+generate_tenant:
+  nbr_tenant: 10
+  nbr_vni_tenant: 10
+  tenant_start_id: 10
+  vlan_start: 100
+  vni_prefix: 10
+  vip_id: 1
+
+  network_pool: 100.0.0.0/16
+  network_size: 24
+
+  loopback_pool: 101.0.0.0/16
+  loopback_size: 24

@@ -89,8 +89,8 @@ interfaces {
         unit {{ bd.vlan_id }} {
             description " * TENANT {{tenant.id}} - vlan {{bd.vlan_id}} - vni {{bd.vni_id}} "
             family inet {
-                address {{ bd.network }}{{ overlay.local_ip }}/{{ bd.mask }} {
-                    virtual-gateway-address {{ bd.network }}{{ overlay.vip_ip }};
+                address {{ overlay.local_ip }}/{{ bd.mask }} {
+                    virtual-gateway-address {{ overlay.vip_ip }};
                 }
             }
         }
