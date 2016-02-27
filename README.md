@@ -15,6 +15,8 @@ http://www.juniper.net/assets/us/en/local/pdf/whitepapers/2000606-en.pdf
 
 # 1. Sample Ansible project to generate EVPN/VXLAN configuration for a multi-pod/multi-tenant EVPN Fabric
 
+![sample topology][sample-topology-diagram.png]
+
 This project is simulating the creation of a 2 pods EVPN/VXLAN Fabric, POD1 & POD2:
 - Each POD is composed of 2 spine and 2 leaf
 - PODs are interconnected with 2 qfx5100 acting as Fabric, these are not running EVPN  
@@ -26,10 +28,10 @@ This project is simulating the creation of a 2 pods EVPN/VXLAN Fabric, POD1 & PO
 - Leaf are configured with standard trunk interface facing servers,
 - 1 server is dual-attached to both leaf using EVPN/ESI and LACP
 
-All devices names, Ip addresses loopback addresses etc .. are defined in the [inventory file named hosts](hosts).  
+All devices names, Ip addresses loopback addresses etc .. are defined in the [inventory file named hosts](hosts).
 All physical connections are defined in the [topology file under group_vars/all](group_vars/all/topology.yaml).  
 
-## 1.1. Regenerate configuration
+## 1.1. Regenerate configurations
 
 Even without real devices, it's possible to regenerate configurations for all devices using ansible playbooks provided with the project
 
@@ -39,6 +41,21 @@ ansible-playbook -i hosts pb.conf.all.yaml
 ```
 
 > By default, all configurations generated will be stored under the directory ```config/``` and will replace existing > configuration store there
+
+## Scale configurations
+
+The project come with some a solution to easily change the scale of the setup, it's possible to :
+ - Change the number of tenants
+ - Change the number of VNI per tenants
+
+To scale the configuration, you need to change some input parameters in the file `group_vars/all/tenant_vni.yaml`
+*Please refer to instructions in [generate-tenant-vni role](roles/generate-tenant-vni)*
+
+Once the input file is modified, you need to regenerate variables first and them regenerate configurations.
+```
+ansible-playbook -i hosts pb.generate.variables.yaml
+ansible-playbook -i hosts pb.conf.all.yaml
+```
 
 **Other Available Playbooks**
 
@@ -58,6 +75,7 @@ pb.conf.spine.qfx.yaml            # Generate configuration for group 'spines-qfx
 
 pb.init.make_clean.yaml           # Create temp directory for all devices
 
+pb.generate.variables.yaml        # Regenerate variables files for p2p links, Tenants and VNI
 ```
 
 # 2. Examples of configuration
@@ -81,6 +99,8 @@ All roles are located under the directory [roles](roles) and are organized as fo
 ```python
 ├ underlay-ebgp           # Name of the role
   ├── README.md           # Documentation and Instructions to reuse
+  ├── meta        
+  │   └── main.yaml       # Indicate author of the project and dependancies
   ├── defaults        
   │   └── main.yaml       # Default variables, can be overwritten for each device
   ├── tasks
@@ -110,7 +130,9 @@ Each one is specific to a role in the architecture and is specific to device cap
 ## 3.3. Other Roles
 
 - ['common' role](roles/common/)         # Generate base configuration
-- ['build-config'](roles/build-config)  # Assemble all configuration snippet from other roles
+- ['build-config' role](roles/build-config)  # Assemble all configuration snippet from other roles
+- ['generate-tenant-vni' role](roles/generate-tenant-vni)   # Generate variables files to scale Tenant and VNI
+- ['generate-p2p-ips' role](roles/generate-p2p=ips)   # Generate network and ip addresses for P2P links
 
 # 4. Design recommendations to build an EVPN Fabric with eBGP as underlay
 
