@@ -5,10 +5,10 @@ underlay:
       - interface: "{{ topo[inventory_hostname].port1.name }}"
         name: "{{ topo[inventory_hostname].port1.peer }}"
         asn: 60011
-        peer_ip: 172.16.0.32
-        local_ip: 172.16.0.33
+        peer_ip: "{{ p2p.link9.1}}"
+        local_ip: "{{ p2p.link9.2}}"
       - interface: "{{ topo[inventory_hostname].port2.name }}"
         name: "{{ topo[inventory_hostname].port2.peer }}"
         asn: 60012
-        peer_ip: 172.16.0.36
-        local_ip: 172.16.0.37
+        peer_ip: "{{ p2p.link11.1}}"
+        local_ip: "{{ p2p.link11.2}}"
