@@ -15,7 +15,7 @@ http://www.juniper.net/assets/us/en/local/pdf/whitepapers/2000606-en.pdf
 
 # 1. Sample Ansible project to generate EVPN/VXLAN configuration for a multi-pod/multi-tenant EVPN Fabric
 
-![sample topology][sample-topology-diagram.png]
+![sample topology](sample-topology-diagram.png?raw=true)
 
 This project is simulating the creation of a 2 pods EVPN/VXLAN Fabric, POD1 & POD2:
 - Each POD is composed of 2 spine and 2 leaf
