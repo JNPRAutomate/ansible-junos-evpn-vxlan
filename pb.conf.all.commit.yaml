@@ -1,0 +1,21 @@
+---
+# This playbook will generate and apply configuration to all of the devices
+
+- include: pb.conf.all.yaml
+- name: Apply configuration
+  hosts: all
+  connection: local
+  gather_facts: no
+  roles:
+    - Juniper.junos
+  tasks:
+    - name: Pushing config ... please wait
+      junos_install_config: >
+        host={{ junos_host }}
+        port={{ netconf_port }}
+        user={{ ansible_ssh_user }}
+        passwd={{ ansible_ssh_pass }}
+        file={{ junos_conf }}
+        overwrite=yes
+        replace=no
+        logfile=/tmp/changes.log

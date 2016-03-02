@@ -21,3 +21,5 @@ global:
         contact: John Doe
         polling:
         - community: public
+    routes:
+        172.0.0.0/8: 10.94.194.254

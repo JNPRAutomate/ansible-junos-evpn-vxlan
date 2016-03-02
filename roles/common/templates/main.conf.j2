@@ -51,7 +51,7 @@ interfaces {
     lo0 {
         unit 0 {
             family inet {
-                address {{ host.loopback.ip }}/32
+                address {{ loopback_ip }}/32
             }
         }
     }
@@ -66,9 +66,17 @@ snmp {
 {% endfor %}
 }
 routing-options {
-    static {
-        route 0.0.0.0/0 next-hop {{ mgmt_sub_gw }};
+{% if global.routes.static is defined %}
+  static {
+{% for route, next_hop in global.routes.static.iteritems() %}
+    route {{ route }} {
+      next-hop {{ next_hop }};
+      retain;
+      no-readvertise;
     }
+{% endfor %}
+  }
+{% endif %}
 }
 
 protocols {

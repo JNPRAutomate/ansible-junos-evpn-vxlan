@@ -2,5 +2,4 @@
 underlay:
     networks:
         loopbacks: 1.1.0.0/16
-        irb: 192.168.0.0/16
-        underlay: 171.0.0.0/16
+        underlay: 172.16.0.0/16

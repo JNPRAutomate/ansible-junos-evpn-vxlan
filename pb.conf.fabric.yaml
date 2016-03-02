@@ -1,0 +1,9 @@
+---
+- name: Create and apply configuration for Fabric
+  hosts: fabric
+  connection: local
+  gather_facts: no
+  roles:
+    - common
+    - underlay-ebgp
+    - build-config

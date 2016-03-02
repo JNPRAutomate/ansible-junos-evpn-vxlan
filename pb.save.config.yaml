@@ -1,0 +1,20 @@
+# This task gets all Junos configuration from all devices
+- name: Get configuration
+  hosts: all
+  connection: local
+  gather_facts: no
+  roles:
+    - Juniper.junos
+  tasks:
+    - name: Check if directory config_save/ is present
+      file: path=config_save/ state=directory
+      run_once: true
+
+    - name: Getting config from device ... please wait
+      junos_get_config:
+        host={{ junos_host }}
+        port={{ netconf_port }}
+        user={{ ansible_ssh_user }}
+        passwd={{ ansible_ssh_pass }}
+        dest=config_save/{{ inventory_hostname }}.save.conf
+        logfile=/tmp/ansible.changes.log

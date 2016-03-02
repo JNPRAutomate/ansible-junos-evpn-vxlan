@@ -1,7 +1,5 @@
 ---
-# This named task uses the Ansible template module to generate the based part
-# of an MC-LAG configuration
-- name: Building EVPN-VXLAN configuration for LEAF / QFX / L3
+- name: Building EVPN-VXLAN configuration for QFX / L3
   template: >
     src=main.conf.j2
-    dest={{ build_dir }}/overlay.leaf.qfx.conf.part
+    dest={{ build_dir }}/overlay.qfx.l3.conf.part

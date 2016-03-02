@@ -1,0 +1,8 @@
+---
+- name: Generate variables
+  hosts: [spine,leaf]
+  connection: local
+  gather_facts: no
+  roles:
+    - generate-p2p-ips
+    - generate-tenant-vni

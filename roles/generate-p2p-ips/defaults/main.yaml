@@ -1,0 +1,5 @@
+
+generate_p2p:
+  nbr_link: 10
+  network_size: 31
+  network_pool: 100.0.0.0/24
