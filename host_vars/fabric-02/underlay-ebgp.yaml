@@ -1,0 +1,24 @@
+underlay:
+    local:
+        asn: 60002
+    neighbors:
+      - interface: "{{ topo[inventory_hostname].port1.name }}"
+        name: "{{ topo[inventory_hostname].port1.peer }}"
+        asn: 60011
+        peer_ip: "{{ p2p.link2.1}}"
+        local_ip: "{{ p2p.link2.2}}"
+      - interface: "{{ topo[inventory_hostname].port2.name }}"
+        name: "{{ topo[inventory_hostname].port2.peer }}"
+        asn: 60012
+        peer_ip: "{{ p2p.link4.1}}"
+        local_ip: "{{ p2p.link4.2}}"
+      - interface: "{{ topo[inventory_hostname].port3.name }}"
+        name: "{{ topo[inventory_hostname].port3.peer }}"
+        asn: 60013
+        peer_ip: "{{ p2p.link6.1}}"
+        local_ip: "{{ p2p.link6.2}}"
+      - interface: "{{ topo[inventory_hostname].port4.name }}"
+        name: "{{ topo[inventory_hostname].port4.peer }}"
+        asn: 60014
+        peer_ip: "{{ p2p.link8.1}}"
+        local_ip: "{{ p2p.link8.2}}"

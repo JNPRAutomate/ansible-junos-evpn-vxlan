@@ -1,0 +1,11 @@
+---
+- name: Create and apply configuration for Leaf QFX / L3
+  hosts: leaf-qfx-l3
+  connection: local
+  gather_facts: no
+  roles:
+    - common
+    - underlay-ebgp
+    - overlay-evpn-qfx-l3
+    - overlay-evpn-access
+    - build-config

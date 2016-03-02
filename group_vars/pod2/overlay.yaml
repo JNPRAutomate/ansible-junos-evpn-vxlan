@@ -1,0 +1,7 @@
+overlay:
+    local:
+        asn: 65200
+    neighbors: [ 100.0.0.13, 100.0.0.14 ]   ## Used by Leaf
+    remote_gw: [ 100.0.0.11, 100.0.0.12 ]   ## Used by Leaf
+
+    community: target:12345:222             ## Used by Spine

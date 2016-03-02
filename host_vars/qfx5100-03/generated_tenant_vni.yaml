@@ -1,0 +1,29 @@
+
+overlay:
+    tenants:
+      tenant10:
+        id: 10
+        bridge_domains:
+        - vlan_id: 100
+          vni_id: 9100
+        - vlan_id: 101
+          vni_id: 9101
+        - vlan_id: 102
+          vni_id: 9102
+        - vlan_id: 103
+          vni_id: 9103
+        - vlan_id: 104
+          vni_id: 9104
+      tenant11:
+        id: 11
+        bridge_domains:
+        - vlan_id: 105
+          vni_id: 9105
+        - vlan_id: 106
+          vni_id: 9106
+        - vlan_id: 107
+          vni_id: 9107
+        - vlan_id: 108
+          vni_id: 9108
+        - vlan_id: 109
+          vni_id: 9109

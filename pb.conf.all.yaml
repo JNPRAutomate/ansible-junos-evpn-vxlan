@@ -1,0 +1,8 @@
+---
+
+- include: pb.init.make_clean.yaml
+- include: pb.conf.leaf.qfx.l2.yaml
+- include: pb.conf.leaf.qfx.l3.yaml
+- include: pb.conf.spine.qfx.yaml
+- include: pb.conf.spine.mx.yaml
+- include: pb.conf.fabric.yaml

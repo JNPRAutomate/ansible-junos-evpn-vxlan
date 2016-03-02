@@ -1,0 +1,7 @@
+---
+
+- name: Generate P2P IPs
+  template: >
+    src=main.conf.j2
+    dest=group_vars/all/generated_p2p_ips.yaml
+  run_once: true

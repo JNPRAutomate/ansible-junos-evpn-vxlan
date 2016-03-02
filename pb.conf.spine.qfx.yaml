@@ -1,0 +1,10 @@
+---
+- name: Create and apply configuration for Spines / QFX
+  hosts: spine-qfx
+  connection: local
+  gather_facts: no
+  roles:
+    - common
+    - underlay-ebgp
+    - overlay-evpn-qfx-l3
+    - build-config
