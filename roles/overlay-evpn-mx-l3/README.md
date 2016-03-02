@@ -62,11 +62,6 @@ overlay:
     local_ip: 212
     rr_bgp: [ 100.0.0.11, 100.0.0.13, 100.0.0.14 ]
     neighbors: [ 100.0.0.21, 100.0.0.22 ]
-    tenants:
-      tenant10:
-        lo0_ip: 100.10.0.12
-      tenant20:
-        lo0_ip: 100.20.0.12
 ```
 
 ```yaml
