@@ -1,4 +1,5 @@
 underlay:
+    community: target:12345:222
     local:
         asn: 60013
     neighbors:
