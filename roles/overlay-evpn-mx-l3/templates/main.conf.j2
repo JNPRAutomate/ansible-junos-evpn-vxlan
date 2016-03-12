@@ -82,6 +82,7 @@ routing-instances {
                 vlan-id  {{ bd.vlan_id }};
                 vxlan {
                     vni {{ bd.vni_id }};
+                    ingress-node-replication;
                 }
             }
 {% endfor %}
