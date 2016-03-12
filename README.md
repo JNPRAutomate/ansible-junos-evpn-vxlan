@@ -6,7 +6,6 @@ In this project you'll find:
 - (1) **Sample project for ansible** with Playbooks and variables to generate EVPN/VXLAN configuration for multi-pod EVPN/Fabric in a multi-tenants environment.
 - (2) **[Examples of configuration](config)** EVPN/VXLAN for QFX5k, QFX10k & MX.
 - (3) Severals **Jinja2 templates**, packaged and documented into [Ansible roles](roles) that can be **reuse in other Ansible projects** to easily generate Overlay & Underlay configuration.
-- (4) **Design recommendations** to build an EVPN/VXLAN Fabric today
 
 # Info on EVPN/VXLAN
 
@@ -133,22 +132,6 @@ Each one is specific to a role in the architecture and is specific to device cap
 - ['build-config' role](roles/build-config)  # Assemble all configuration snippet from other roles
 - ['generate-tenant-vni' role](roles/generate-tenant-vni)   # Generate variables files to scale Tenant and VNI
 - ['generate-p2p-ips' role](roles/generate-p2p=ips)   # Generate network and ip addresses for P2P links
-
-# 4. Design recommendations to build an EVPN Fabric with eBGP as underlay
-
-## 4.1. No default gateway
-When an IP fabric is used as an underlay, to support an overlay (for example EVPN/VXLAN)
-It's important that all loopback addresses present in the routing table are reachable.
-
-If the device is configured with a default GW, all loopback learned on the overlay will be installed on the routing table assuming that it can be reached using the default gateway.
-
-*As a solution, it's recommended to not use a default GW on the device*
-
-## 4.2. Multi-pod environment
-
-
-## 4.3. Leaf specific policy
-
 
 # Requirements
  - Ansible
