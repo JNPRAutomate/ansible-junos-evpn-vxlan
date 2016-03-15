@@ -5,8 +5,8 @@ access:
             description: "{{ topo[inventory_hostname].port3.peer }}"
             mode: normalize
             vni_vlans_mapping:
-              1000:  10
-              1001:  11
+              9105:  10
+              9106:  11
         -   name: "{{ topo[inventory_hostname].port4.name }}"
             description: "{{ topo[inventory_hostname].port4.peer }}"
             mode: normalize
