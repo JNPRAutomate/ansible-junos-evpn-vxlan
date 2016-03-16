@@ -76,7 +76,7 @@ routing-instances {
         bridge-domains {
 {% for bd in tenant.bridge_domains %}
             bd{{ bd.vni_id }} {
-{% if bd.network is defined %}
+{% if bd.local_ip is defined %}
                 routing-interface irb.{{ bd.vlan_id }};
 {% endif %}
                 vlan-id  {{ bd.vlan_id }};

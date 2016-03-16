@@ -149,7 +149,7 @@ vlans {
 {% for bd in tenant.bridge_domains %}
     bd{{ bd.vni_id }} {
         vlan-id {{ bd.vlan_id }};
-{% if bd.network is defined %}
+{% if bd.local_ip is defined %}
         l3-interface irb.{{ bd.vlan_id }};
 {% endif %}
         vxlan {
