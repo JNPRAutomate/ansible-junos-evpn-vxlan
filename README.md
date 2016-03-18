@@ -133,6 +133,10 @@ Each one is specific to a role in the architecture and is specific to device cap
 - ['generate-tenant-vni' role](roles/generate-tenant-vni)   # Generate variables files to scale Tenant and VNI
 - ['generate-p2p-ips' role](roles/generate-p2p=ips)   # Generate network and ip addresses for P2P links
 
+# Contributing
+
+Please refer to the file [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+
 # Requirements
  - Ansible
  - [juniper.junos module for Ansible](https://github.com/Juniper/ansible-junos-stdlib) (min 1.2.2)
