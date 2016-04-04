@@ -2,7 +2,7 @@
 overlay:
     tenants:
       tenant10:
-        lo0_ip: 200.0.10.2
+        lo0_ip: 101.0.10.2
         id: 10
         bridge_domains:
         - vlan_id: 100
@@ -31,7 +31,7 @@ overlay:
           local_ip: 100.0.5.2
           mask: 24
       tenant11:
-        lo0_ip: 200.0.11.2
+        lo0_ip: 101.0.11.2
         id: 11
         bridge_domains:
         - vlan_id: 105

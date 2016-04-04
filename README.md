@@ -27,7 +27,7 @@ This project is simulating the creation of a 2 pods EVPN/VXLAN Fabric, POD1 & PO
 - Leaf are configured with standard trunk interface facing servers,
 - 1 server is dual-attached to both leaf using EVPN/ESI and LACP
 
-All devices names, Ip addresses loopback addresses etc .. are defined in the [inventory file named hosts](hosts).
+All devices names, Ip addresses loopback addresses etc .. are defined in the [inventory file named hosts.ini](hosts.ini).
 All physical connections are defined in the [topology file under group_vars/all](group_vars/all/topology.yaml).  
 
 ## 1.1. Regenerate configurations
@@ -36,7 +36,7 @@ Even without real devices, it's possible to regenerate configurations for all de
 
 To verify that Ansible & Ansible Junos module for Ansible are properly installed, you can try to regenerate all configs with this command:
 ```
-ansible-playbook -i hosts pb.conf.all.yaml
+ansible-playbook -i hosts.ini pb.conf.all.yaml
 ```
 
 > By default, all configurations generated will be stored under the directory ```config/``` and will replace existing > configuration store there
@@ -52,8 +52,8 @@ To scale the configuration, you need to change some input parameters in the file
 
 Once the input file is modified, you need to regenerate variables first and them regenerate configurations.
 ```
-ansible-playbook -i hosts pb.generate.variables.yaml
-ansible-playbook -i hosts pb.conf.all.yaml
+ansible-playbook -i hosts.ini pb.generate.variables.yaml
+ansible-playbook -i hosts.ini pb.conf.all.yaml
 ```
 
 **Other Available Playbooks**
