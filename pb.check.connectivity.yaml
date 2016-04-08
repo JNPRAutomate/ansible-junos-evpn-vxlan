@@ -1,0 +1,11 @@
+# This task gets all Junos configuration from all devices
+- name: Checking SSH connectivity
+  hosts: all
+  connection: local
+  gather_facts: no
+  vars:
+    ssh_timeout: 5
+  roles:
+    - Juniper.junos
+  tasks:
+    - wait_for: host={{ junos_host }} port=22 timeout={{ ssh_timeout }}

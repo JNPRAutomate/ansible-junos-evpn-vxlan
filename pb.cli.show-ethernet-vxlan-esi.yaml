@@ -1,0 +1,21 @@
+- name: Execute
+  hosts: all
+  connection: local
+  gather_facts: no
+  roles:
+    - Juniper.junos
+  tasks:
+    - name: Check if directory cmd_output/ is present
+      file: path=cmd_output/ state=directory
+      run_once: true
+
+    - name: "show ethernet-switching vxlan-tunnel-end-point esi"
+      junos_cli: >
+        host={{ junos_host }}
+        port={{ netconf_port }}
+        user={{ ansible_ssh_user }}
+        passwd={{ ansible_ssh_pass }}
+        format=text
+        cli="show ethernet-switching vxlan-tunnel-end-point esi"
+        dest=cmd_output/{{inventory_hostname}}_show_ethernet_vxlan_esi.txt
+        logfile=/tmp/changes.log

@@ -75,6 +75,11 @@ pb.conf.spine.qfx.yaml            # Generate configuration for group 'spines-qfx
 pb.init.make_clean.yaml           # Create temp directory for all devices
 
 pb.generate.variables.yaml        # Regenerate variables files for p2p links, Tenants and VNI
+
+pb.check.connectivity.yaml        # check if all devices are reachable via SSH
+
+pb.cli.show-bgp-summary.yaml        # Execute 'show bgp summary' on all devices and copy results in local directory
+pb.cli.show-ethernet-vxlan-esi.yaml # Execute 'show ethernet-switching vxlan-tunnel-end-point esi' on all devices and copy results in local directory
 ```
 
 # 2. Examples of configuration
