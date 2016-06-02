@@ -11,8 +11,9 @@ env:
   - ANSIBLE_VERSION=2.1.0.0
 
 install:
+  - pip install -r requirements.txt
   - pip install -q ansible==$ANSIBLE_VERSION
-  - ansible-galaxy install -p Juniper.junos
+  - ansible-galaxy install Juniper.junos -p ./roles
 
 script:
   - ansible-playbook pb.conf.all.yaml
