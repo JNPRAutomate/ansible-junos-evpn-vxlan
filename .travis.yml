@@ -12,7 +12,7 @@ env:
 
 install:
   - pip install -q ansible==$ANSIBLE_VERSION
-  - ansible-galaxy install -p Juniper.junos
+  - ansible-galaxy install Juniper.junos
 
 script:
   - ansible-playbook pb.conf.all.yaml
