@@ -1,0 +1,19 @@
+language: python
+python:
+  - 2.7
+
+sudo: required
+dist: trusty
+
+env:
+  - ANSIBLE_VERSION=1.9.6
+#  - ANSIBLE_VERSION=2.0.2.0
+#  - ANSIBLE_VERSION=2.0.0.2
+
+install:
+  - pip install -q ansible==$ANSIBLE_VERSION
+  - ansible-galaxy install -p Juniper.junos
+
+script:
+  - ansible-playbook pb.conf.all.yaml
+  - ansible-playbook pb.generate.variables.yaml
