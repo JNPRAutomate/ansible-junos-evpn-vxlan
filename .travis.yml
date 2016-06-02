@@ -12,6 +12,8 @@ env:
 
 install:
   - pip install -q ansible==$ANSIBLE_VERSION
+
+before_script:
   - sudo ansible-galaxy install Juniper.junos
 
 script:
