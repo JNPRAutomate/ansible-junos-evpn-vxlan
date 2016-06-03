@@ -3,6 +3,8 @@
   hosts: [spine,leaf]
   connection: local
   gather_facts: no
+  pre_tasks:
+    - include_vars: "{{ topology_file }}"
   roles:
     - generate-p2p-ips
     - generate-tenant-vni

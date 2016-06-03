@@ -3,6 +3,8 @@
   hosts: spine-qfx
   connection: local
   gather_facts: no
+  pre_tasks:
+    - include_vars: "{{ topology_file }}"
   roles:
     - common
     - underlay-ebgp

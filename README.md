@@ -36,7 +36,7 @@ Even without real devices, it's possible to regenerate configurations for all de
 
 To verify that Ansible & Ansible Junos module for Ansible are properly installed, you can try to regenerate all configs with this command:
 ```
-ansible-playbook -i hosts.ini pb.conf.all.yaml
+ansible-playbook pb.conf.all.yaml
 ```
 
 > By default, all configurations generated will be stored under the directory ```config/``` and will replace existing > configuration store there
@@ -52,8 +52,8 @@ To scale the configuration, you need to change some input parameters in the file
 
 Once the input file is modified, you need to regenerate variables first and them regenerate configurations.
 ```
-ansible-playbook -i hosts.ini pb.generate.variables.yaml
-ansible-playbook -i hosts.ini pb.conf.all.yaml
+ansible-playbook pb.generate.variables.yaml
+ansible-playbook pb.conf.all.yaml
 ```
 
 **Other Available Playbooks**
@@ -132,11 +132,42 @@ Each one is specific to a role in the architecture and is specific to device cap
 - ['overlay-evpn-access' role](roles/overlay-evpn-access)  # Create access ports configuration to maps existing resources into the overlay (Trunk/LAG/ESI/Vlan mapping)
 
 ## 3.3. Other Roles
-
 - ['common' role](roles/common/)         # Generate base configuration
 - ['build-config' role](roles/build-config)  # Assemble all configuration snippet from other roles
 - ['generate-tenant-vni' role](roles/generate-tenant-vni)   # Generate variables files to scale Tenant and VNI
 - ['generate-p2p-ips' role](roles/generate-p2p=ips)   # Generate network and ip addresses for P2P links
+
+# How to use this project on my own topology.
+
+This project has been designed to be easily deploy on multiple topologies, physical or virtual.  
+As much as possible, all information related to a given topology (interface names, device names etc ..) are centralized in 2 files:
+- **The topology file [sample-topology.yaml](sample-topology.yaml)**, this file contains:
+  - Information required to construct the base configuration (login, dns, ntp etc ..)
+  - All physical interface names
+  - Directories to use to generate the configuration
+- **The inventory file [hosts.ini](hosts.ini)**, this file contains:
+  - Device names
+  - Device roles in the architecture (using ansible groups)
+  - Management IP addresses and loopback
+  - Login, password, management gateway etc ..
+  - The name of the topology file
+
+When you call an Ansible playbook, you can specify explicitly the inventory file by using the option `-i`  
+>To align, the name of the topology file needs to be define inside the inventory file
+
+```python
+# Generate configurations for the sample-topology
+ansible-playbook -i hosts.ini pb.conf.all.yaml
+
+# Generate configurations for your own topology
+ansible-playbook -i mytopology.ini pb.conf.all.yaml
+```
+
+It's very easy to create your own inventory and topology files to adapt device IP, device type and interface names to your environment assuming you have the same base design.  
+> it's not recommended to change device names because all variables directories depend on the name
+
+> It's also possible to generate your own design but it will require a little bit more customization.  
+> Documentation is not yet available on this part, Please open start a discussion on the issue tracker if you need help with that
 
 # Contributing
 

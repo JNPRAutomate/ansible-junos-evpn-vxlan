@@ -3,6 +3,8 @@
   hosts: all
   connection: local
   gather_facts: no
+  pre_tasks:
+    - include_vars: "{{ topology_file }}"
   roles:
     - Juniper.junos
   tasks:
@@ -12,9 +14,9 @@
 
     - name: Getting config from device ... please wait
       junos_get_config:
-        host={{ junos_host }}
-        port={{ netconf_port }}
-        user={{ ansible_ssh_user }}
-        passwd={{ ansible_ssh_pass }}
-        dest=config_save/{{ inventory_hostname }}.save.conf
-        logfile=/tmp/ansible.changes.log
+        host: "{{ junos_host }}"
+        port: "{{ netconf_port }}"
+        user: "{{ ansible_ssh_user }}"
+        passwd: "{{ ansible_ssh_pass }}"
+        dest: "config_save/{{ inventory_hostname }}.save.conf"
+        logfile: /tmp/ansible.changes.log
