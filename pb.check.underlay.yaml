@@ -25,7 +25,6 @@
           - "result[0]['interface-information']['physical-interface']['oper-status'] eq up"
       with_items: "{{ underlay.neighbors }}"
       register: ints
-    - debug: var=ints verbosity=2
 
 ##################################################################
 ## Check if all Underlay BGP peers are in Established status
@@ -39,4 +38,3 @@
           - "result[0]['bgp-information']['bgp-peer']['peer-state'] eq Established"
       with_items: "{{ underlay.neighbors }}"
       register: bgp
-    - debug: var=bgp verbosity=2
