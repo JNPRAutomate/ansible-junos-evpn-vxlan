@@ -1,0 +1,40 @@
+
+- name: Checking Underlay health
+  hosts: all
+  connection: local
+  gather_facts: no
+  pre_tasks:
+    - include_vars: "{{ topology_file }}"
+  vars:
+    credential:
+      host: "{{ junos_host }}"
+      port: "{{ netconf_port }}"
+      username: "{{ ansible_ssh_user }}"
+      password: "{{ ansible_ssh_pass }}"
+
+  tasks:
+##################################################################
+## Check if all interfaces that are part of the Underlay are UP
+##################################################################
+    - name: "Check Physical Interface Status"
+      junos_command:
+        commands:
+          - "show interfaces terse {{ item.interface }}"
+        provider: "{{ credential }}"
+        waitfor:
+          - "result[0]['interface-information']['physical-interface']['oper-status'] eq up"
+      with_items: "{{ underlay.neighbors }}"
+      register: ints
+
+##################################################################
+## Check if all Underlay BGP peers are in Established status
+##################################################################
+    - name: "Check BGP Peer Status"
+      junos_command:
+        commands:
+          - "show bgp neighbor {{ item.peer_ip }}"
+        provider: "{{ credential }}"
+        waitfor:
+          - "result[0]['bgp-information']['bgp-peer']['peer-state'] eq Established"
+      with_items: "{{ underlay.neighbors }}"
+      register: bgp

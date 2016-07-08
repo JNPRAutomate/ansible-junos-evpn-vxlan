@@ -8,16 +8,18 @@
   gather_facts: no
   pre_tasks:
     - include_vars: "{{ topology_file }}"
-  roles:
-    - Juniper.junos
+  vars:
+    credential:
+      host: "{{ junos_host }}"
+      port: "{{ netconf_port }}"
+      username: "{{ ansible_ssh_user }}"
+      password: "{{ ansible_ssh_pass }}"
+
   tasks:
     - name: Pushing config ... please wait
-      junos_install_config: >
-        host={{ junos_host }}
-        port={{ netconf_port }}
-        user={{ ansible_ssh_user }}
-        passwd={{ ansible_ssh_pass }}
-        file={{ junos_conf }}
-        overwrite=yes
-        replace=no
-        logfile=/tmp/changes.log
+      junos_template:
+        src: "{{ junos_conf }}"
+        action: overwrite
+        comment: "Applied by Ansible"
+        provider: "{{ netconf }}"
+      register: result

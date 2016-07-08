@@ -1,11 +1,12 @@
 # Ansible Junos Configuration for EVPN/VXLAN
 
-Sample project using Ansible and Jinja2 template to automatically generate configurations for Juniper devices deployed in EVPN/VXLAN Fabric mode.
+Sample project using Ansible and Jinja2 template to generate configurations and manage Juniper devices deployed in EVPN/VXLAN Fabric mode.
 
 In this project you'll find:
 - (1) **Sample project for ansible** with Playbooks and variables to generate EVPN/VXLAN configuration for multi-pod EVPN/Fabric in a multi-tenants environment.
 - (2) **[Examples of configuration](config)** EVPN/VXLAN for QFX5k, QFX10k & MX.
 - (3) Severals **Jinja2 templates**, packaged and documented into [Ansible roles](roles) that can be **reuse in other Ansible projects** to easily generate Overlay & Underlay configuration.
+- (4) **Playbook to check the health** of an EVPN/VXLAN Fabric.
 
 # Info on EVPN/VXLAN
 
@@ -39,7 +40,7 @@ To verify that Ansible & Ansible Junos module for Ansible are properly installed
 ansible-playbook pb.conf.all.yaml
 ```
 
-> By default, all configurations generated will be stored under the directory ```config/``` and will replace existing > configuration store there
+> By default, all configurations generated will be stored under the directory `config/` and will replace existing > configuration store there
 
 ## Scale configurations
 
@@ -76,10 +77,14 @@ pb.init.make_clean.yaml           # Create temp directory for all devices
 
 pb.generate.variables.yaml        # Regenerate variables files for p2p links, Tenants and VNI
 
-pb.check.connectivity.yaml        # check if all devices are reachable via SSH
+pb.check.connectivity.yaml        # Check if all devices are reachable via Netconf
+pb.check.underlay.yaml            # Check the heath of the underlay
+pb.check.overlay.yaml             # Check the health of the overlay
 
-pb.cli.show-bgp-summary.yaml        # Execute 'show bgp summary' on all devices and copy results in local directory
-pb.cli.show-ethernet-vxlan-esi.yaml # Execute 'show ethernet-switching vxlan-tunnel-end-point esi' on all devices and copy results in local directory
+# This project has been updated to use the new Junos modules available in Ansible 2.1
+# Some playbooks are also provided with the Junipe.junos modules available in Ansible Galaxy.
+pb.conf.all.commit.galaxy.yaml    # Generate, assemble, push and commit configuration to all devices
+                                  # using the Junos modules provided in Ansible Galaxy
 ```
 
 # 2. Examples of configuration
