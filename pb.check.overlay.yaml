@@ -1,0 +1,42 @@
+
+- name: Checking Overlay health
+  hosts: all
+  connection: local
+  gather_facts: no
+  pre_tasks:
+    - include_vars: "{{ topology_file }}"
+  vars:
+    credential:
+      host: "{{ junos_host }}"
+      port: "{{ netconf_port }}"
+      username: "{{ ansible_ssh_user }}"
+      password: "{{ ansible_ssh_pass }}"
+
+  tasks:
+
+##################################################################
+## Check if Overlay BGP peers between Spine/Leaf are in Established status
+##################################################################
+    - name: "Check BGP Peer between Spine/Leaf Status"
+      junos_command:
+        commands:
+          - "show bgp neighbor {{ item }}"
+        provider: "{{ credential }}"
+        waitfor:
+          - "result[0]['bgp-information']['bgp-peer']['peer-state'] eq Established"
+      with_items: "{{ overlay.neighbors }}"
+      register: bgp
+
+##################################################################
+## Check if Overlay BGP peers between Spine/Leaf are in Established status
+##################################################################
+    - name: "Check BGP Peer between Spine/RR Status"
+      junos_command:
+        commands:
+          - "show bgp neighbor {{ item }}"
+        provider: "{{ credential }}"
+        waitfor:
+          - "result[0]['bgp-information']['bgp-peer']['peer-state'] eq Established"
+      with_items: "{{ overlay.rr_bgp }}"
+      when: overlay.rr_bgp is defined
+      register: bgp_rr
