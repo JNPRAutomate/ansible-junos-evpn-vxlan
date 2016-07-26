@@ -5,6 +5,3 @@ galaxy_info:
   min_ansible_version: 1.9
   categories:
    - networking
-
-dependencies:
-   - { role: Juniper.junos }
