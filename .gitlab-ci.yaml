@@ -1,0 +1,19 @@
+
+before_script:
+  - apt-get update
+  - apt-get install -y python-dev
+  - curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
+  - python get-pip.py
+  - pip install ansible
+
+check_playbooks:
+  stage: test
+  script:
+    - ansible-playbook pb.conf.all.yaml --syntax-check
+    - ansible-playbook pb.check.overlay.yaml --syntax-check
+    - ansible-playbook pb.check.underlay.yaml --syntax-check
+
+deploy_config:
+  stage: deploy
+  script:
+    - ansible-playbook pb.conf.all.yaml
