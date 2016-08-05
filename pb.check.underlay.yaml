@@ -1,6 +1,6 @@
 
 - name: Checking Underlay health
-  hosts: all
+  hosts: [spine,leaf, fabric]
   connection: local
   gather_facts: no
   pre_tasks:
@@ -11,7 +11,8 @@
       port: "{{ netconf_port }}"
       username: "{{ ansible_ssh_user }}"
       password: "{{ ansible_ssh_pass }}"
-
+  roles:
+    - Juniper.junos
   tasks:
 ##################################################################
 ## Check if all interfaces that are part of the Underlay are UP
@@ -27,6 +28,23 @@
       register: ints
 
 ##################################################################
+## Check Connectivity between Underlay peers
+##    Ping are crafted with source and dest IP and TTL one to make
+##    sure they don't get routed on the fabric
+##################################################################
+    - name: "Check Connectivity using Ping "
+      junos_ping:
+        host: "{{ junos_host }}"
+        port: "{{ netconf_port }}"
+        user: "{{ ansible_ssh_user }}"
+        passwd: "{{ ansible_ssh_pass }}"
+        dest_ip: "{{ item.peer_ip }}"
+        source_ip: "{{ item.local_ip }}"
+        interface: "{{ item.interface }}"
+        ttl: 1
+      with_items: "{{ underlay.neighbors }}"
+
+##################################################################
 ## Check if all Underlay BGP peers are in Established status
 ##################################################################
     - name: "Check BGP Peer Status"
@@ -37,4 +55,34 @@
         waitfor:
           - "result[0]['bgp-information']['bgp-peer']['peer-state'] eq Established"
       with_items: "{{ underlay.neighbors }}"
-      register: bgp
+
+###########################################################################
+######## LEAF ONLY
+###########################################################################
+###########################################################################
+## Check Connectivity between Underlay Leafs (any to any)
+##    For each other leaf, pings are sent across all spines with TTL 2
+##
+###########################################################################
+- name: Checking Underlay health cont - Leaf Only
+  hosts: [leaf]
+  connection: local
+  gather_facts: no
+  pre_tasks:
+    - include_vars: "{{ topology_file }}"
+  roles:
+    - Juniper.junos
+  tasks:
+    - name: "Check connectivity ANY2ANY between Leaf"
+      junos_ping:
+        host: "{{ junos_host }}"
+        port: "{{ netconf_port }}"
+        user: "{{ ansible_ssh_user }}"
+        passwd: "{{ ansible_ssh_pass }}"
+        interface: "{{ item[0].interface }}"
+        dest_ip: "{{ hostvars[item[1]].loopback_ip }}"
+        source_ip: "{{ loopback_ip }}"
+        ttl: 2
+      with_nested:
+        - "{{ underlay.neighbors }}"
+        - "{{ groups['leaf'] }}"
