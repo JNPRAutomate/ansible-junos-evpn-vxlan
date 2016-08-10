@@ -1,0 +1,61 @@
+
+- name: Checking Physical Layer status
+  hosts: [spine,leaf]
+  connection: local
+  gather_facts: no
+  pre_tasks:
+    - include_vars: "{{ topology_file }}"
+  vars:
+    credential:
+      host: "{{ junos_host }}"
+      port: "{{ netconf_port }}"
+      username: "{{ ansible_ssh_user }}"
+      password: "{{ ansible_ssh_pass }}"
+  roles:
+    - Juniper.junos
+  tasks:
+
+##################################################################
+## Check if all physical interfaces that are part of the Underlay are UP
+##################################################################
+    - name: "Check Physical Interface Status (core/junos_command)"
+      junos_command:
+        commands:
+          - "show interfaces terse {{ item.interface }}"
+        provider: "{{ credential }}"
+        waitfor:
+          - "result[0]['interface-information']['physical-interface']['oper-status'] eq up"
+      with_items: "{{ underlay.neighbors }}"
+      register: ints
+
+##################################################################
+## Check all LLDP neighbors
+##################################################################
+    - name: "Check LLDP neighbors (core/junos_command)"
+      junos_command:
+        commands:
+          - "show lldp neighbors interface {{ item.interface }}"
+        provider: "{{ credential }}"
+        waitfor:
+           - "result[0]['lldp-neighbors-information']['lldp-neighbor-information']['lldp-remote-system-name'] eq {{ item.name }}"
+      with_items: "{{ underlay.neighbors }}"
+      register: lldp
+
+##################################################################
+## Check interface counter
+##################################################################
+    - name: "Check Interfaces counters (galaxy/junos_jsnapy)"
+      ignore_errors: true
+      junos_jsnapy:
+        host: "{{ junos_host }}"
+        port: "{{ netconf_port }}"
+        user: "{{ ansible_ssh_user }}"
+        passwd: "{{ ansible_ssh_pass }}"
+        test_files: tests/test_junos_interface_ext.yaml
+        action: snapcheck
+      register: test1
+
+    - name: Check JSNAPy tests results
+      assert:
+        that:
+          - "test1.passPercentage == 100"
