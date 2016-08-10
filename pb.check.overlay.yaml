@@ -1,6 +1,6 @@
 
 - name: Checking Overlay health
-  hosts: all
+  hosts: [spine,leaf]
   connection: local
   gather_facts: no
   pre_tasks:
@@ -11,13 +11,30 @@
       port: "{{ netconf_port }}"
       username: "{{ ansible_ssh_user }}"
       password: "{{ ansible_ssh_pass }}"
-
+  roles:
+    - Juniper.junos
   tasks:
+
+##################################################################
+## Check Connectivity between Overlay peers
+##    Ping are crafted with source and dest IP and TTL one to make
+##    sure they don't get routed on the fabric
+##################################################################
+    - name: "Check connectivity between Overlay neighbor using Ping (galaxy/junos_ping)"
+      with_items: "{{ overlay.neighbors }}"
+      junos_ping:
+        host: "{{ junos_host }}"
+        port: "{{ netconf_port }}"
+        user: "{{ ansible_ssh_user }}"
+        passwd: "{{ ansible_ssh_pass }}"
+        dest_ip: "{{ item }}"
+        source_ip: "{{ loopback_ip }}"
+        ttl: 1
 
 ##################################################################
 ## Check if Overlay BGP peers between Spine/Leaf are in Established status
 ##################################################################
-    - name: "Check BGP Peer between Spine/Leaf Status"
+    - name: "Check BGP Peer between Spine/Leaf Status (core/junos_command)"
       junos_command:
         commands:
           - "show bgp neighbor {{ item }}"
@@ -30,7 +47,7 @@
 ##################################################################
 ## Check if Overlay BGP peers between Spine/Leaf are in Established status
 ##################################################################
-    - name: "Check BGP Peer between Spine/RR Status"
+    - name: "Check BGP Peer between Spine/RR Status (core/junos_command)"
       junos_command:
         commands:
           - "show bgp neighbor {{ item }}"

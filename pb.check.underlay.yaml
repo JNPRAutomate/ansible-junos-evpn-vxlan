@@ -1,6 +1,6 @@
 
 - name: Checking Underlay health
-  hosts: [spine,leaf, fabric]
+  hosts: [spine,leaf]
   connection: local
   gather_facts: no
   pre_tasks:
@@ -14,25 +14,13 @@
   roles:
     - Juniper.junos
   tasks:
-##################################################################
-## Check if all interfaces that are part of the Underlay are UP
-##################################################################
-    - name: "Check Physical Interface Status"
-      junos_command:
-        commands:
-          - "show interfaces terse {{ item.interface }}"
-        provider: "{{ credential }}"
-        waitfor:
-          - "result[0]['interface-information']['physical-interface']['oper-status'] eq up"
-      with_items: "{{ underlay.neighbors }}"
-      register: ints
 
 ##################################################################
 ## Check Connectivity between Underlay peers
 ##    Ping are crafted with source and dest IP and TTL one to make
 ##    sure they don't get routed on the fabric
 ##################################################################
-    - name: "Check Connectivity using Ping "
+    - name: "Check Connectivity using Ping (galaxy/junos_ping)"
       junos_ping:
         host: "{{ junos_host }}"
         port: "{{ netconf_port }}"
@@ -47,7 +35,7 @@
 ##################################################################
 ## Check if all Underlay BGP peers are in Established status
 ##################################################################
-    - name: "Check BGP Peer Status"
+    - name: "Check BGP Peer Status (core/junos_command)"
       junos_command:
         commands:
           - "show bgp neighbor {{ item.peer_ip }}"
@@ -73,7 +61,7 @@
   roles:
     - Juniper.junos
   tasks:
-    - name: "Check connectivity ANY2ANY between Leaf"
+    - name: "Check connectivity ANY2ANY between Leaf (galaxy/junos_ping)"
       junos_ping:
         host: "{{ junos_host }}"
         port: "{{ netconf_port }}"

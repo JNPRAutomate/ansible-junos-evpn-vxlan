@@ -1,0 +1,6 @@
+---
+
+- include: pb.check.connectivity.yaml
+- include: pb.check.physical.yaml
+- include: pb.check.underlay.yaml
+- include: pb.check.overlay.yaml
