@@ -6,6 +6,9 @@ before_script:
   - pip install ansible
   - git clone https://github.com/Juniper/ansible-junos-stdlib.git roles/Juniper.junos
 
+#################################################
+## Execute TEST Stage on all branches          ##
+#################################################
 check_playbooks:
   stage: test
   script:
@@ -13,7 +16,12 @@ check_playbooks:
     - ansible-playbook pb.check.overlay.yaml --syntax-check
     - ansible-playbook pb.check.underlay.yaml --syntax-check
 
+#################################################
+## Execute DEPLOY Stage only on Branch Master  ##
+#################################################
 deploy_config:
   stage: deploy
+  only:
+    - master
   script:
     - ansible-playbook pb.conf.all.yaml
