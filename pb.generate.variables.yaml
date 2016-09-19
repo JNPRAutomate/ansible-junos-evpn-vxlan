@@ -8,3 +8,12 @@
   roles:
     - generate-p2p-ips
     - generate-tenant-vni
+
+- name: Generate variables for underlay
+  hosts: [spine,leaf, fabric]
+  connection: local
+  gather_facts: no
+  pre_tasks:
+    - include_vars: "{{ topology_file }}"
+  roles:
+    - generate-underlay-bgp

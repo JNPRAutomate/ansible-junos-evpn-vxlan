@@ -1,0 +1,24 @@
+
+underlay:
+{% for host in groups['leaf'] %}
+{% if inventory_hostname == host %}
+    leaf: true
+{% endif %}
+{% endfor %}
+    local:
+        asn: {{ underlay_as[inventory_hostname] }}
+    community: target:12345:111
+    neighbors:
+{% for portname, portlist in topo[inventory_hostname].iteritems() %}
+{% if portlist.peer != "access" %}
+      - interface: {{ portlist.name }}
+        name: {{ portlist.peer }}
+        asn: {{ underlay_as[portlist.peer] }}
+{% if portlist.linkend == 1 %}
+        peer_ip: {{ p2p[portlist.link][2]}}
+{% else %}
+        peer_ip: {{ p2p[portlist.link][1]}}
+{% endif %}
+        local_ip: {{ p2p[portlist.link][portlist.linkend]}}
+{% endif %}
+{% endfor %}

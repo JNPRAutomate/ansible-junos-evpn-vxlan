@@ -1,29 +1,26 @@
+
 underlay:
-    community: target:12345:222           
-
     local:
-        asn: 60014
+        asn: 60018
+    community: target:12345:111
     neighbors:
-## Fabric
-      - interface: "{{ topo[inventory_hostname].port3.name }}"
-        name: "{{ topo[inventory_hostname].port3.peer }}"
-        asn: 60001
-        peer_ip: "{{ p2p.link7.2}}"
-        local_ip: "{{ p2p.link7.1}}"
-      - interface: "{{ topo[inventory_hostname].port4.name }}"
-        name: "{{ topo[inventory_hostname].port4.peer }}"
-        asn: 60002
-        peer_ip: "{{ p2p.link8.2}}"
-        local_ip: "{{ p2p.link8.1}}"
-
-## Leaf
-      - interface: "{{ topo[inventory_hostname].port1.name }}"
-        name: "{{ topo[inventory_hostname].port1.peer }}"
-        asn: 60023
-        peer_ip: "{{ p2p.link15.2}}"
-        local_ip: "{{ p2p.link15.1}}"
-      - interface: "{{ topo[inventory_hostname].port2.name }}"
-        name: "{{ topo[inventory_hostname].port2.peer }}"
-        asn: 60024
-        peer_ip: "{{ p2p.link16.2}}"
-        local_ip: "{{ p2p.link16.1}}"
+      - interface: et-0/0/60
+        name: fabric-02
+        asn: 60016
+        peer_ip: 172.16.0.23
+        local_ip: 172.16.0.22
+      - interface: et-0/0/67
+        name: leaf-04
+        asn: 60020
+        peer_ip: 172.16.0.31
+        local_ip: 172.16.0.30
+      - interface: et-0/0/61
+        name: fabric-01
+        asn: 60015
+        peer_ip: 172.16.0.19
+        local_ip: 172.16.0.18
+      - interface: et-0/0/66
+        name: leaf-03
+        asn: 60019
+        peer_ip: 172.16.0.29
+        local_ip: 172.16.0.28

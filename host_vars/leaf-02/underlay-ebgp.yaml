@@ -1,15 +1,17 @@
 
 underlay:
+    leaf: true
     local:
-        asn: 60022
-    neighbors:
-      - interface: "{{ topo[inventory_hostname].port1.name }}"
-        name: "{{ topo[inventory_hostname].port1.peer }}"
-        asn: 60011
-        peer_ip: "{{ p2p.link10.1}}"
-        local_ip: "{{ p2p.link10.2}}"
-      - interface: "{{ topo[inventory_hostname].port2.name }}"
-        name: "{{ topo[inventory_hostname].port2.peer }}"
         asn: 60012
-        peer_ip: "{{ p2p.link12.1}}"
-        local_ip: "{{ p2p.link12.2}}"
+    community: target:12345:111
+    neighbors:
+      - interface: et-0/0/51
+        name: spine-02
+        asn: 60014
+        peer_ip: 172.16.0.6
+        local_ip: 172.16.0.7
+      - interface: et-0/0/50
+        name: spine-01
+        asn: 60012
+        peer_ip: 172.16.0.2
+        local_ip: 172.16.0.3
