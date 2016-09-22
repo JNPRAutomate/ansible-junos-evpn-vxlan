@@ -15,10 +15,10 @@ overlay:
         - vlan_id: {{ vlan_id }}
           vni_id: {{ generate_tenant.vni_prefix }}{{ vlan_id }}
 {# If dev_id is defined, generate a network address, VIP address and local address #}
-{% if dev_id is defined %}
+{% if tenant_has_l3 is defined and tenant_has_l3 == "true" %}
 {% set network = generate_tenant.network_pool | ipsubnet(generate_tenant.network_size, i*generate_tenant.nbr_vni_tenant +y + 1 )%}
           vip_ip: {{ network | ipaddr(generate_tenant.vip_id) | ipaddr('address') }}
-          local_ip: {{ network | ipaddr(dev_id) | ipaddr('address') }}
+          local_ip: {{ network | ipaddr(id) | ipaddr('address') }}
           mask: {{ generate_tenant.network_size }}
 {% endif %}
 {% endfor %}
