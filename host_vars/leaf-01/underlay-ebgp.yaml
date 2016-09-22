@@ -7,11 +7,11 @@ underlay:
     neighbors:
       - interface: et-0/0/51
         name: spine-02
-        asn: 60014
+        asn: 60014 
         peer_ip: 172.16.0.4
         local_ip: 172.16.0.5
       - interface: et-0/0/50
         name: spine-01
-        asn: 60012
+        asn: 60012 
         peer_ip: 172.16.0.0
         local_ip: 172.16.0.1

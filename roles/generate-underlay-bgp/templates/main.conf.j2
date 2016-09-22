@@ -10,7 +10,7 @@ underlay:
     community: target:12345:111
     neighbors:
 {% for portname, portlist in topo[inventory_hostname].iteritems() %}
-{% if portlist.peer != "access" %}
+{% if portlist.type is defined and portlist.type == "ebgp" %}
       - interface: {{ portlist.name }}
         name: {{ portlist.peer }}
         asn: {{ underlay_as[portlist.peer] }}
