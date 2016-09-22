@@ -1,0 +1,10 @@
+---
+- name: Create Application on Ravello
+  connection: local
+  hosts: all,pfe
+  gather_facts: no
+  roles:
+    - ravello.lib
+    - ravello.application_create
+  pre_tasks:
+    - include_vars: "{{ topology_file }}"

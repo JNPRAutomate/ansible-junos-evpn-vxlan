@@ -44,7 +44,11 @@ interfaces {
     {{ mgmt_port }} {
         unit 0 {
             family inet {
+{% if dhcp_mgmt_int is defined %}
+              dhcp;
+{% else        %}
               address {{ junos_host }}/{{ mgmt_sub_mask }};
+{% endif %}
             }
         }
     }

@@ -1,0 +1,25 @@
+---
+- name: Get FQDN for all VM on Ravello
+  connection: local
+  hosts: leaf,spine,fabric
+  gather_facts: no
+  roles:
+    - ravello.lib
+    - ravello.get_fqdn
+  pre_tasks:
+    - include_vars: "{{ topology_file }}"
+  vars:
+    ravello:
+      connectivity_check: false
+    ansible_python_interpreter: /usr/local/bin/python
+  tasks:
+    - name: Delete previous file
+      file:
+        path: "host_vars/{{ inventory_hostname}}/fqdn.yaml"
+        state: absent
+
+    - name: Populate Junos Host Variable based on FQDN
+      lineinfile:
+        create: yes
+        dest: "host_vars/{{ inventory_hostname}}/fqdn.yaml"
+        line: "ansible_ssh_host: {{ ravello_public_ip.json.value }}"

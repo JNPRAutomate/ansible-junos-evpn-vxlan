@@ -1,0 +1,12 @@
+---
+- name: Delete Application on Ravello
+  connection: local
+  hosts: all
+  gather_facts: no
+  roles:
+    - ravello.lib
+    - ravello.application_delete
+  vars:
+    ansible_python_interpreter: /usr/local/bin/python
+  pre_tasks:
+    - include_vars: "{{ topology_file }}"

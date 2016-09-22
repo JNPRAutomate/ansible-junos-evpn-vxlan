@@ -1,0 +1,10 @@
+---
+- name: Deploy Application on Ravello
+  connection: local
+  hosts: all
+  gather_facts: no
+  roles:
+    - ravello.lib
+    - ravello.vm_start
+  pre_tasks:
+    - include_vars: "{{ topology_file }}"
