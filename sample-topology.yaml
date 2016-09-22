@@ -33,64 +33,64 @@ global:
 ###   Physical interfaces name                                           ###
 ############################################################################
 topo:
-    fabric-01:
-        port1: { name: et-0/0/15,     peer: spine-01,       pport: port3,     link: link5,    linkend: 2  }
-        port2: { name: et-0/0/14,     peer: spine-02,       pport: port3,     link: link7,    linkend: 2  }
-        port3: { name: et-0/0/13,     peer: spine-03,       pport: port3,     link: link9,    linkend: 2  }
-        port4: { name: et-0/0/12,     peer: spine-04,       pport: port3,     link: link10,   linkend: 2  }
+  fabric-01:
+    port1: { name: et-0/0/15,    peer: spine-01,     pport: port3,     link: 5,    linkend: 2  }
+    port2: { name: et-0/0/14,    peer: spine-02,     pport: port3,     link: 7,    linkend: 2  }
+    port3: { name: et-0/0/13,    peer: spine-03,     pport: port3,     link: 9,    linkend: 2  }
+    port4: { name: et-0/0/12,    peer: spine-04,     pport: port3,     link: 10,   linkend: 2  }
 
-    fabric-02:
-        port1: { name: et-0/0/15,     peer: spine-01,       pport: port4,     link: link6,    linkend: 2  }
-        port2: { name: et-0/0/14,     peer: spine-02,       pport: port4,     link: link8,    linkend: 2  }
-        port3: { name: et-0/0/13,     peer: spine-03,       pport: port4,     link: link11,   linkend: 2  }
-        port4: { name: et-0/0/12,     peer: spine-04,       pport: port4,     link: link12,   linkend: 2  }
+  fabric-02:
+    port1: { name: et-0/0/15,    peer: spine-01,     pport: port4,     link: 6,    linkend: 2  }
+    port2: { name: et-0/0/14,    peer: spine-02,     pport: port4,     link: 8,    linkend: 2  }
+    port3: { name: et-0/0/13,    peer: spine-03,     pport: port4,     link: 11,   linkend: 2  }
+    port4: { name: et-0/0/12,    peer: spine-04,     pport: port4,     link: 12,   linkend: 2  }
 
-    spine-01:
-        port1: { name: et-0/0/66,    peer: leaf-01,         pport: port1,     link: link1,   linkend: 1 }
-        port2: { name: et-0/0/67,    peer: leaf-02,         pport: port1,     link: link1,   linkend: 1 }
-        port3: { name: et-0/0/58,    peer: fabric-01,       pport: port1,     link: link5,   linkend: 1 }
-        port4: { name: et-0/0/59,    peer: fabric-02,       pport: port1,     link: link6,   linkend: 1 }
+  spine-01:
+    port1: { name: et-0/0/66,    peer: leaf-01,      pport: port1,     link: 1,   linkend: 1 }
+    port2: { name: et-0/0/67,    peer: leaf-02,      pport: port1,     link: 1,   linkend: 1 }
+    port3: { name: et-0/0/58,    peer: fabric-01,    pport: port1,     link: 5,   linkend: 1 }
+    port4: { name: et-0/0/59,    peer: fabric-02,    pport: port1,     link: 6,   linkend: 1 }
 
-    spine-02:
-        port1: { name: et-0/0/66,   peer: leaf-01,          pport: port2,     link: link3,   linkend: 1 }
-        port2: { name: et-0/0/67,   peer: leaf-02,          pport: port2,     link: link4,   linkend: 1 }
-        port3: { name: et-0/0/58,    peer: fabric-01,       pport: port2,     link: link7,   linkend: 1 }
-        port4: { name: et-0/0/59,    peer: fabric-02,       pport: port2,     link: link8,   linkend: 1 }
+  spine-02:
+    port1: { name: et-0/0/66,    peer: leaf-01,      pport: port2,     link: 3,   linkend: 1 }
+    port2: { name: et-0/0/67,    peer: leaf-02,      pport: port2,     link: 4,   linkend: 1 }
+    port3: { name: et-0/0/58,    peer: fabric-01,    pport: port2,     link: 7,   linkend: 1 }
+    port4: { name: et-0/0/59,    peer: fabric-02,    pport: port2,     link: 8,   linkend: 1 }
 
-    spine-03:
-        port1: { name: et-0/0/66,    peer: leaf-04,         pport: port1,     link: link13,   linkend: 1 }
-        port2: { name: et-0/0/67,    peer: leaf-03,         pport: port1,     link: link14,   linkend: 1 }
-        port3: { name: et-0/0/61,    peer: fabric-01,       pport: port3,     link: link9,    linkend: 1 }
-        port4: { name: et-0/0/60,    peer: fabric-02,       pport: port3,     link: link11,   linkend: 1 }
+  spine-03:
+    port1: { name: et-0/0/66,    peer: leaf-04,      pport: port1,     link: 13,   linkend: 1 }
+    port2: { name: et-0/0/67,    peer: leaf-03,      pport: port1,     link: 14,   linkend: 1 }
+    port3: { name: et-0/0/61,    peer: fabric-01,    pport: port3,     link: 9,    linkend: 1 }
+    port4: { name: et-0/0/60,    peer: fabric-02,    pport: port3,     link: 11,   linkend: 1 }
 
-    spine-04:
-        port1: { name: et-0/0/66,    peer: leaf-03,         pport: port2,     link: link15,   linkend: 1 }
-        port2: { name: et-0/0/67,    peer: leaf-04,         pport: port2,     link: link16,   linkend: 1 }
-        port3: { name: et-0/0/61,    peer: fabric-01,       pport: port4,     link: link10,   linkend: 1 }
-        port4: { name: et-0/0/60,    peer: fabric-02,       pport: port4,     link: link12,   linkend: 1 }
+  spine-04:
+    port1: { name: et-0/0/66,    peer: leaf-03,      pport: port2,     link: 15,   linkend: 1 }
+    port2: { name: et-0/0/67,    peer: leaf-04,      pport: port2,     link: 16,   linkend: 1 }
+    port3: { name: et-0/0/61,    peer: fabric-01,    pport: port4,     link: 10,   linkend: 1 }
+    port4: { name: et-0/0/60,    peer: fabric-02,    pport: port4,     link: 12,   linkend: 1 }
 
-    leaf-01:
-        port1: { name: et-0/0/50,    peer: spine-01,        pport: port1,     link: link1,   linkend: 2 }
-        port2: { name: et-0/0/51,    peer: spine-02,        pport: port1,     link: link3,   linkend: 2 }
-        port3: { name: xe-0/0/12,    peer: access,          pport: unknown }
-        port4: { name: xe-0/0/13,    peer: access,          pport: unknown }
+  leaf-01:
+    port1: { name: et-0/0/50,    peer: spine-01,     pport: port1,     link: 1,   linkend: 2 }
+    port2: { name: et-0/0/51,    peer: spine-02,     pport: port1,     link: 3,   linkend: 2 }
+    port3: { name: xe-0/0/12,    peer: access,       pport: unknown }
+    port4: { name: xe-0/0/13,    peer: access,       pport: unknown }
 
-    leaf-02:
-        port1: { name: et-0/0/50,    peer: spine-01,        pport: port2,     link: link2,   linkend: 2 }
-        port2: { name: et-0/0/51,    peer: spine-02,        pport: port2,     link: link4,   linkend: 2 }
-        port3: { name: xe-0/0/12,    peer: access,          pport: unknown }
-        port4: { name: xe-0/0/13,    peer: access,          pport: unknown }
+  leaf-02:
+    port1: { name: et-0/0/50,    peer: spine-01,     pport: port2,     link: 2,   linkend: 2 }
+    port2: { name: et-0/0/51,    peer: spine-02,     pport: port2,     link: 4,   linkend: 2 }
+    port3: { name: xe-0/0/12,    peer: access,       pport: unknown }
+    port4: { name: xe-0/0/13,    peer: access,       pport: unknown }
 
-    leaf-03:
-        port1: { name: et-0/0/50,    peer: spine-03,        pport: port2,     link: link13,   linkend: 2 }
-        port2: { name: et-0/0/51,    peer: spine-04,        pport: port1,     link: link15,   linkend: 2 }
-        port3: { name: xe-0/0/12,    peer: access,       pport: unknown }
-        port4: { name: xe-0/0/13,    peer: access,          pport: unknown }
-        port5: { name: et-0/0/52,    peer: access,          pport: unknown }
+  leaf-03:
+    port1: { name: et-0/0/50,    peer: spine-03,     pport: port2,     link: 13,   linkend: 2 }
+    port2: { name: et-0/0/51,    peer: spine-04,     pport: port1,     link: 15,   linkend: 2 }
+    port3: { name: xe-0/0/12,    peer: access,       pport: unknown }
+    port4: { name: xe-0/0/13,    peer: access,       pport: unknown }
+    port5: { name: et-0/0/52,    peer: access,       pport: unknown }
 
-    leaf-04:
-        port1: { name: et-0/0/50,    peer: spine-03,        pport: port1,     link: link14,   linkend: 2 }
-        port2: { name: et-0/0/51,    peer: spine-04,        pport: port2,     link: link16,   linkend: 2 }
-        port3: { name: xe-0/0/12,    peer: access,       pport: unknown }
-        port4: { name: xe-0/0/13,    peer: access,          pport: unknown }
-        port5: { name: et-0/0/53,    peer: access,          pport: unknown }
+  leaf-04:
+    port1: { name: et-0/0/50,    peer: spine-03,     pport: port1,     link: 14,   linkend: 2 }
+    port2: { name: et-0/0/51,    peer: spine-04,     pport: port2,     link: 16,   linkend: 2 }
+    port3: { name: xe-0/0/12,    peer: access,       pport: unknown }
+    port4: { name: xe-0/0/13,    peer: access,       pport: unknown }
+    port5: { name: et-0/0/53,    peer: access,       pport: unknown }
