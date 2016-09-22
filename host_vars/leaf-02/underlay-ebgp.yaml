@@ -2,15 +2,15 @@
 underlay:
     leaf: true
     local:
-        asn: 60012
+        asn: 65022
     neighbors:
       - interface: et-0/0/51
         name: spine-02
-        asn: 60014
+        asn: 65012
         peer_ip: 172.16.0.6
         local_ip: 172.16.0.7
       - interface: et-0/0/50
         name: spine-01
-        asn: 60012
+        asn: 65011
         peer_ip: 172.16.0.2
         local_ip: 172.16.0.3

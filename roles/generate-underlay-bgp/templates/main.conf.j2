@@ -6,13 +6,13 @@ underlay:
 {% endif %}
 {% endfor %}
     local:
-        asn: {{ underlay_as[inventory_hostname] }}
+        asn: {{ underlay_as }}
     neighbors:
 {% for portname, portlist in topo[inventory_hostname].iteritems() %}
 {% if portlist.type is defined and portlist.type == "ebgp" %}
       - interface: {{ portlist.name }}
         name: {{ portlist.peer }}
-        asn: {{ underlay_as[portlist.peer] }}
+        asn: {{ hostvars[portlist.peer].underlay_as }}
 {% if portlist.linkend == 1 %}
         peer_ip: {{ p2p[portlist.link][2]}}
 {% else %}
