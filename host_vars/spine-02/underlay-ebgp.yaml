@@ -2,25 +2,24 @@
 underlay:
     local:
         asn: 60014
-    community: target:12345:111
     neighbors:
       - interface: et-0/0/59
         name: fabric-02
-        asn: 60016 
+        asn: 60016
         peer_ip: 172.16.0.15
         local_ip: 172.16.0.14
       - interface: et-0/0/67
         name: leaf-02
-        asn: 60012 
+        asn: 60012
         peer_ip: 172.16.0.7
         local_ip: 172.16.0.6
       - interface: et-0/0/58
         name: fabric-01
-        asn: 60015 
+        asn: 60015
         peer_ip: 172.16.0.13
         local_ip: 172.16.0.12
       - interface: et-0/0/66
         name: leaf-01
-        asn: 60011 
+        asn: 60011
         peer_ip: 172.16.0.5
         local_ip: 172.16.0.4

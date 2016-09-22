@@ -3,15 +3,14 @@ underlay:
     leaf: true
     local:
         asn: 60019
-    community: target:12345:111
     neighbors:
       - interface: et-0/0/51
         name: spine-04
-        asn: 60018 
+        asn: 60018
         peer_ip: 172.16.0.28
         local_ip: 172.16.0.29
       - interface: et-0/0/50
         name: spine-03
-        asn: 60017 
+        asn: 60017
         peer_ip: 172.16.0.24
         local_ip: 172.16.0.25

@@ -7,7 +7,6 @@ underlay:
 {% endfor %}
     local:
         asn: {{ underlay_as[inventory_hostname] }}
-    community: target:12345:111
     neighbors:
 {% for portname, portlist in topo[inventory_hostname].iteritems() %}
 {% if portlist.type is defined and portlist.type == "ebgp" %}

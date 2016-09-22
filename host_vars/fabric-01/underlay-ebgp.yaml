@@ -2,25 +2,24 @@
 underlay:
     local:
         asn: 60015
-    community: target:12345:111
     neighbors:
       - interface: et-0/0/12
         name: spine-04
-        asn: 60018 
+        asn: 60018
         peer_ip: 172.16.0.18
         local_ip: 172.16.0.19
       - interface: et-0/0/14
         name: spine-02
-        asn: 60014 
+        asn: 60014
         peer_ip: 172.16.0.12
         local_ip: 172.16.0.13
       - interface: et-0/0/13
         name: spine-03
-        asn: 60017 
+        asn: 60017
         peer_ip: 172.16.0.16
         local_ip: 172.16.0.17
       - interface: et-0/0/15
         name: spine-01
-        asn: 60012 
+        asn: 60012
         peer_ip: 172.16.0.8
         local_ip: 172.16.0.9

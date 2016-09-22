@@ -2,7 +2,6 @@
 underlay:
     local:
         asn: 60012
-    community: target:12345:111
     neighbors:
       - interface: et-0/0/59
         name: fabric-02
