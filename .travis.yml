@@ -16,5 +16,5 @@ install:
 #  - ansible-galaxy install Juniper.junos -p ./roles
 
 script:
-  - ansible-playbook pb.conf.all.yaml
   - ansible-playbook pb.generate.variables.yaml
+  - ansible-playbook pb.conf.all.yaml
