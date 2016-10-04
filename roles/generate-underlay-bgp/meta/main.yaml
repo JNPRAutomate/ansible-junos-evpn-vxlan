@@ -1,0 +1,7 @@
+
+galaxy_info:
+  author: Michael Pergament
+  company: Juniper Networks
+  min_ansible_version: 1.9
+  categories:
+   - networking
