@@ -2,60 +2,60 @@
 overlay:
     tenants:
       tenant10:
-        lo0_ip: 101.0.10.4
+        lo0_ip: 101.0.10.13
         id: 10
         bridge_domains:
         - vlan_id: 100
           vni_id: 9100
-          vip_ip: 100.0.1.1
-          local_ip: 100.0.1.4
+          vip_ip: 10.0.1.1
+          local_ip: 10.0.1.13
           mask: 24
         - vlan_id: 101
           vni_id: 9101
-          vip_ip: 100.0.2.1
-          local_ip: 100.0.2.4
+          vip_ip: 10.0.2.1
+          local_ip: 10.0.2.13
           mask: 24
         - vlan_id: 102
           vni_id: 9102
-          vip_ip: 100.0.3.1
-          local_ip: 100.0.3.4
+          vip_ip: 10.0.3.1
+          local_ip: 10.0.3.13
           mask: 24
         - vlan_id: 103
           vni_id: 9103
-          vip_ip: 100.0.4.1
-          local_ip: 100.0.4.4
+          vip_ip: 10.0.4.1
+          local_ip: 10.0.4.13
           mask: 24
         - vlan_id: 104
           vni_id: 9104
-          vip_ip: 100.0.5.1
-          local_ip: 100.0.5.4
+          vip_ip: 10.0.5.1
+          local_ip: 10.0.5.13
           mask: 24
       tenant11:
-        lo0_ip: 101.0.11.4
+        lo0_ip: 101.0.11.13
         id: 11
         bridge_domains:
         - vlan_id: 105
           vni_id: 9105
-          vip_ip: 100.0.6.1
-          local_ip: 100.0.6.4
+          vip_ip: 10.0.6.1
+          local_ip: 10.0.6.13
           mask: 24
         - vlan_id: 106
           vni_id: 9106
-          vip_ip: 100.0.7.1
-          local_ip: 100.0.7.4
+          vip_ip: 10.0.7.1
+          local_ip: 10.0.7.13
           mask: 24
         - vlan_id: 107
           vni_id: 9107
-          vip_ip: 100.0.8.1
-          local_ip: 100.0.8.4
+          vip_ip: 10.0.8.1
+          local_ip: 10.0.8.13
           mask: 24
         - vlan_id: 108
           vni_id: 9108
-          vip_ip: 100.0.9.1
-          local_ip: 100.0.9.4
+          vip_ip: 10.0.9.1
+          local_ip: 10.0.9.13
           mask: 24
         - vlan_id: 109
           vni_id: 9109
-          vip_ip: 100.0.10.1
-          local_ip: 100.0.10.4
+          vip_ip: 10.0.10.1
+          local_ip: 10.0.10.13
           mask: 24

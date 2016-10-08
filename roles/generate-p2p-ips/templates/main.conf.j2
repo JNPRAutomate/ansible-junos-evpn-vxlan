@@ -3,8 +3,8 @@ p2p:
 {% for i in range(0, generate_p2p.nbr_networks ) %}
 {% set network = generate_p2p.network_pool | ipsubnet(generate_p2p.network_size, i) %}
 {% if generate_p2p.network_size == 31 %}
-  link{{ i + 1 }}: { 1: {{ network | ipaddr('network') }},  2: {{ network| ipaddr(1) | ipaddr('address') }} }
+  {{ i + 1 }}: { 1: {{ network | ipaddr('network') }},  2: {{ network| ipaddr(1) | ipaddr('address') }} }
 {% else %}
-  link{{ i + 1 }}: { 1: {{ network | ipaddr(1) | ipaddr('address') }},  2: {{ network | ipaddr(2) | ipaddr('address') }} }
+  {{ i + 1 }}: { 1: {{ network | ipaddr(1) | ipaddr('address') }},  2: {{ network | ipaddr(2) | ipaddr('address') }} }
 {% endif %}
 {% endfor %}

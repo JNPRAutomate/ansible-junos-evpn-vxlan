@@ -1,0 +1,16 @@
+
+underlay:
+    leaf: true
+    local:
+        asn: 65023
+    neighbors:
+      - interface: et-0/0/51
+        name: spine-04
+        asn: 65014
+        peer_ip: 172.16.0.28
+        local_ip: 172.16.0.29
+      - interface: et-0/0/50
+        name: spine-03
+        asn: 65013
+        peer_ip: 172.16.0.24
+        local_ip: 172.16.0.25

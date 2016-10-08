@@ -1,0 +1,6 @@
+---
+
+- name: Generate Underlay YAML
+  template: >
+    src=main.conf.j2
+    dest=host_vars/{{inventory_hostname}}/generated-underlay-ebgp.yaml
