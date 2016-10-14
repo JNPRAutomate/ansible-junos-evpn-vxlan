@@ -14,7 +14,7 @@ junos_conf: "config/{{ inventory_hostname }}.conf"
 ravello:
   app_name: "EVPN/VXLAN github 2"
 
-dhcp_mgmt_int: true   # Specific to Ravello
+vqfx: true
 
 global:
     root_hash: $1$Dkb4BkC8$GCjPFT.M7BySAEPCbcbxz1
@@ -105,7 +105,7 @@ topo:
 ###   Physical wirring                                          ###
 ############################################################################
 
-topology:
+ravello_topology:
   spine-01:
     - link: dhcp-public
     - link: 81
