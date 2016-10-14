@@ -1,0 +1,5 @@
+# The secondary network interface
+auto {{ item.int }}
+iface {{ item.int }} inet static
+    address {{ item.ip }}
+    netmask {{ item.mask }}

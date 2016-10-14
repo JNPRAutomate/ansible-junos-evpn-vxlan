@@ -1,0 +1,5 @@
+
+interfaces:
+    - ip: "10.0.6.{{ id }}"
+      mask: 255.255.255.0
+      int: eth1
