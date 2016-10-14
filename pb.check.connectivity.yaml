@@ -1,9 +1,9 @@
 
 - name: Checking Netconf connectivity
-  hosts: all
+  hosts: [spine,leaf,fabric]
   connection: local
   gather_facts: no
   vars:
     ssh_timeout: 5
   tasks:
-    - wait_for: host={{ junos_host }} port={{ netconf_port }} timeout={{ ssh_timeout }}
+    - wait_for: host={{ ansible_ssh_host }} port={{ netconf_port }} timeout={{ ssh_timeout }}
