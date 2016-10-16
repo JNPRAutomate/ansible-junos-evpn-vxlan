@@ -1,0 +1,61 @@
+---
+- name: Configure Servers
+  hosts: server
+  become: true
+  vars:
+    ansible_python_interpreter: /usr/bin/python
+  tasks:
+
+  - name: Set Hostname
+    hostname: name={{ inventory_hostname }}
+
+##########################################
+### Update User Account
+##########################################
+  - name: Add password for user UBUNTU
+    user:
+      name: ubuntu
+      password: $6$AaIDkR2Gy$CpjSw.1OTou23E/Cy6qX.Ayniyx7d2r0Ou/tM1TMOCmlX0mahq4whlvfv9QGsnQ3PWY0LlRTQ3Sz3EyyiUp3u1
+    tags: [ pwd ]
+
+  - name: Update SSH conf to allow password
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      state: absent
+      regexp: "^PasswordAuthentication no"
+    become: true
+    tags: [ pwd ]
+
+  - name: Reload SSHD config
+    service: name=ssh state=reloaded
+    tags: [ pwd ]
+
+##########################################
+### Configure ETH1
+##########################################
+  - name: Configure Additional Interfaces
+    template:
+      src: templates/ubuntu.eth.cfg.j2
+      dest: "/etc/network/interfaces.d/{{ item.int }}.cfg"
+    with_items: "{{ interfaces }}"
+    tags: [ int ]
+
+  - name: Restart Interfaces (down)
+    command: ifdown {{ item.int }}
+    become: true
+    with_items:
+      - int: eth1
+    tags: [ int ]
+
+  - name: Restart Interfaces (up)
+    command: ifup {{ item.int }}
+    become: true
+    with_items:
+      - int: eth1
+    tags: [ int ]
+
+  - name: Test Spine Reacheability
+    command: 'ping -c 4 {{ item }}'
+    changed_when: false
+    with_items: [ 10.0.6.11, 10.0.6.12 ]
+    tags: [ ping ]
