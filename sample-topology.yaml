@@ -37,17 +37,16 @@ topo:
     port1: { name: et-0/0/15,    peer: spine-01,     pport: port3,     type: ebgp, link: 5,    linkend: 2  }
     port2: { name: et-0/0/14,    peer: spine-02,     pport: port3,     type: ebgp, link: 7,    linkend: 2  }
     port3: { name: et-0/0/13,    peer: spine-03,     pport: port3,     type: ebgp, link: 9,    linkend: 2  }
-    port4: { name: et-0/0/12,    peer: spine-04,     pport: port3,     type: ebgp, link: 10,   linkend: 2  }
-
+    port4: { name: et-0/0/12,    peer: spine-04,     pport: port3,     type: ebgp, link: 11,   linkend: 2  }
   fabric-02:
     port1: { name: et-0/0/15,    peer: spine-01,     pport: port4,     type: ebgp, link: 6,    linkend: 2  }
     port2: { name: et-0/0/14,    peer: spine-02,     pport: port4,     type: ebgp, link: 8,    linkend: 2  }
-    port3: { name: et-0/0/13,    peer: spine-03,     pport: port4,     type: ebgp, link: 11,   linkend: 2  }
+    port3: { name: et-0/0/13,    peer: spine-03,     pport: port4,     type: ebgp, link: 10,   linkend: 2  }
     port4: { name: et-0/0/12,    peer: spine-04,     pport: port4,     type: ebgp, link: 12,   linkend: 2  }
 
   spine-01:
     port1: { name: et-0/0/66,    peer: leaf-01,      pport: port1,     type: ebgp, link: 1,   linkend: 1 }
-    port2: { name: et-0/0/67,    peer: leaf-02,      pport: port1,     type: ebgp, link: 1,   linkend: 1 }
+    port2: { name: et-0/0/67,    peer: leaf-02,      pport: port1,     type: ebgp, link: 2,   linkend: 1 }
     port3: { name: et-0/0/58,    peer: fabric-01,    pport: port1,     type: ebgp, link: 5,   linkend: 1 }
     port4: { name: et-0/0/59,    peer: fabric-02,    pport: port1,     type: ebgp, link: 6,   linkend: 1 }
 
@@ -58,15 +57,15 @@ topo:
     port4: { name: et-0/0/59,    peer: fabric-02,    pport: port2,     type: ebgp, link: 8,   linkend: 1 }
 
   spine-03:
-    port1: { name: et-0/0/66,    peer: leaf-04,      pport: port1,     type: ebgp, link: 13,   linkend: 1 }
-    port2: { name: et-0/0/67,    peer: leaf-03,      pport: port1,     type: ebgp, link: 14,   linkend: 1 }
+    port1: { name: et-0/0/66,    peer: leaf-03,      pport: port1,     type: ebgp, link: 13,   linkend: 1 }
+    port2: { name: et-0/0/67,    peer: leaf-04,      pport: port1,     type: ebgp, link: 14,   linkend: 1 }
     port3: { name: et-0/0/61,    peer: fabric-01,    pport: port3,     type: ebgp, link: 9,    linkend: 1 }
-    port4: { name: et-0/0/60,    peer: fabric-02,    pport: port3,     type: ebgp, link: 11,   linkend: 1 }
+    port4: { name: et-0/0/60,    peer: fabric-02,    pport: port3,     type: ebgp, link: 10,   linkend: 1 }
 
   spine-04:
     port1: { name: et-0/0/66,    peer: leaf-03,      pport: port2,     type: ebgp, link: 15,   linkend: 1 }
     port2: { name: et-0/0/67,    peer: leaf-04,      pport: port2,     type: ebgp, link: 16,   linkend: 1 }
-    port3: { name: et-0/0/61,    peer: fabric-01,    pport: port4,     type: ebgp, link: 10,   linkend: 1 }
+    port3: { name: et-0/0/61,    peer: fabric-01,    pport: port4,     type: ebgp, link: 11,   linkend: 1 }
     port4: { name: et-0/0/60,    peer: fabric-02,    pport: port4,     type: ebgp, link: 12,   linkend: 1 }
 
   leaf-01:

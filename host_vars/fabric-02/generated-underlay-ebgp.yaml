@@ -16,8 +16,8 @@ underlay:
       - interface: et-0/0/13
         name: spine-03
         asn: 65013
-        peer_ip: 172.16.0.20
-        local_ip: 172.16.0.21
+        peer_ip: 172.16.0.18
+        local_ip: 172.16.0.19
       - interface: et-0/0/15
         name: spine-01
         asn: 65011
