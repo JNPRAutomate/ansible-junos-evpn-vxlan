@@ -60,7 +60,7 @@ interfaces {
     {{ mgmt_port }} {
         unit 0 {
             family inet {
-              address {{ junos_host }}/{{ mgmt_sub_mask }};
+              address {{ ansible_ssh_host }}/{{ mgmt_sub_mask }};
             }
         }
     }
