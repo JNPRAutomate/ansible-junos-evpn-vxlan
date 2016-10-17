@@ -1,8 +1,69 @@
 ---
 
 - include: pb.init.make_clean.yaml
-- include: pb.conf.leaf.qfx.l2.yaml
-- include: pb.conf.leaf.qfx.l3.yaml
-- include: pb.conf.spine.qfx.yaml
-- include: pb.conf.spine.mx.yaml
-- include: pb.conf.fabric.yaml
+
+############################################################
+- name: Create and apply configuration for Leaf QFX / L2
+  hosts: leaf-qfx-l2
+  connection: local
+  gather_facts: no
+  pre_tasks:
+    - include_vars: "{{ topology_file }}"
+  roles:
+    - common
+    - underlay-ebgp
+    - overlay-evpn-qfx-l2
+    - overlay-evpn-access
+    - build-config
+
+############################################################
+- name: Create and apply configuration for Leaf QFX / L3
+  hosts: leaf-qfx-l3
+  connection: local
+  gather_facts: no
+  pre_tasks:
+    - include_vars: "{{ topology_file }}"
+  roles:
+    - common
+    - underlay-ebgp
+    - overlay-evpn-qfx-l3
+    - overlay-evpn-access
+    - build-config
+
+############################################################
+- name: Create and apply configuration for Spines / MX
+  hosts: spine-mx
+  connection: local
+  gather_facts: no
+  pre_tasks:
+    - include_vars: "{{ topology_file }}"
+  roles:
+    - common
+    - underlay-ebgp
+    - overlay-evpn-mx-l3
+    - build-config
+
+############################################################
+- name: Create and apply configuration for Spines / QFX
+  hosts: spine-qfx
+  connection: local
+  gather_facts: no
+  pre_tasks:
+    - include_vars: "{{ topology_file }}"
+  roles:
+    - common
+    - underlay-ebgp
+    - overlay-evpn-qfx-l3
+    - build-config
+
+############################################################
+- name: Create and apply configuration for Fabric
+  hosts: fabric
+  connection: local
+  gather_facts: no
+  pre_tasks:
+    - include_vars: "{{ topology_file }}"
+  roles:
+    - common
+    - underlay-ebgp
+    - build-config

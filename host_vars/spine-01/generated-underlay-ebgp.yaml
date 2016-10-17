@@ -11,8 +11,8 @@ underlay:
       - interface: et-0/0/67
         name: leaf-02
         asn: 65022
-        peer_ip: 172.16.0.1
-        local_ip: 172.16.0.0
+        peer_ip: 172.16.0.3
+        local_ip: 172.16.0.2
       - interface: et-0/0/58
         name: fabric-01
         asn: 65001

@@ -1,0 +1,217 @@
+
+########################################################################
+# System variable used to define temporary directory
+# please update tmp_dir variable if needed
+########################################################################
+tmp_dir: /tmp/build
+build_dir: "{{ tmp_dir }}/{{ inventory_hostname }}/tmp"
+junos_conf: "config/{{ inventory_hostname }}.conf"
+
+################################################################################
+# Global Variables used to generate the common part of the configuration
+# please update these variable and the template as needed to match your environment
+################################################################################
+ravello:
+  app_name: "EVPN/VXLAN github 2"
+
+vqfx: true
+
+global:
+    root_hash: $1$Dkb4BkC8$GCjPFT.M7BySAEPCbcbxz1
+    login_message: This is the property of Example Corp. Do not login without express permission.
+    time_zone: America/Los_Angeles
+
+    name_servers:
+    - 8.8.8.8
+    ntp_servers:
+    - 137.190.2.4
+    snmp:
+        location: "Site 1"
+        contact: John Doe
+        polling:
+        - community: public
+    routes:
+    #   static:
+    #     172.0.0.0/8: 10.94.194.254
+
+############################################################################
+###   Physical interfaces name                                           ###
+############################################################################
+topo:
+    fabric-01:
+        port1: { name: ge-0/0/0,     peer: spine-01,       pport: port3 }
+        port2: { name: ge-0/0/1,     peer: spine-02,       pport: port3 }
+        port3: { name: ge-0/0/2,     peer: spine-03,       pport: port3 }
+        port4: { name: ge-0/0/3,     peer: spine-04,       pport: port3 }
+
+    fabric-02:
+        port1: { name: ge-0/0/0,     peer: spine-01,       pport: port4 }
+        port2: { name: ge-0/0/1,     peer: spine-02,       pport: port4 }
+        port3: { name: ge-0/0/2,     peer: spine-03,       pport: port4 }
+        port4: { name: ge-0/0/3,     peer: spine-04,       pport: port4 }
+
+    spine-01:
+        port1: { name: xe-0/0/0,     peer: leaf-01,         pport: port1 }
+        port2: { name: xe-0/0/1,     peer: leaf-02,         pport: port1 }
+        port3: { name: xe-0/0/2,     peer: fabric-01,       pport: port1 }
+        port4: { name: xe-0/0/3,     peer: fabric-02,       pport: port1 }
+
+    spine-02:
+        port1: { name: xe-0/0/0,     peer: leaf-01,         pport: port2 }
+        port2: { name: xe-0/0/1,     peer: leaf-02,         pport: port2 }
+        port3: { name: xe-0/0/2,     peer: fabric-01,       pport: port2 }
+        port4: { name: xe-0/0/3,     peer: fabric-02,       pport: port2 }
+
+    spine-03:
+        port1: { name: xe-0/0/0,     peer: leaf-04,         pport: port1 }
+        port2: { name: xe-0/0/1,     peer: leaf-03,         pport: port1 }
+        port3: { name: xe-0/0/2,     peer: fabric-01,       pport: port3 }
+        port4: { name: xe-0/0/3,     peer: fabric-02,       pport: port3 }
+
+    spine-04:
+        port1: { name: xe-0/0/0,     peer: leaf-03,         pport: port2 }
+        port2: { name: xe-0/0/1,     peer: leaf-04,         pport: port2 }
+        port3: { name: xe-0/0/2,     peer: fabric-01,       pport: port4 }
+        port4: { name: xe-0/0/3,     peer: fabric-02,       pport: port4 }
+    #
+    # leaf-01:
+    #     port1: { name: et-0/0/50,    peer: spine-01,        pport: port1 }
+    #     port2: { name: et-0/0/51,    peer: spine-02,        pport: port1 }
+    #     port3: { name: xe-0/0/12,    peer: Server 11,       pport: port1 }
+    #     port4: { name: xe-0/0/13,    peer: Server 12,       pport: port1 }
+    #
+    # leaf-02:
+    #     port1: { name: et-0/0/50,    peer: spine-01,        pport: port2 }
+    #     port2: { name: et-0/0/51,    peer: spine-02,        pport: port2 }
+    #     port3: { name: xe-0/0/12,    peer: Server 13,       pport: port2 }
+    #     port4: { name: xe-0/0/13,    peer: Server 14,       pport: port1 }
+    #
+    # leaf-03:
+    #     port1: { name: et-0/0/50,    peer: spine-03,        pport: port2 }
+    #     port2: { name: et-0/0/51,    peer: spine-04,        pport: port1 }
+    #     port3: { name: xe-0/0/12,    peer: Server 21,       pport: port3 }
+    #     port4: { name: xe-0/0/13,    peer: Server 22,       pport: port1 }
+    #     port5: { name: et-0/0/52,    peer: Server 23,       pport: unknown }
+    #
+    # leaf-04:
+    #     port1: { name: et-0/0/50,    peer: spine-03,        pport: port1 }
+    #     port2: { name: et-0/0/51,    peer: spine-04,        pport: port2 }
+    #     port3: { name: xe-0/0/12,    peer: Server 24,       pport: port4 }
+    #     port4: { name: xe-0/0/13,    peer: Server 25,       pport: port1 }
+    #     port5: { name: et-0/0/53,    peer: Server 23,       pport: unknown }
+
+
+############################################################################
+###   Physical wirring                                          ###
+############################################################################
+
+ravello_topology:
+  spine-01:
+    - link: dhcp-public
+    - link: 81
+    - null
+    - link: 11
+    - link: 13
+    - link: 15
+    - link: 17
+  spine-01-pfe:
+    - link: dhcp-public
+    - link: 81
+
+  spine-02:
+    - link: dhcp-public
+    - link: 82
+    - null
+    - link: 12
+    - link: 14
+    - link: 16
+    - link: 18
+  spine-02-pfe:
+    - link: dhcp-public
+    - link: 82
+
+  spine-03:
+    - link: dhcp-public
+    - link: 83
+    - null
+    - link: 23
+    - link: 25
+    - link: 19
+    - link: 21
+  spine-03-pfe:
+    - link: dhcp-public
+    - link: 83
+
+  spine-04:
+    - link: dhcp-public
+    - link: 84
+    - null
+    - link: 24
+    - link: 26
+    - link: 20
+    - link: 22
+  spine-04-pfe:
+    - link: dhcp-public
+    - link: 84
+
+  fabric-01:
+    - link: dhcp-public
+    - link: 85
+  fabric-01-pfe:
+    - link: dhcp-public
+    - link: 85
+    - link: 15
+    - link: 16
+    - link: 19
+    - link: 20
+
+  fabric-02:
+    - link: dhcp-public
+    - link: 86
+  fabric-02-pfe:
+    - link: dhcp-public
+    - link: 86
+    - link: 17
+    - link: 18
+    - link: 21
+    - link: 22
+
+  #
+  # leaf-01:
+  #   - dhcp-public
+  #   - 87 }}"
+  #   - null
+  #   - 11 }}"
+  #   - 12 }}"
+  #   - 31 }}"
+  #
+  # leaf-02:
+  #   - dhcp-public
+  #   - 88 }}"
+  #   - null
+  #   - 13 }}"
+  #   - 14 }}"
+  #   - 32 }}"
+  #
+  # leaf-03:
+  #   - dhcp-public
+  #   - 89 }}"
+  #   - null
+  #   - 15 }}"
+  #   - 16 }}"
+  #   - 33 }}"
+  #
+  # server1:
+  #   - dhcp-public
+  #   - 31 }}"
+  #   - 1 }}"
+  #
+  # server2:
+  #   - dhcp-public
+  #   - 32 }}"
+  #   - 1 }}"
+  #
+  # server3:
+  #   - dhcp-public
+  #   - 33 }}"
+  #   - 1 }}"

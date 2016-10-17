@@ -3,8 +3,8 @@ access:
     interfaces:
         -   name: "{{ topo[inventory_hostname].port3.name }}"
             description: "{{ topo[inventory_hostname].port3.peer }}"
-            mode: trunk
-            vlans: [ 101, 102, 103, 104, 105, 106, 107, 108 ]
+            mode: access
+            vlans: [ 105 ]
         -   name: "{{ topo[inventory_hostname].port4.name }}"
             description: "{{ topo[inventory_hostname].port4.peer }}"
             mode: trunk

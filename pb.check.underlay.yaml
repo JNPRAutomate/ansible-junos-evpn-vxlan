@@ -7,7 +7,7 @@
     - include_vars: "{{ topology_file }}"
   vars:
     credential:
-      host: "{{ junos_host }}"
+      host: "{{ ansible_ssh_host }}"
       port: "{{ netconf_port }}"
       username: "{{ ansible_ssh_user }}"
       password: "{{ ansible_ssh_pass }}"
@@ -22,7 +22,7 @@
 ##################################################################
     - name: "Check Connectivity using Ping (galaxy/junos_ping)"
       junos_ping:
-        host: "{{ junos_host }}"
+        host: "{{ ansible_ssh_host }}"
         port: "{{ netconf_port }}"
         user: "{{ ansible_ssh_user }}"
         passwd: "{{ ansible_ssh_pass }}"
@@ -63,7 +63,7 @@
   tasks:
     - name: "Check connectivity ANY2ANY between Leaf (galaxy/junos_ping)"
       junos_ping:
-        host: "{{ junos_host }}"
+        host: "{{ ansible_ssh_host }}"
         port: "{{ netconf_port }}"
         user: "{{ ansible_ssh_user }}"
         passwd: "{{ ansible_ssh_pass }}"

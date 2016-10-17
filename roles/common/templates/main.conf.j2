@@ -41,13 +41,30 @@ system {
     }
 }
 interfaces {
+{% if vqfx is defined %}
     {{ mgmt_port }} {
         unit 0 {
             family inet {
-              address {{ junos_host }}/{{ mgmt_sub_mask }};
+              dhcp;
             }
         }
     }
+    em1 {
+        unit 0 {
+            family inet {
+                address 169.254.0.2/24;
+            }
+        }
+    }
+{% else %}
+    {{ mgmt_port }} {
+        unit 0 {
+            family inet {
+              address {{ ansible_ssh_host }}/{{ mgmt_sub_mask }};
+            }
+        }
+    }
+{% endif %}
     lo0 {
         unit 0 {
             family inet {
@@ -65,6 +82,7 @@ snmp {
     }
 {% endfor %}
 }
+{% if global.routes is defined %}
 routing-options {
 {% if global.routes.static is defined %}
   static {
@@ -78,7 +96,7 @@ routing-options {
   }
 {% endif %}
 }
-
+{% endif %}
 protocols {
     lldp {
         interface all;

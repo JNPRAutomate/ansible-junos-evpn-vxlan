@@ -3,14 +3,14 @@
 
 - include: pb.conf.all.yaml
 - name: Apply configuration
-  hosts: all
+  hosts: leaf,spine,fabric
   connection: local
   gather_facts: no
   pre_tasks:
     - include_vars: "{{ topology_file }}"
   vars:
     credential:
-      host: "{{ junos_host }}"
+      host: "{{ ansible_ssh_host }}"
       port: "{{ netconf_port }}"
       username: "{{ ansible_ssh_user }}"
       password: "{{ ansible_ssh_pass }}"
@@ -21,5 +21,5 @@
         src: "{{ junos_conf }}"
         action: overwrite
         comment: "Applied by Ansible"
-        provider: "{{ netconf }}"
+        provider: "{{ credential }}"
       register: result

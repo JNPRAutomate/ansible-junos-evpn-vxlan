@@ -1,0 +1,46 @@
+
+- name: Checking Netconf connectivity
+  hosts: [spine,leaf,fabric]
+  connection: local
+  gather_facts: no
+  roles:
+    - Juniper.junos
+  vars:
+    ssh_timeout: 5
+    credential:
+      host: "{{ ansible_ssh_host }}"
+      port: "{{ netconf_port }}"
+      username: "{{ ansible_ssh_user }}"
+      password: "{{ ansible_ssh_pass }}"
+
+  tasks:
+
+    - name: Check Netconf access
+      wait_for:
+        host: "{{ ansible_ssh_host }}"
+        port: "{{ netconf_port }}"
+        timeout: "{{ ssh_timeout }}"
+
+    - name: Check Connectivity to PFE
+      junos_ping:
+        host: "{{ ansible_ssh_host }}"
+        port: "{{ netconf_port }}"
+        user: "{{ ansible_ssh_user }}"
+        passwd: "{{ ansible_ssh_pass }}"
+        dest_ip: 169.254.0.1
+        source_ip: 169.254.0.2
+      register: ping
+
+    - name: Check if XE interfaces are UP
+      junos_command:
+        provider: "{{ credential }}"
+        commands:
+          - "show interfaces terse xe-0/0/0"
+        waitfor:
+          - "result[0]['interface-information']['physical-interface']['oper-status'] eq up"
+          - "result[0]['interface-information']['physical-interface']['name'] eq xe-0/0/0"
+        retries: 3
+        interval: 15
+      register: ints
+
+    # - debug: var=ints
