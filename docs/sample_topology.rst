@@ -40,7 +40,7 @@ The project come with some a solution to easily change the scale of the setup, i
  - Change the number of VNI per tenants
 
 To scale the configuration, you need to change some input parameters in the file `group_vars/all/tenant_vni.yaml`
-*Please refer to instructions in [generate-tenant-vni role](roles/generate-tenant-vni)*
+*Please refer to instructions in `generate-tenant-vni role <https://github.com/JNPRAutomate/ansible-junos-evpn-vxlan/tree/master/roles/generate-tenant-vni>`_
 
 Once the input file is modified, you need to regenerate variables first and them regenerate configurations.
 

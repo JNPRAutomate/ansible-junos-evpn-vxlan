@@ -18,7 +18,6 @@ Configure
     pb.conf.all.commit.galaxy.yaml    # Generate, assemble, push and commit configuration to all devices
                                       # using the Junos modules provided in Ansible Galaxy
 
-
 Test
 ----
 

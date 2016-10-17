@@ -10,8 +10,8 @@ Sample project using Ansible and Jinja2 template to generate configurations and 
 
 In this project you'll find:
  - **Sample project for ansible** with Playbooks and variables to generate EVPN/VXLAN configuration for multi-pod EVPN/Fabric in a multi-tenants environment.
- - `Examples of configuration <../../../config>`_ EVPN/VXLAN for QFX5k, QFX10k & MX.
- - Severals **Jinja2 templates**, packaged and documented into `Ansible roles <../../../roles>`_ that can be **reuse in other Ansible projects** to easily generate Overlay & Underlay configuration.
+ - `Examples of configuration <https://github.com/JNPRAutomate/ansible-junos-evpn-vxlan/tree/master/config>`_ EVPN/VXLAN for QFX5k, QFX10k & MX.
+ - Severals **Jinja2 templates**, packaged and documented into `Ansible roles <https://github.com/JNPRAutomate/ansible-junos-evpn-vxlan/tree/master/roles>`_ that can be **reuse in other Ansible projects** to easily generate Overlay & Underlay configuration.
  - **Playbook to check the health** of an EVPN/VXLAN Fabric.
 
 Contents:
