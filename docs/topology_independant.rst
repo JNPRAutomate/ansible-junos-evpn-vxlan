@@ -51,23 +51,28 @@ and create a new variable that contain the real name or IP of the device
 2/ Centralize all physical information related to a given physical topology in a central topology file
 ------------------------------------------------------------------------------------------------------
 
-To prevent very specific information like interface names to be duplicated and dispersed everywhere in the project. It possible to centralize them and give them an alias as well.
+To prevent very specific information like interfaces name to be duplicated and
+dispersed everywhere in the project. It possible to centralize them and give them an alias as well.
 
-In this example, I put all information related to my physical layer (interface name, peer etcc .. ) in a central file. (sample-topology.yaml)
+In this example, I put all information related to my physical layer (interface name, peer etcc .. )
+in a central file. (sample-topology.yaml)
 Each interfaces get assigned an alias here: port1, port2 port3.
 It could be something more meaning full like: to_spine1, to_spine2
-All information are stored under a variable named “topo” and each device has it’s own section identified with the device name used in the inventory.
+All information are stored under a variable named ``topo`` and each device has
+it’s own section identified with the device name used in the inventory.
 
 Everywhere else, when you need to access the name of an interface you can access
 it by its variable ``{{ topo[inventory_hostname].port1.name }}``
 
-  Inventory_hostname is a variable itself and will be automatically replaced with the name of the device used in the inventory, for example: fabric-01
+.. NOTE::
+    Inventory_hostname is a variable itself and will be automatically replaced with the name of the device used in the inventory, for example: fabric-01
 
 .. image:: _includes/inventory_topology.png
 
 The topology file itself is defined in the inventory file and is loaded at the beginning at each playbook.
 
-  The creation of a variable in the inventory file allow to keep the playbook independent of the topology as well
+.. NOTE::
+    The creation of a variable in the inventory file allow to keep the playbook independent of the topology as well
 
 3/ Define remaining variables specific to a given topology in the inventory file
 --------------------------------------------------------------------------------
