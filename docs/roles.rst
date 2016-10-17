@@ -21,21 +21,21 @@ All roles are located under the directory [roles](roles) and are organized as fo
 
 Below the list of roles available, classified per function, with a short description and a link to their respective documentation.
 
-.. _generate-tenant-vni: roles/generate-tenant-vni
-.. _generate-p2p-ips: roles/generate-p2p-ips
-.. _generate-underlay-bgp: roles/generate-underlay-bgp
+.. _generate-tenant-vni: ../../../roles/generate-tenant-vni
+.. _generate-p2p-ips: ../../../roles/generate-p2p-ips
+.. _generate-underlay-bgp: ../../../roles/generate-underlay-bgp
 
-.. _underlay-ebgp: roles/underlay-ebgp
-.. _underlay-ospf: roles/underlay-ospf
-.. _underlay-ospf-unnumbered: roles/underlay-ospf-unnumbered
+.. _underlay-ebgp: ../../../roles/underlay-ebgp
+.. _underlay-ospf: ../../../roles/underlay-ospf
+.. _underlay-ospf-unnumbered: ../../../roles/underlay-ospf-unnumbered
 
-.. _overlay-evpn-qfx-l3: roles/overlay-evpn-qfx-l3
-.. _overlay-evpn-qfx-l2: roles/overlay-evpn-qfx-l2
-.. _overlay-evpn-mx-l3: roles/overlay-evpn-mx-l3
-.. _overlay-evpn-access: roles/overlay-evpn-access
+.. _overlay-evpn-qfx-l3: ../../../roles/overlay-evpn-qfx-l3
+.. _overlay-evpn-qfx-l2: ../../../roles/overlay-evpn-qfx-l2
+.. _overlay-evpn-mx-l3: ../../../roles/overlay-evpn-mx-l3
+.. _overlay-evpn-access: ../../../roles/overlay-evpn-access
 
-.. _common: roles/common/
-.. _build-config: roles/build-config
+.. _common: ../../../roles/common/
+.. _build-config: ../../../roles/build-config
 
 Roles to create the underlay configuration
 ------------------------------------------

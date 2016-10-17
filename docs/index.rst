@@ -9,10 +9,10 @@ Welcome to Ansible EVPN/VXLAN's documentation!
 Sample project using Ansible and Jinja2 template to generate configurations and manage Juniper devices deployed in EVPN/VXLAN Fabric mode.
 
 In this project you'll find:
-- (1) **Sample project for ansible** with Playbooks and variables to generate EVPN/VXLAN configuration for multi-pod EVPN/Fabric in a multi-tenants environment.
-- (2) **[Examples of configuration](config)** EVPN/VXLAN for QFX5k, QFX10k & MX.
-- (3) Severals **Jinja2 templates**, packaged and documented into [Ansible roles](roles) that can be **reuse in other Ansible projects** to easily generate Overlay & Underlay configuration.
-- (4) **Playbook to check the health** of an EVPN/VXLAN Fabric.
+ - **Sample project for ansible** with Playbooks and variables to generate EVPN/VXLAN configuration for multi-pod EVPN/Fabric in a multi-tenants environment.
+ - `Examples of configuration <../../../config>`_ EVPN/VXLAN for QFX5k, QFX10k & MX.
+ - Severals **Jinja2 templates**, packaged and documented into `Ansible roles <../../../roles>`_ that can be **reuse in other Ansible projects** to easily generate Overlay & Underlay configuration.
+ - **Playbook to check the health** of an EVPN/VXLAN Fabric.
 
 Contents:
 
