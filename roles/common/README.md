@@ -28,8 +28,9 @@ global:
         contact:
         polling:
         - community: <community>
-    routes:                     # Dict of static route to configure
+    routes:                     # Dict of static route to configure (optional)
         <route>: <next-hop>
+vqfx:                           # true / false*
 ```
 
 ## Example

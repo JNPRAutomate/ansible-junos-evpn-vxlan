@@ -18,6 +18,7 @@ As much as possible, all information related to a given topology (interface name
 
 When you call an Ansible playbook, you can specify explicitly the inventory file by using the option `-i`
 
+.. NOTE::
   To align, the name of the topology file needs to be define inside the inventory file
 
 .. code-block:: text
@@ -28,10 +29,53 @@ When you call an Ansible playbook, you can specify explicitly the inventory file
     # Generate configurations for your own topology
     ansible-playbook -i mytopology.ini pb.conf.all.yaml
 
+It's easy to create your own inventory and topology files to adapt device IP, type and interface names to your environment assuming you have the same base design.
 
-It's very easy to create your own inventory and topology files to adapt device IP, device type and interface names to your environment assuming you have the same base design.
+1/ Create your inventory file
+-----------------------------
 
-  it's not recommended to change device names because all variables directories depend on the name
+The inventory file contains a lot of information and variables but most importantely
+it define the parsonnality of each device depending on which groups a device belong to.
 
-  It's also possible to generate your own design but it will require a little bit more customization.
-  Documentation is not yet available on this part, Please open start a discussion on the issue tracker if you need help with that
+Different playbooks will be executed for each groups, and each playbook will generate a different part of the configuration.
+
+All devices in the group ``spine-mx`` will get their configuration from these group
+- common
+- underlay-ebgp
+- overlay-evpn-mx-l3
+- build-config
+
+All devices in the group ``leaf-qfx-l3`` will get their configuration from these group
+- common
+- underlay-ebgp
+- overlay-evpn-qfx-l3
+- overlay-evpn-access
+- build-config
+
+The complete list of role per group is available in the playbook ``pb.conf.all.yaml``
+
+**Unique ID**
+Each device in the inventory file needs to have a unique ID define inside the variable ``id``.
+This ID is used to automatically generate:
+- Loopback address
+- ASN number
+
+2/ Create your own topology file
+--------------------------------
+
+To properly generate the configuration, it's important to define all information related to your topology in this file:
+Interface names, dns, login, static route etc ...
+
+Please refer to the documentation of role ``generated-underlay-ebgp`` to understand how to define
+in the topology file the information that will be used to generate the underlay
+
+.. NOTE::
+  if you define ``vqfx: true`` in the inventory file, DHCP will be automatically configured on the management interface.
+
+3/ Define your IP address plan
+------------------------------
+
+You can define your own IP address plan and automatically regenerate all variables by using the playbook
+``pb.generate.variables.yaml``.
+
+All information can be defined inside the playbook itself in the ``vars:`` section.
