@@ -8,7 +8,7 @@ interfaces {
 {% else %}
         description " * to {{ neighbor.name }}";
 {% endif %}
-        mtu {{ underlay.mtu_phy_int }}
+        mtu {{ underlay.mtu_phy_int }};
         unit 0 {
             family inet {
                 mtu {{ underlay.mtu_logical_int }};
