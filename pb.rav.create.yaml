@@ -3,6 +3,7 @@
   connection: local
   hosts: all,pfe
   gather_facts: no
+  serial: 1
   roles:
     - ravello.lib
     - ravello.application_create
