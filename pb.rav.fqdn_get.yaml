@@ -1,0 +1,32 @@
+---
+- name: Get FQDN for all VMs on Ravello
+  connection: local
+  hosts: junos,server
+  gather_facts: no
+  roles:
+    - ravello.lib
+    - ravello.get_fqdn
+  pre_tasks:
+    - include_vars: "{{ topology_file }}"
+  vars:
+    ravello_connectivity_check: false
+  tasks:
+    - name: Delete previous file
+      file:
+        path: "host_vars/{{ inventory_hostname}}/fqdn.yaml"
+        state: absent
+
+    - name: Populate ansible_ssh_host Variable based on FQDN
+      lineinfile:
+        create: yes
+        dest: "host_vars/{{ inventory_hostname}}/fqdn.yaml"
+        line: "ansible_ssh_host: {{ ravello_public_ip.json.value }}"
+
+    # - name: Wait for devices to come online
+    #   wait_for:
+    #     host: "{{ ravello_public_ip.json.value }} "
+    #     port: "{{ netconf_port }}"
+    #     timeout: 30
+    #     # delay: 60
+    #   tags:
+    #     - fqdn
