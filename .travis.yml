@@ -40,3 +40,6 @@ script:
 
 # Validate connectivity between Hosts
   - ansible-playbook -i ravello.ini pb.check.underlay.yaml
+
+after_script:
+  - ansible-playbook -i ravello.ini pb.rav.token.app_stop.yaml
