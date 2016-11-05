@@ -14,7 +14,7 @@
 
     - name: Getting config from device ... please wait
       junos_get_config:
-        host: "{{ junos_host }}"
+        host: "{{ ansible_ssh_host }}"
         port: "{{ netconf_port }}"
         user: "{{ ansible_ssh_user }}"
         passwd: "{{ ansible_ssh_pass }}"
