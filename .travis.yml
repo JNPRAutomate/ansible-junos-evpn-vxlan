@@ -9,6 +9,19 @@ env:
   # - ANSIBLE_VERSION=2.0.2.0
   - ANSIBLE_VERSION=2.1.0.0
 
+addons:
+  apt:
+    packages:
+      - python-dev
+      - python-simplejson
+      - python-support
+      - python-yaml
+      - libxml2-dev
+      - libxslt-dev
+      - zlib1g-dev
+      - libffi-dev
+      - libssl-dev
+
 install:
   # - apt-get install -y python-dev python-simplejson python-support python-yaml libxml2-dev libxslt-dev zlib1g-dev libffi-dev libssl-dev
   - pip install -r requirements.txt
