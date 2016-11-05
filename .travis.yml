@@ -31,6 +31,8 @@ install:
   - mkdir library
   - git clone https://github.com/Juniper/ravello-ansible.git library/ravello-ansible
   - which python
+  - echo "ansible_python_interpreter: \`which python\`" > group_vars/all/python.yaml
+  - cat group_vars/all/python.yaml
 
 script:
 # Check Sample topology
