@@ -1,1 +1,1 @@
-ansible_python_interpreter: "/home/travis/virtualenv/python{{ lookup('env','TRAVIS_PYTHON_VERSION') }}/bin/python"
+ansible_python_interpreter: "/home/travis/virtualenv/python2.7.10/bin/python"
