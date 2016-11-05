@@ -14,8 +14,8 @@ junos_conf: "config/{{ inventory_hostname }}.conf"
 ravello_app_name: "EVPN/VXLAN github 555"
 
 ravello_ci_app_name: "EVPN/VXLAN Github {{ lookup('env','TRAVIS_COMMIT') }}"
-ravello_ci_blueprint: "75401572"
-ravello_ci_token: "BgFYFKbCqX21vLIm0lvODmSmQz7vhxMXh8BR4qVzlENSiJafn8zrXLiyPTgrGun5"
+ravello_ci_blueprint: "75434830"
+ravello_ci_token: "MrdZcriNRqkYJBxxbYrhJ6pZT5w3VL3Va3ib0Ijsqy9h4rJQLUfA23kQWYYKvREQ"
 ravello_ci_expiration_time_min: 50
 
 vqfx: true

@@ -11,7 +11,7 @@
     ravello_deploy_topology_cloud: AMAZON
     ravello_deploy_topology_region: Oregon
     ravello_deploy_topology_optimization: PERFORMANCE_OPTIMIZED
-    ravello_deploy_topology_start_all: false
+    ravello_deploy_topology_start_all: true
 
   tasks:
     - name: Create Application from Blueprint for CI

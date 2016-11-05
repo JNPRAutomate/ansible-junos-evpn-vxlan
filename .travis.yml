@@ -6,15 +6,37 @@ sudo: required
 dist: trusty
 
 env:
-  - ANSIBLE_VERSION=1.9.6
-  - ANSIBLE_VERSION=2.0.2.0
+  # - ANSIBLE_VERSION=2.0.2.0
   - ANSIBLE_VERSION=2.1.0.0
 
 install:
+  # - apt-get install -y python-dev python-simplejson python-support python-yaml libxml2-dev libxslt-dev zlib1g-dev libffi-dev libssl-dev
   - pip install -r requirements.txt
   - pip install -q ansible==$ANSIBLE_VERSION
-#  - ansible-galaxy install Juniper.junos -p ./roles
+  - ansible-galaxy install Juniper.junos
+  - pip install ansible junos-eznc lxml jxmlease markupsafe jsnapy requests httplib2
+  - git clone https://github.com/Juniper/ansible-junos-stdlib.git roles/Juniper.junos
+  - mkdir library
+  - git clone https://github.com/Juniper/ravello-ansible.git library/ravello-ansible
 
 script:
-  - ansible-playbook pb.generate.variables.yaml
-  - ansible-playbook pb.conf.all.yaml
+# Check Sample topology
+  - ansible-playbook -i hosts.ini pb.generate.variables.yaml
+  - ansible-playbook -i hosts.ini pb.conf.all.yaml
+
+# Check Ravello Topology
+  - ansible-playbook -i ravello.ini pb.generate.variables.yaml
+  - ansible-playbook -i ravello.ini pb.conf.all.yaml
+
+# Create topology on Ravello
+  - ansible-playbook -i ravello.ini pb.rav.token.create-deploy.yaml
+  - ansible-playbook -i ravello.ini pb.rav.token.fqdn_get.yaml
+
+# Check all VMs are running with PFE
+  - ansible-playbook -i ravello.ini pb.check.vqfx-pfe.yaml
+
+# Generate and deploy configuration
+  - ansible-playbook -i ravello.ini pb.conf.all.commit.galaxy.yaml
+
+# Validate connectivity between Hosts
+  - ansible-playbook -i ravello.ini pb.check.underlay.yaml
