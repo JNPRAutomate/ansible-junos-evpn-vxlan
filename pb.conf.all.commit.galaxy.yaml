@@ -21,3 +21,6 @@
         overwrite: yes
         replace: no
         timeout: 120
+
+    - name: Wait for config to be effective
+      pause: minutes=3
