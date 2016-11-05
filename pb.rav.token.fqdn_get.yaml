@@ -14,26 +14,29 @@
 ## Get VM ID                ###
 ###############################
     - name: Get App ID from Ravello
-      ravello_get_id_token:
+      ravello_get_id:
         resource_name: "{{ ravello_ci_app_name }}"
         resource_type: applications
         token:  "{{ ravello_ci_token }}"
       register: app
       run_once: true
 
+  #  - debug: var=app
+
     - name: Get VM ID from Ravello
-      ravello_get_id_token:
+      ravello_get_id:
         application_id: "{{ app.json.id }}"
         resource_type: vms
         resource_name: "{{ inventory_hostname }}"
         token: "{{ ravello_ci_token }}"
-      register: vms
+        failed_if_not_found: true
+      register: vm
 
-    - debug: var=vms
+  #  - debug: var=vm
 
     - name: Get VM public FQDN
       uri:
-        url: "https://cloud.ravellosystems.com/api/v1/applications/{{ app.json.id }}/vms/{{ item.json.id }}/fqdn;deployment"
+        url: "https://cloud.ravellosystems.com/api/v1/applications/{{ app.json.id }}/vms/{{ vm.json.id }}/fqdn;deployment"
         method: GET
         status_code: 200
         HEADER_Content-Type: 'application/json'

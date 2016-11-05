@@ -31,7 +31,7 @@
       changed_when: true
 
     - name: Get App ID from Ravello
-      ravello_get_id_token:
+      ravello_get_id:
         resource_name: "{{ ravello_ci_app_name }}"
         resource_type: applications
         token:  "{{ ravello_ci_token }}"
