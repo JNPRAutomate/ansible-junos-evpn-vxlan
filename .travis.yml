@@ -30,14 +30,13 @@ install:
   - pip install ansible junos-eznc lxml jxmlease markupsafe requests httplib2
   - mkdir library
   - git clone https://github.com/Juniper/ravello-ansible.git library/ravello-ansible
-  - which python
-  - echo "ansible_python_interpreter: \`which python\`" > group_vars/all/python.yaml
-  - cat group_vars/all/python.yaml
+  - echo $TRAVIS_PYTHON_VERSION
+  - mv .travis_ansible_python.yaml group_vars/all/travis_ansible_python.yaml
 
 script:
 # Check Sample topology
   - ansible-playbook -i hosts.ini pb.generate.variables.yaml
-  - ansible-playbook -i hosts.ini pb.conf.all.yaml
+#  - ansible-playbook -i hosts.ini pb.conf.all.yaml
 #
 # # Check Ravello Topology
 #   - ansible-playbook -i ravello.ini pb.generate.variables.yaml
