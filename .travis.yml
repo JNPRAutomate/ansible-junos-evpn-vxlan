@@ -14,8 +14,7 @@ install:
   - pip install -r requirements.txt
   - pip install -q ansible==$ANSIBLE_VERSION
   - ansible-galaxy install Juniper.junos -p ./roles
-  - pip install ansible junos-eznc lxml jxmlease markupsafe jsnapy requests httplib2
-  - git clone https://github.com/Juniper/ansible-junos-stdlib.git roles/Juniper.junos
+  - pip install ansible junos-eznc lxml jxmlease markupsafe requests httplib2
   - mkdir library
   - git clone https://github.com/Juniper/ravello-ansible.git library/ravello-ansible
 
