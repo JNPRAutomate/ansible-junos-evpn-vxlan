@@ -30,28 +30,29 @@ install:
   - pip install ansible junos-eznc lxml jxmlease markupsafe requests httplib2
   - mkdir library
   - git clone https://github.com/Juniper/ravello-ansible.git library/ravello-ansible
+  - which python
 
 script:
 # Check Sample topology
   - ansible-playbook -i hosts.ini pb.generate.variables.yaml
   - ansible-playbook -i hosts.ini pb.conf.all.yaml
-
-# Check Ravello Topology
-  - ansible-playbook -i ravello.ini pb.generate.variables.yaml
-  - ansible-playbook -i ravello.ini pb.conf.all.yaml
-
-# Create topology on Ravello
-  - ansible-playbook -i ravello.ini pb.rav.token.create-deploy.yaml
-  - ansible-playbook -i ravello.ini pb.rav.token.fqdn_get.yaml
-
-# Check all VMs are running with PFE
-  - ansible-playbook -i ravello.ini pb.check.vqfx-pfe.yaml
-
-# Generate and deploy configuration
-  - ansible-playbook -i ravello.ini pb.conf.all.commit.galaxy.yaml
-
-# Validate connectivity between Hosts
-  - ansible-playbook -i ravello.ini pb.check.underlay.yaml
-
-after_script:
-  - ansible-playbook -i ravello.ini pb.rav.token.app_stop.yaml
+#
+# # Check Ravello Topology
+#   - ansible-playbook -i ravello.ini pb.generate.variables.yaml
+#   - ansible-playbook -i ravello.ini pb.conf.all.yaml
+#
+# # Create topology on Ravello
+#   - ansible-playbook -i ravello.ini pb.rav.token.create-deploy.yaml
+#   - ansible-playbook -i ravello.ini pb.rav.token.fqdn_get.yaml
+#
+# # Check all VMs are running with PFE
+#   - ansible-playbook -i ravello.ini pb.check.vqfx-pfe.yaml
+#
+# # Generate and deploy configuration
+#   - ansible-playbook -i ravello.ini pb.conf.all.commit.galaxy.yaml
+#
+# # Validate connectivity between Hosts
+#   - ansible-playbook -i ravello.ini pb.check.underlay.yaml
+#
+# after_script:
+#   - ansible-playbook -i ravello.ini pb.rav.token.app_stop.yaml
