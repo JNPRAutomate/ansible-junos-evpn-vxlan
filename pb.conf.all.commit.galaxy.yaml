@@ -23,4 +23,4 @@
         timeout: 120
 
     - name: Wait for config to be effective
-      pause: minutes=3
+      pause: minutes=5
