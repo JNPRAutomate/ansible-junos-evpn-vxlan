@@ -1,4 +1,5 @@
 ---
+- file: path={{ build_dir }} state=directory mode=0755
 - name: Building common configuration
   template: >
     src=main.conf.j2
