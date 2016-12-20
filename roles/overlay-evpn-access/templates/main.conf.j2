@@ -41,6 +41,7 @@ interfaces {
         unit 0 {
             family ethernet-switching {
                 interface-mode {{ interface.mode }};
+                delete: vlan;
                 vlan {
                     members [{% for vlan in  interface.vlans %} {{ vlan }}{% endfor %}];
                 }
