@@ -1,25 +1,25 @@
 
 underlay:
     local:
-        asn: 65001
+        asn: 65011
     neighbors:
-      - interface: et-0/0/12
+      - interface: xe-0/0/3
         name: spine-04
-        asn: 65014
+        asn: 65024
         peer_ip: 172.16.0.20
         local_ip: 172.16.0.21
-      - interface: et-0/0/14
+      - interface: xe-0/0/1
         name: spine-02
-        asn: 65012
+        asn: 65022
         peer_ip: 172.16.0.12
         local_ip: 172.16.0.13
-      - interface: et-0/0/13
+      - interface: xe-0/0/2
         name: spine-03
-        asn: 65013
+        asn: 65023
         peer_ip: 172.16.0.16
         local_ip: 172.16.0.17
-      - interface: et-0/0/15
+      - interface: xe-0/0/0
         name: spine-01
-        asn: 65011
+        asn: 65021
         peer_ip: 172.16.0.8
         local_ip: 172.16.0.9
