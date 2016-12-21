@@ -1,7 +1,7 @@
 ---
 - name: Delete FQDN files
   connection: local
-  hosts: leaf,spine,server
+  hosts: leaf,spine,fabric,server
   gather_facts: no
   pre_tasks:
     - include_vars: "{{ topology_file }}"
