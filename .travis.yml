@@ -40,19 +40,19 @@ script:
 # Check Ravello Topology
   - ansible-playbook -i ravello.ini pb.generate.variables.yaml
   - ansible-playbook -i ravello.ini pb.conf.all.yaml
-
-# Create topology on Ravello
-  - ansible-playbook -i ravello.ini pb.rav.token.create-deploy.yaml
-  - ansible-playbook -i ravello.ini pb.rav.token.fqdn_get.yaml
-
-# Check all VMs are running with PFE
-  - ansible-playbook -i ravello.ini pb.check.vqfx-pfe.yaml
-
-# Generate and deploy configuration
-  - ansible-playbook -i ravello.ini pb.conf.all.commit.galaxy.yaml
-
-# Validate connectivity between Hosts
-  - ansible-playbook -i ravello.ini pb.check.underlay.yaml
-
-after_script:
-  - ansible-playbook -i ravello.ini pb.rav.token.app_stop.yaml
+#
+# # Create topology on Ravello
+#   - ansible-playbook -i ravello.ini pb.rav.token.create-deploy.yaml
+#   - ansible-playbook -i ravello.ini pb.rav.token.fqdn_get.yaml
+#
+# # Check all VMs are running with PFE
+#   - ansible-playbook -i ravello.ini pb.check.vqfx-pfe.yaml
+#
+# # Generate and deploy configuration
+#   - ansible-playbook -i ravello.ini pb.conf.all.commit.galaxy.yaml
+#
+# # Validate connectivity between Hosts
+#   - ansible-playbook -i ravello.ini pb.check.underlay.yaml
+#
+# after_script:
+#   - ansible-playbook -i ravello.ini pb.rav.token.app_stop.yaml
