@@ -21,12 +21,12 @@ The [complete documentation is available here](http://ansible-junos-evpn-vxlan.r
 
 All [examples of configuration](config) are available in the config directory:
 Here are some links to specific features:
-- [EVPN/VXLAN configuration for QFX5100 (L2)](config/qfx5100-02.conf)
-- [EVPN/VXLAN Configuration for QFX10000 (L2/L3)](config/qfx10000-01.conf)
-- [EVPN/VXLAN Configuration for MX](config/mx480-01.conf)
+- [EVPN/VXLAN configuration for QFX5100 (L2)](config/leaf-02.conf)
+- [EVPN/VXLAN Configuration for QFX10000 (L2/L3)](config/spine-01.conf)
+- [EVPN/VXLAN Configuration for MX](config/spine-03.conf)
 - [eBGP Fabric only configuration](config/fabric-01.conf)
-- [Vlan Normalization configuration on access ports](config/qfx5100-01.conf)
-- Active/Active LAG between 2 devices using ESI. [Switch1](config/qfx5100-03.conf)/[Switch2](config/qfx5100-04.conf)
+- [Vlan Normalization configuration on access ports](config/leaf-01.conf)
+- Active/Active LAG between 2 devices using ESI. [Switch1](config/leaf-03.conf)/[Switch2](config/leaf-04.conf)
 
 # Contributing
 
