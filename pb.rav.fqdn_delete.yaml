@@ -1,0 +1,12 @@
+---
+- name: Delete FQDN files
+  connection: local
+  hosts: leaf,spine,server
+  gather_facts: no
+  pre_tasks:
+    - include_vars: "{{ topology_file }}"
+  tasks:
+    - name: Delete FQDN files
+      file:
+        path: "host_vars/{{ inventory_hostname}}/fqdn.yaml"
+        state: absent

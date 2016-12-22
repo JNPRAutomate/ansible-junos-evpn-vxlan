@@ -20,4 +20,7 @@
         file: "{{ junos_conf }}"
         overwrite: yes
         replace: no
-        timeout: 60
+        timeout: 120
+
+    - name: Wait for config to be effective
+      pause: minutes=5
