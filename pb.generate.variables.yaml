@@ -28,5 +28,6 @@
   gather_facts: no
   pre_tasks:
     - include_vars: "{{ topology_file }}"
+    - meta: refresh_inventory
   roles:
     - generate-underlay-bgp
