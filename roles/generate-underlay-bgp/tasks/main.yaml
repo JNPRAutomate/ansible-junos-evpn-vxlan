@@ -1,5 +1,8 @@
 ---
 
+- name: Create target directory
+  file: path=host_vars/{{inventory_hostname}} state=directory 
+
 - name: Generate Underlay YAML
   template: >
     src=main.conf.j2
